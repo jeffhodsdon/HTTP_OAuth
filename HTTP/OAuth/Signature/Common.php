@@ -1,5 +1,7 @@
 <?php
 
+require_once 'HTTP/OAuth.php';
+
 abstract class HTTP_OAuth_Signature_Common
 {
     protected function normalizeParameters(array $parameters)
@@ -8,17 +10,15 @@ abstract class HTTP_OAuth_Signature_Common
 
         $sets = array();
         foreach ($key => $val) {
-            $sets[] = $key . '=' . $this->encode($val);
+            $sets[] = $key . '=' . HTTP_OAuth::encode($val);
         }
 
         return implode('&', $sets);
     }
 
-    protected function signatureBase($
-
-    protected function encode($string)
+    protected function signatureBase()
     {
-        return str_replace('%7E', '~', rawurlencode($string));
+
     }
 }
 
