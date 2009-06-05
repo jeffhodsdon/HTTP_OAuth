@@ -17,6 +17,19 @@ class HTTP_OAuth
     {
         return str_replace('%7E', '~', rawurlencode($input));
     }
+
+    /**
+     * Complimentary decode method
+     *
+     * @param string $input The string to encode
+     *
+     * @link http://www.ietf.org/rfc/rfc3986.txt
+     * @return string
+     */
+    static public function decode($input)
+    {
+        return rawurldecode($input);
+    }
 }
 
 ?>
