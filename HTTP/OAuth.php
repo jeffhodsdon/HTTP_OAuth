@@ -2,34 +2,57 @@
 
 class HTTP_OAuth
 {
-    /**
-     * RFC 3986 compliant encode method
-     *
-     * OAuth requires that values be encoded according to RFC 3986. Until PHP
-     * 5.3 is widely available, this hack is required.
-     *
-     * @param string $input The string to encode
-     *
-     * @link http://www.ietf.org/rfc/rfc3986.txt
-     * @return string
-     */
-    static public function encode($input) 
+
+    static public function buildHttpQuery(array $params)
     {
-        return str_replace('%7E', '~', rawurlencode($input));
+        if (empty($params)) {
+            return '';
+        }
+
+        $keys   = self::urlencode(array_keys($params));
+        $values = self::urlencode(array_values($params));
+        $params = array_combine($keys, $values);
+
+        uksort($params, 'strcmp');
+
+        $pairs = array();
+        foreach ($params as $key => $value) {
+            if (is_array($value)) {
+                natsort($value);
+                foreach ($value as $dupe) {
+                    $pairs[] = $key . '=' . $dupe;
+                }
+
+                continue;
+            }
+
+            $pairs[] =  $key . '=' . $value;
+        }
+
+        return implode('&', $pairs);
     }
 
-    /**
-     * Complimentary decode method
-     *
-     * @param string $input The string to encode
-     *
-     * @link http://www.ietf.org/rfc/rfc3986.txt
-     * @return string
-     */
-    static public function decode($input)
+    static public function urlencode($item)
     {
-        return rawurldecode($input);
+        static $search  = array('+', '%7E');
+        static $replace = array(' ', '~');
+
+        if (is_array($item)) {
+            return array_map(array('HTTP_OAuth', 'urlencode'), $item);
+        }
+
+        if (is_scalar($item) === false) {
+            throw new HTTP_OAuth_Exception;
+        }
+
+        return str_replace($search, $replace, rawurldecode($item));
     }
+
+    static public function urldecode($string)
+    {
+        return urldecode($string);
+    }
+
 }
 
 ?>

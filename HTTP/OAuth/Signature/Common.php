@@ -4,22 +4,14 @@ require_once 'HTTP/OAuth.php';
 
 abstract class HTTP_OAuth_Signature_Common
 {
-    protected function normalizeParameters(array $parameters)
+
+    protected function getKey(array $secrets)
     {
-        ksort($parameters);
-
-        $sets = array();
-        foreach ($key => $val) {
-            $sets[] = $key . '=' . HTTP_OAuth::encode($val);
-        }
-
-        return implode('&', $sets);
+        return implode('&', HTTP_OAuth::urlencode($secrets));
     }
 
-    protected function signatureBase()
-    {
+    abstract public function build($string, array $secrets);
 
-    }
 }
 
 ?>

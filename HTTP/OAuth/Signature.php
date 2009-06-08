@@ -1,28 +1,42 @@
 <?php
 
-abstract class HTTP_OAuth_Signature
+require_once 'HTTP/OAuth.php';
+require_once 'HTTP/OAuth/Request.php';
+
+class HTTP_OAuth_Signature
 {
-    static public function factory($method) 
+
+    static public function sign($method, HTTP_OAuth_Request $request)
     {
-        $base = strtoupper(str_replace('-', '_', $method));
-        $file = 'HTTP/OAuth/Signature/' . $base . '.php';
+        $parts = array(
+            $request->getRequestMethod(),
+            $request->getRequestUrl(),
+            HTTP_OAuth::buildHttpQuery($request->getParameters())
+        );
+
+        $base = implode('&', $parts);
+
+        if ($request->consumer_secret === null) {
+            throw new HTTP_OAuth_Exception('Missing consumer_secret');
+        }
+
+        $secrets = array(
+            $request->consumer_secret,
+            ($request->token_secret === null) ? '' : $request->token_secret
+        );
+
+        $sig = self::factory($method)->build($base, $secrets);
+        $request->sig = $sig;
+    }
+
+    static public function factory($method)
+    {
+        $class = 'HTTP_OAuth_Signature_' . $method;
+        $file  = str_replace('_', '/', $class) . '.php';
 
         include_once $file;
 
-        $class = 'HTTP_OAuth_Signature_' . $base;
-        if (!class_exists($class, false)) {
-            throw new HTTP_OAuth_Exception(
-                'Invalid/Missing signature class in ' . $file
-            );
-        }
-
-        $instance = new $class();
-        return $instance;
-    }
-
-    private function __construct()
-    {
-
+        return new $class;
     }
 }
 
