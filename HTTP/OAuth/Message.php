@@ -28,7 +28,7 @@
  * @author    Jeff Hodsdon <jeffhodsdon@gmail.com> 
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  */
-abstract class HTTP_OAuth_Message implements ArrayAccess
+abstract class HTTP_OAuth_Message implements ArrayAccess, Countable, IteratorAggregate
 {
 
     /**
@@ -191,6 +191,25 @@ abstract class HTTP_OAuth_Message implements ArrayAccess
         unset($this->parameters[$offset]);
     }
 
+    /**
+     * Count
+     *
+     * @return int Amount of parameters
+     */
+    public function count()
+    {
+        return count($this->parameters);
+    }
+
+    /**
+     * Get iterator
+     *
+     * @return ArrayIterator Iterator for self::$parameters
+     */
+    public function getIterator()
+    {
+        return new ArrayIterator($this->parameters);
+    }
 }
 
 ?>

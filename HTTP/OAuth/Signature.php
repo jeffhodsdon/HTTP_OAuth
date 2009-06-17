@@ -20,7 +20,6 @@
  */
 
 require_once 'HTTP/OAuth.php';
-require_once 'HTTP/OAuth/Message/Signable.php';
 
 /**
  * HTTP_OAuth_Signature
@@ -41,7 +40,7 @@ class HTTP_OAuth_Signature
      *
      * @return string Signature
      */
-    static public function build(HTTP_OAuth_Message_Signable $message)
+    static public function build(HTTP_OAuth_Message $message)
     {
         return self::factory($method)->build(
             $message->getRequestMethod(),
