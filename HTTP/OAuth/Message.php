@@ -37,15 +37,15 @@ abstract class HTTP_OAuth_Message implements ArrayAccess, Countable, IteratorAgg
      * @var string $oauthParams OAuth parameters
      */
     static protected $oauthParams = array(
-        'oauth_consumer_key',
-        'oauth_token',
-        'oauth_token_secret',
-        'oauth_signature_method',
-        'oauth_signature',
-        'oauth_timestamp',
-        'oauth_nonce',
-        'oauth_version',
-        'oauth_callback'
+        'consumer_key',
+        'token',
+        'token_secret',
+        'signature_method',
+        'signature',
+        'timestamp',
+        'nonce',
+        'version',
+        'callback'
     );
 
     /**
@@ -117,6 +117,7 @@ abstract class HTTP_OAuth_Message implements ArrayAccess, Countable, IteratorAgg
      */
     public function __get($var)
     {
+        $var = $this->prefixParameter($var);
         if (array_key_exists($var, $this->parameters)) {
             return $this->parameters[$var];
         }
@@ -139,7 +140,7 @@ abstract class HTTP_OAuth_Message implements ArrayAccess, Countable, IteratorAgg
      */
     public function __set($var, $val)
     {
-        $this->parameters[$var] = $val;
+        $this->parameters[$this->prefixParameter($var)] = $val;
     }
 
     /**
@@ -151,7 +152,7 @@ abstract class HTTP_OAuth_Message implements ArrayAccess, Countable, IteratorAgg
      */
     public function offsetExists($offset)
     {
-        return isset($this->parameters[$offset]);
+        return isset($this->parameters[$this->prefixParameter($offset)]);
     }
 
     /**
@@ -163,7 +164,7 @@ abstract class HTTP_OAuth_Message implements ArrayAccess, Countable, IteratorAgg
      */
     public function offsetGet($offset)
     {
-        return $this->parameters[$offset];
+        return $this->parameters[$this->prefixParameter($offset)];
     }
 
     /**
@@ -176,7 +177,7 @@ abstract class HTTP_OAuth_Message implements ArrayAccess, Countable, IteratorAgg
      */
     public function offsetSet($offset, $value)
     {
-        $this->parameters[$offset] = $value;
+        $this->parameters[$this->prefixParameter($offset)] = $value;
     }
 
     /**
@@ -188,7 +189,7 @@ abstract class HTTP_OAuth_Message implements ArrayAccess, Countable, IteratorAgg
      */
     public function offsetUnset($offset)
     {
-        unset($this->parameters[$offset]);
+        unset($this->parameters[$this->prefixParameter($offset)]);
     }
 
     /**
@@ -210,6 +211,25 @@ abstract class HTTP_OAuth_Message implements ArrayAccess, Countable, IteratorAgg
     {
         return new ArrayIterator($this->parameters);
     }
+
+    /**
+     * Prefix parameter 
+     * 
+     * Prefixes a parameter name with oauth_ if it is a valid oauth paramter
+     *
+     * @param string $param Name of the parameter
+     *
+     * @return string Prefix parameter
+     */
+    protected function prefixParameter($param)
+    {
+        if (in_array($param, self::$oauthParams)) {
+            $param = 'oauth_' . $param;
+        }
+
+        return $param;
+    }
+
 }
 
 ?>
