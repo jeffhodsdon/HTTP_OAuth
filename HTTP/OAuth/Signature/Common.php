@@ -44,6 +44,10 @@ abstract class HTTP_OAuth_Signature_Common
      */
     protected function getBase($method, $url, array $params)
     {
+        if (array_key_exists('oauth_signature', $params)) {
+            unset($params['oauth_signature']);
+        }
+
         $parts = array($method, $url, HTTP_OAuth::buildHTTPQuery($params));
         return implode('&', HTTP_OAuth::urlencode($parts));
     }
