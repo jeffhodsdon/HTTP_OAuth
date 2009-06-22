@@ -1,15 +1,15 @@
 <?php
 
 require_once 'PHPUnit/Framework/TestCase.php';
-require_once 'HTTP/OAuth/Signature/HMAC/SHA1.php';
+require_once 'HTTP/OAuth/Signature/PLAINTEXT.php';
 require_once 'HTTP/OAuth.php';
 
-class HTTP_OAuth_Signature_HMAC_SHA1Test extends PHPUnit_Framework_TestCase
+class HTTP_OAuth_Signature_PLAINTEXTTest extends PHPUnit_Framework_TestCase
 {
 
     public function testBuild()
     {
-        $signature = new HTTP_OAuth_Signature_HMAC_SHA1;
+        $signature = new HTTP_OAuth_Signature_PLAINTEXT;
         $result = $signature->build(
             'POST',
             'http://twitter.com/oauth/request_token',
@@ -24,7 +24,7 @@ class HTTP_OAuth_Signature_HMAC_SHA1Test extends PHPUnit_Framework_TestCase
         );
 
         $this->assertEquals(
-            '6vdoM0LiiLr%2FjqcZqIE5Nq3I8Dc%3D',
+            's85GLpyelma8rvNCgOjxi3lBXoedqsoDas6OYIQCeI%26',
             HTTP_OAuth::urlencode($result)
         );
     }

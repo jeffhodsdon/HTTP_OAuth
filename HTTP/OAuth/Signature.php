@@ -34,23 +34,6 @@ class HTTP_OAuth_Signature
 {
 
     /**
-     * Build 
-     * 
-     * @param HTTP_OAuth_Message_Signable $message Message to sign
-     *
-     * @return string Signature
-     */
-    static public function build(HTTP_OAuth_Message $message)
-    {
-        return self::factory($method)->build(
-            $message->getRequestMethod(),
-            $message->getUrl(),
-            $message->getParameters(),
-            $message->getSecrets()
-        );
-    }
-
-    /**
      * Factory
      * 
      * @param string $method Signature method
