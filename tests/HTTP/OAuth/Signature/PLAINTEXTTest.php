@@ -20,7 +20,7 @@ class HTTP_OAuth_Signature_PLAINTEXTTest extends PHPUnit_Framework_TestCase
                 'oauth_timestamp' => '1245709445',
                 'oauth_version'   => '1.0'
             ),
-            array('s85GLpyelma8rvNCgOjxi3lBXoedqsoDas6OYIQCeI', '')
+            's85GLpyelma8rvNCgOjxi3lBXoedqsoDas6OYIQCeI'
         );
 
         $this->assertEquals(

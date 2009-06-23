@@ -36,20 +36,22 @@ class HTTP_OAuth_Signature_HMAC_SHA1 extends HTTP_OAuth_Signature_Common
     /**
      * Build 
      * 
-     * @param mixed $method  HTTP method used
-     * @param mixed $url     URL of the request
-     * @param array $params  Parameters of the request
-     * @param array $secrets Consumer secret and token secret in an array
+     * @param string $method         HTTP method used
+     * @param string $url            URL of the request
+     * @param array  $params         Parameters of the request
+     * @param string $consumerSecret Consumer secret value
+     * @param string $tokenSecret    Token secret value (if exists)
      *
      * @return string Signature
      */
-    public function build($method, $url, array $params, array $secrets)
-    {
+    public function build(
+        $method, $url, array $params, $consumerSecret, $tokenSecret = ''
+    ) {
         return base64_encode(
             hash_hmac(
                 'sha1',
                 $this->getBase($method, $url, $params),
-                $this->getKey($secrets),
+                $this->getKey($consumerSecret, $tokenSecret),
                 true
             )
         );
