@@ -86,7 +86,7 @@ class HTTP_OAuth
         }
 
         if (is_scalar($item) === false) {
-            throw new HTTP_OAuth_Exception;
+            return $item;
         }
 
         return str_replace($search, $replace, rawurlencode($item));
