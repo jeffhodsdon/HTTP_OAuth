@@ -42,7 +42,7 @@ abstract class HTTP_OAuth_Signature_Common
      *
      * @return string Base signature string
      */
-    protected function getBase($method, $url, array $params)
+    public function getBase($method, $url, array $params)
     {
         if (array_key_exists('oauth_signature', $params)) {
             unset($params['oauth_signature']);
@@ -60,7 +60,7 @@ abstract class HTTP_OAuth_Signature_Common
      *
      * @return string Signature key
      */
-    protected function getKey($consumerSecret, $tokenSecret = '')
+    public function getKey($consumerSecret, $tokenSecret = '')
     {
         $secrets = array($consumerSecret, $tokenSecret);
         return implode('&', HTTP_OAuth::urlencode($secrets));

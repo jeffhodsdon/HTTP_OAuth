@@ -95,13 +95,17 @@ class HTTP_OAuth
     /**
      * URL Decode 
      * 
-     * @param string $string String to url decode
+     * @param mixed $item Item to url decode
      *
      * @return string URL decoded string
      */
-    static public function urldecode($string)
+    static public function urldecode($item)
     {
-        return urldecode($string);
+        if (is_array($item)) {
+            return array_map(array('HTTP_OAuth', 'urldecode'), $item);
+        }
+
+        return rawurldecode($item);
     }
 
 }
