@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package packagerversion="1.8.1" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0
+    http://pear.php.net/dtd/tasks-1.0.xsd
+    http://pear.php.net/dtd/package-2.0
+    http://pear.php.net/dtd/package-2.0.xsd">
+ <name>HTTP_OAuth</name>
+ <channel>pear.php.net</channel>
+ <summary>HTTP_OAuth is the base package for OAuth packages</summary>
+ <description>Contains base classes and common code for OAuth packages</description>
+ <lead>
+  <name>Jeff Hodsdon</name>
+  <user>jeffhodsdon</user>
+  <email>jeffhodsdon@gmail.com</email>
+  <active>yes</active>
+ </lead>
+ <date>2009-06-29</date>
+ <time>16:47:03</time>
+ <version>
+  <release>0.0.1</release>
+  <api>0.0.1</api>
+ </version>
+ <stability>
+  <release>alpha</release>
+  <api>alpha</api>
+ </stability>
+ <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD Style</license>
+ <notes>
+Initial release
+ </notes>
+ <contents>
+  <dir baseinstalldir="/" name="/">
+   <file baseinstalldir="/" md5sum="c267365cd7726d84bbd840fb64a83e13" name="HTTP/OAuth.php" role="php" />
+   <file baseinstalldir="/" md5sum="93cd12333fba132bc409b2b6ed11a858" name="HTTP/OAuth/Exception.php" role="php" />
+   <file baseinstalldir="/" md5sum="c88300a3d4038548e6fdabec5699d069" name="HTTP/OAuth/Message.php" role="php" />
+   <file baseinstalldir="/" md5sum="c18a5727ac746f03d2801db27ec2da58" name="HTTP/OAuth/Signature.php" role="php" />
+   <file baseinstalldir="/" md5sum="60314665eb191c8b5bff650e9a979e3d" name="HTTP/OAuth/Signature/Common.php" role="php" />
+   <file baseinstalldir="/" md5sum="8d2232c2c1ae486082f36e3e4adbb1f0" name="HTTP/OAuth/Signature/PLAINTEXT.php" role="php" />
+   <file baseinstalldir="/" md5sum="1d99c514891f7cd2fdb6dfaf46f39a97" name="HTTP/OAuth/Signature/HMAC/SHA1.php" role="php" />
+   <file baseinstalldir="/" md5sum="9f939efa42017ca8cdf910bcc48ad8ad" name="HTTP/OAuth/Signature/RSA/SHA1.php" role="php" />
+   <file baseinstalldir="/" md5sum="56b3e5c8c92a48c7c8b0779062ae00d1" name="tests/AllTests.php" role="test" />
+   <file baseinstalldir="/" md5sum="eaa3fb52c0873261b552345f22e84d7d" name="tests/HTTP/OAuthTest.php" role="test" />
+   <file baseinstalldir="/" md5sum="142bb60a9fc08ee834d2d9df21f8d51d" name="tests/HTTP/OAuth/SignatureTest.php" role="test" />
+   <file baseinstalldir="/" md5sum="f70362950b4fb3c1376e2a711d5c7c49" name="tests/HTTP/OAuth/Signature/PLAINTEXTTest.php" role="test" />
+   <file baseinstalldir="/" md5sum="f1c4312cc941e30eea5f13a160c49d3b" name="tests/HTTP/OAuth/Signature/HMAC/SHA1Test.php" role="test" />
+   <file baseinstalldir="/" md5sum="d41d8cd98f00b204e9800998ecf8427e" name="README" role="data" />
+  </dir>
+ </contents>
+ <dependencies>
+  <required>
+   <php>
+    <min>5</min>
+   </php>
+   <pearinstaller>
+    <min>1.4.0</min>
+   </pearinstaller>
+  </required>
+ </dependencies>
+ <phprelease />
+ <changelog>
+  <release>
+   <version>
+    <release>0.0.1</release>
+    <api>0.0.1</api>
+   </version>
+   <stability>
+    <release>alpha</release>
+    <api>alpha</api>
+   </stability>
+   <date>2009-06-29</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD Style</license>
+   <notes>
+Initial release
+   </notes>
+  </release>
+ </changelog>
+</package>
