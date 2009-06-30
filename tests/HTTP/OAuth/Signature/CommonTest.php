@@ -22,32 +22,21 @@
  */
 
 require_once 'PHPUnit/Framework/TestCase.php';
-require_once 'HTTP/OAuth/Signature/PLAINTEXT.php';
-require_once 'HTTP/OAuth.php';
+require_once 'HTTP/OAuth/Signature/CommonMock.php';
 
-class HTTP_OAuth_Signature_PLAINTEXTTest extends PHPUnit_Framework_TestCase
+class HTTP_OAuth_Signature_CommonTest extends PHPUnit_Framework_TestCase
 {
 
-    public function testBuild()
+    public function testGetBase()
     {
-        $signature = new HTTP_OAuth_Signature_PLAINTEXT;
-        $result = $signature->build(
+        $i = new HTTP_OAuth_Signature_CommonMock;
+        $b = $i->getBase(
             'POST',
-            'http://twitter.com/oauth/request_token',
-            array(
-                'oauth_consumer_key' => 'e1nTvIGVCPkbfqZdIE7OyA',
-                'oauth_nonce'       => '5319B2C4-92DD-4568-B34C-993C5A102B2D',
-                'oauth_signature_method' => 'HMAC-SHA1',
-                'oauth_timestamp' => '1245709445',
-                'oauth_version'   => '1.0'
-            ),
-            's85GLpyelma8rvNCgOjxi3lBXoedqsoDas6OYIQCeI'
+            'http://digg.com',
+            array('foo' => 'bar', 'oauth_signature' => 'foo')
         );
 
-        $this->assertEquals(
-            's85GLpyelma8rvNCgOjxi3lBXoedqsoDas6OYIQCeI%26',
-            HTTP_OAuth::urlencode($result)
-        );
+        $this->assertEquals($b, 'POST&http%3A%2F%2Fdigg.com&foo%3Dbar');
     }
 
 }

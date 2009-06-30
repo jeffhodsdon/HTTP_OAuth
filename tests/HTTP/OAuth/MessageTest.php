@@ -1,4 +1,25 @@
 <?php
+/**
+ * HTTP_OAuth
+ *
+ * Implementation of the OAuth specification
+ *
+ * PHP version 5.2.0+
+ *
+ * LICENSE: This source file is subject to the New BSD license that is
+ * available through the world-wide-web at the following URI:
+ * http://www.opensource.org/licenses/bsd-license.php. If you did not receive  
+ * a copy of the New BSD License and are unable to obtain it through the web, 
+ * please send a note to license@php.net so we can mail you a copy immediately.
+ *
+ * @category  HTTP
+ * @package   HTTP_OAuth
+ * @author    Jeff Hodsdon <jeffhodsdon@gmail.com> 
+ * @copyright 2009 Jeff Hodsdon <jeffhodsdon@gmail.com> 
+ * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
+ * @link      http://pear.php.net/package/HTTP_OAuth_Provider
+ * @link      http://github.com/jeffhodsdon/HTTP_OAuth_Provider
+ */
 
 require_once 'PHPUnit/Framework/TestCase.php';
 require_once 'tests/HTTP/OAuth/MessageMock.php';
@@ -45,6 +66,65 @@ class HTTP_OAuth_MessageTest extends PHPUnit_Framework_TestCase
         $m->signature_method = 'HMAC-SHA1';
         $this->assertEquals($m->signatureMethod, 'HMAC-SHA1');
  
+    }
+
+    public function testOffestExists()
+    {
+        $m = new HTTP_OAuth_MessageMock;
+        $m['foo'] = 'www';
+
+        $this->assertType('ArrayAccess', $m);
+        $this->assertTrue(isset($m['foo']));
+        $this->assertFalse(isset($m['bar']));
+    }
+
+    public function testOffsetGet()
+    {
+        $m = new HTTP_OAuth_MessageMock;
+        $m['foo'] = 'www';
+
+        $this->assertType('ArrayAccess', $m);
+        $this->assertEquals($m['foo'], 'www');
+    }
+
+    public function testOffsetUnset()
+    {
+        $m = new HTTP_OAuth_MessageMock;
+        $m['foo'] = 'www';
+
+        $this->assertType('ArrayAccess', $m);
+        $this->assertEquals($m['foo'], 'www');
+
+        unset($m['foo']);
+
+        $this->assertFalse(isset($m['foo']));
+    }
+
+    public function getGetIterator()
+    {
+        $m = new HTTP_OAuth_MessageMock;
+        $m['foo'] = 'www';
+        $m['bar'] = 'http';
+
+        $this->assertType('IteratorAggregate', $m);
+
+        $i = $this->getIterator();
+        $this->assertType('ArrayIterator', $i);
+
+        foreach ($m as $key => $value) {
+            $this->assertTrue(strlen($value) === 3);
+            $this->assertTrue(strlen($key) === 3);
+        }
+    }
+
+    public function testCount()
+    {
+        $m = new HTTP_OAuth_MessageMock;
+        $m['foo'] = 'www';
+        $m['bar'] = 'http';
+
+        $this->assertType('Countable', $m);
+        $this->assertEquals(count($m), 2);
     }
 
 }

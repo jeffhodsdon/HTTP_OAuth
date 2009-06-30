@@ -1,6 +1,8 @@
 <?php
 /**
- * HTTP_OAuth_Exception
+ * HTTP_OAuth
+ *
+ * Implementation of the OAuth specification
  *
  * PHP version 5.2.0+
  *
@@ -19,18 +21,41 @@
  * @link      http://github.com/jeffhodsdon/HTTP_OAuth_Provider
  */
 
+require_once 'PEAR/Exception.php';
+
 /**
  * HTTP_OAuth_Exception
  * 
+ * Main Exception class for HTTP_OAuth. All other HTTP_OAuth Exceptions
+ * extend this class.
+ *
+ * @uses      PEAR_Exception
  * @category  HTTP
  * @package   HTTP_OAuth
- * @copyright 2009 Jeff Hodsdon <jeffhodsdon@gmail.com> 
  * @author    Jeff Hodsdon <jeffhodsdon@gmail.com> 
+ * @copyright 2009 Jeff Hodsdon <jeffhodsdon@gmail.com> 
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
+ * @link      http://pear.php.net/package/HTTP_OAuth_Provider
+ * @link      http://github.com/jeffhodsdon/HTTP_OAuth_Provider
  */
-class HTTP_OAuth_Exception extends Exception
+class HTTP_OAuth_Exception extends PEAR_Exception
 {
 
+    /**
+     * Construct 
+     * 
+     * Allow no message to construct a exception
+     *
+     * @param string $message Exception message
+     * @param int|Exception|PEAR_Error|array|null exception cause
+     * @param int|null exception code or null
+     *
+     * @return void
+     */
+    public function __construct($message = '', $p2 = null, $p3 = null)
+    {
+        parent::__construct($message, $p2, $p3);
+    }
 }
 
 ?>

@@ -2,6 +2,8 @@
 /**
  * HTTP_OAuth
  *
+ * Implementation of the OAuth specification
+ *
  * PHP version 5.2.0+
  *
  * LICENSE: This source file is subject to the New BSD license that is
@@ -24,6 +26,9 @@ require_once 'HTTP/OAuth.php';
 /**
  * HTTP_OAuth_Signature
  * 
+ * Base util class for signatures, e.g. factory.
+ *
+ * Signature util class.
  * @category  HTTP
  * @package   HTTP_OAuth
  * @copyright 2009 Jeff Hodsdon <jeffhodsdon@gmail.com> 
@@ -32,6 +37,18 @@ require_once 'HTTP/OAuth.php';
  */
 class HTTP_OAuth_Signature
 {
+
+    /**
+     * Construct 
+     * 
+     * Disallow constructing.
+     *
+     * @return void
+     */
+    private function __construct()
+    {
+
+    }
 
     /**
      * Factory
@@ -48,7 +65,18 @@ class HTTP_OAuth_Signature
 
         include_once $file;
 
-        return new $class;
+        if (class_exists($class) === false) {
+            throw new InvalidArgumentException('No such signature class');
+        }
+
+        $instance = new $class;
+        if (!$instance instanceof HTTP_OAuth_Signature_Common) {
+            throw new InvalidArgumentException(
+                'Signature class does not extend HTTP_OAuth_Signature_Common'
+            );
+        }
+
+        return $instance;
     }
 }
 

@@ -1,6 +1,8 @@
 <?php
 /**
- * HTTP_OAuth_Signature_Common
+ * HTTP_OAuth
+ *
+ * Implementation of the OAuth specification
  *
  * PHP version 5.2.0+
  *
@@ -24,11 +26,16 @@ require_once 'HTTP/OAuth.php';
 /**
  * HTTP_OAuth_Signature_Common
  * 
+ * Common class for signature implemenations. Holds specification logic to
+ * create signature base strings and keys.
+ *
  * @category  HTTP
  * @package   HTTP_OAuth
- * @copyright 2009 Jeff Hodsdon <jeffhodsdon@gmail.com> 
  * @author    Jeff Hodsdon <jeffhodsdon@gmail.com> 
+ * @copyright 2009 Jeff Hodsdon <jeffhodsdon@gmail.com> 
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
+ * @link      http://pear.php.net/package/HTTP_OAuth_Provider
+ * @link      http://github.com/jeffhodsdon/HTTP_OAuth_Provider
  */
 abstract class HTTP_OAuth_Signature_Common
 {
@@ -77,10 +84,12 @@ abstract class HTTP_OAuth_Signature_Common
      *
      * @return string Signature
      */
-    abstract public function build(
-        $method, $url, array $params, $consumerSecret, $tokenSecret = ''
-    );
+    abstract public function build($method,
+                                   $url,
+                                   array $params,
+                                   $consumerSecret,
+                                   $tokenSecret = '');
 
 }
 
-?>
+

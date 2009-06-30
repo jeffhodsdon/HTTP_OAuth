@@ -21,18 +21,19 @@
  * @link      http://github.com/jeffhodsdon/HTTP_OAuth_Provider
  */
 
-include_once 'HTTP/OAuth/Consumer.php';
+require_once 'HTTP/OAuth/Signature/Common.php';
 
-$consumer = new HTTP_OAuth_Consumer(
-    $config->consumer_key, $config->consumer_secret
-);
+class HTTP_OAuth_Signature_CommonMock extends HTTP_OAuth_Signature_Common
+{
 
-try {
-    $consumer->getRequestToken($config->request_token_url);
-    echo "Request Token: {$consumer->getToken()}\n";
-    echo "Request Token Secret: {$consumer->getTokenSecret()}\n";
-} catch (HTTP_OAuth_Consumer_Exception_InvalidResponse $e) {
-    echo $e->getBody();
+    public function build($method,
+                          $url,
+                          array $params,
+                          $consumerSecret,
+                          $tokenSecret = '')
+    {
+
+    }
 }
 
 ?>
