@@ -28,7 +28,8 @@
  * @author    Jeff Hodsdon <jeffhodsdon@gmail.com> 
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  */
-abstract class HTTP_OAuth_Message implements ArrayAccess, Countable, IteratorAggregate
+abstract class HTTP_OAuth_Message
+implements ArrayAccess, Countable, IteratorAggregate
 {
 
     /**
@@ -65,7 +66,7 @@ abstract class HTTP_OAuth_Message implements ArrayAccess, Countable, IteratorAgg
         $params = array();
         foreach (self::$oauthParams as $param) {
             if ($this->$param !== null) {
-                $params[$param] = $this->$param;
+                $params[$this->prefixParameter($param)] = $this->$param;
             }
         }
 
