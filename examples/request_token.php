@@ -28,9 +28,9 @@ $consumer = new HTTP_OAuth_Consumer(
 );
 
 try {
-    $consumer->getRequestToken($config->request_token_url);
-    echo "Request Token: {$consumer->getToken()}\n";
-    echo "Request Token Secret: {$consumer->getTokenSecret()}\n";
+    $consumer->getRequestToken($config->request_token_url, $config->callback_url);
+    $config->token        = $consumer->getToken();
+    $config->token_secret = $consumer->getTokenSecret();
 } catch (HTTP_OAuth_Consumer_Exception_InvalidResponse $e) {
     echo $e->getBody();
 }

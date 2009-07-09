@@ -54,6 +54,7 @@ implements ArrayAccess, Countable, IteratorAggregate
         'signature',
         'timestamp',
         'nonce',
+        'verifier',
         'version',
         'callback'
     );
