@@ -21,6 +21,7 @@
  * @link      http://github.com/jeffhodsdon/HTTP_OAuth_Provider
  */
 
+require_once 'examples-config.php';
 include_once 'HTTP/OAuth/Consumer.php';
 
 $consumer = new HTTP_OAuth_Consumer(
@@ -31,11 +32,17 @@ $consumer = new HTTP_OAuth_Consumer(
 );
 
 try {
-    $consumer->getAccessToken($config->access_token_url, $config->callback_url);
-    $config->token        = $consumer->getToken();
-    $config->token_secret = $consumer->getTokenSecret();
+    $consumer->getAccessToken($config->access_token_url, $config->verifier);
+    echo json_encode(
+        array(
+            'token'        => $consumer->getToken(),
+            'token_secret' => $consumer->getTokenSecret()
+        )
+    );
 } catch (HTTP_OAuth_Consumer_Exception_InvalidResponse $e) {
     echo $e->getBody();
+} catch (Exception $e) {
+    echo $e->getMessage();
 }
 
 ?>

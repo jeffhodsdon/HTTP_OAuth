@@ -21,28 +21,21 @@
  * @link      http://github.com/jeffhodsdon/HTTP_OAuth_Provider
  */
 
-require_once 'config.php';
+require_once 'examples-config.php';
+include_once 'HTTP/OAuth/Consumer.php';
 
-define(
-    'USAGE',
-    "Usage: php cli.php {method} [-{option}={value}, -{option}={value}, ...]\n"
+$consumer = new HTTP_OAuth_Consumer(
+    $config->consumer_key,
+    $config->consumer_secret,
+    $config->token,
+    $config->token_secret
 );
 
-if (count($_SERVER['argv']) < 2) {
-    echo USAGE;
-    die(0);
+try {
+    $response = $consumer->sendRequest($config->protected_resource, array(), 'GET');
+    echo $response->getBody();
+} catch (HTTP_OAuth_Consumer_Exception_InvalidResponse $e) {
+    echo $e->getBody();
 }
-
-$args = $_SERVER['argv'];
-array_shift($args);
-$method = array_shift($args);
-
-$config = new Config;
-foreach ($args as $arg) {
-    list($name, $value) = explode('=', trim($arg, '-'));
-    $config->$name = $value;
-}
-
-include $method . '.php';
 
 ?>

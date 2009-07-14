@@ -31,8 +31,8 @@ $consumer = new HTTP_OAuth_Consumer(
 );
 
 try {
-    $config->authorize_url_result = $consumer->getAuthorizeUrl($config->authorize_url);
-} catch (HTTP_OAuth_Consumer_Exception_InvalidResponse $e) {
+    echo $consumer->getAuthorizeUrl($config->authorize_url);
+} catch (Exception $e) {
     echo $e->getBody();
 }
 
