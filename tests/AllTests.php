@@ -21,17 +21,18 @@
  * @link      http://github.com/jeffhodsdon/HTTP_OAuth_Provider
  */
 
-chdir(dirname(__FILE__) . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR);
+$path = realpath(dirname(__FILE__));
+set_include_path($path . ':' . realpath($path . '/../') . ':' . get_include_path());
 
-set_include_path(dirname(__FILE__) . ':' . get_include_path());
-
-require_once dirname(__FILE__) . '/HTTP/OAuthTest.php';
-require_once dirname(__FILE__) . '/HTTP/OAuth/MessageTest.php';
-require_once dirname(__FILE__) . '/HTTP/OAuth/SignatureTest.php';
-require_once dirname(__FILE__) . '/HTTP/OAuth/Signature/CommonTest.php';
-require_once dirname(__FILE__) . '/HTTP/OAuth/Signature/RSA/SHA1Test.php';
-require_once dirname(__FILE__) . '/HTTP/OAuth/Signature/HMAC/SHA1Test.php';
-require_once dirname(__FILE__) . '/HTTP/OAuth/Signature/PLAINTEXTTest.php';
+require_once 'HTTP/OAuthTest.php';
+require_once 'HTTP/OAuth/MessageTest.php';
+require_once 'HTTP/OAuth/SignatureTest.php';
+require_once 'HTTP/OAuth/Signature/CommonTest.php';
+require_once 'HTTP/OAuth/Signature/RSA/SHA1Test.php';
+require_once 'HTTP/OAuth/Signature/HMAC/SHA1Test.php';
+require_once 'HTTP/OAuth/Signature/PLAINTEXTTest.php';
+require_once 'HTTP/OAuth/Provider/RequestTest.php';
+require_once 'HTTP/OAuth/Provider/ResponseTest.php';
 require_once 'PHPUnit/Framework/TestSuite.php';
 
 /**
@@ -48,7 +49,7 @@ require_once 'PHPUnit/Framework/TestSuite.php';
  * @link      http://pear.php.net/package/HTTP_OAuth_Provider
  * @link      http://github.com/jeffhodsdon/HTTP_OAuth_Provider
  */
-class HTTP_OAuth_AllTests
+class AllTests
 {
     /**
      * Suite 
@@ -67,6 +68,9 @@ class HTTP_OAuth_AllTests
         $suite->addTestSuite('HTTP_OAuth_Signature_PLAINTEXTTest');
         $suite->addTestSuite('HTTP_OAuth_Signature_HMAC_SHA1Test');
         $suite->addTestSuite('HTTP_OAuth_Signature_RSA_SHA1Test');
+        $suite->addTestSuite('HTTP_OAuth_Provider_RequestTest');
+        $suite->addTestSuite('HTTP_OAuth_Provider_ResponseTest');
+ 
         return $suite;
     }
 }
