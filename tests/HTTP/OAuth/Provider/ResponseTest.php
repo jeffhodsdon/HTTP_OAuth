@@ -39,6 +39,15 @@ class HTTP_OAuth_Provider_ResponseTest extends PHPUnit_Framework_TestCase
         $res->setStatus(69);
     }
 
+    /**
+     * @expectedException BadMethodCallException
+     */
+    public function testBadMethodCall()
+    {
+        $res = new HTTP_OAuth_Provider_Response;
+        $res->methodThatShouldNotExistLOL();
+    }
+
     public function testGetMessage()
     {
         $res = new HTTP_OAuth_Provider_Response;

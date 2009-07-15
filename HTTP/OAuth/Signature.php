@@ -35,20 +35,8 @@ require_once 'HTTP/OAuth.php';
  * @author    Jeff Hodsdon <jeffhodsdon@gmail.com> 
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  */
-class HTTP_OAuth_Signature
+abstract class HTTP_OAuth_Signature
 {
-
-    /**
-     * Construct 
-     * 
-     * Disallow constructing.
-     *
-     * @return void
-     */
-    private function __construct()
-    {
-
-    }
 
     /**
      * Factory

@@ -26,6 +26,7 @@ set_include_path($path . ':' . realpath($path . '/../') . ':' . get_include_path
 
 require_once 'HTTP/OAuthTest.php';
 require_once 'HTTP/OAuth/MessageTest.php';
+require_once 'HTTP/OAuth/ConsumerTest.php';
 require_once 'HTTP/OAuth/SignatureTest.php';
 require_once 'HTTP/OAuth/Signature/CommonTest.php';
 require_once 'HTTP/OAuth/Signature/RSA/SHA1Test.php';
@@ -63,6 +64,7 @@ class AllTests
         $suite = new PHPUnit_Framework_TestSuite();
         $suite->addTestSuite('HTTP_OAuthTest');                
         $suite->addTestSuite('HTTP_OAuth_MessageTest');
+        $suite->addTestSuite('HTTP_OAuth_ConsumerTest');
         $suite->addTestSuite('HTTP_OAuth_SignatureTest');
         $suite->addTestSuite('HTTP_OAuth_Signature_CommonTest');
         $suite->addTestSuite('HTTP_OAuth_Signature_PLAINTEXTTest');

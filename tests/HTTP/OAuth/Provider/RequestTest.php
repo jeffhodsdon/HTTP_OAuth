@@ -75,6 +75,40 @@ class HTTP_OAuth_Provider_RequestTest extends PHPUnit_Framework_TestCase
     );
 
     /**
+     * @expectedException HTTP_OAuth_Provider_Exception_InvalidRequest
+     */
+    public function testConstruct()
+    {
+        $req = new HTTP_OAuth_Provider_Request;
+    }
+
+    /**
+     * @expectedException HTTP_OAuth_Provider_Exception_InvalidRequest
+     */
+    public function testInvalidContentTypeForPost()
+    {
+        $message = $this->getPostRequest();
+        $headers = $message->getHeaders();
+        $headers['Content-Type'] = 'text/html';
+        $message->setHeaders($headers);
+
+        $req = new HTTP_OAuth_Provider_Request($message);
+    }
+
+    public function testGetSignatureBaseString()
+    {
+        $req = new HTTP_OAuth_Provider_Request($this->getPostRequest());
+        $this->assertEquals('POST&http%3A%2F%2Ftwitter.com%2Foauth%2Faccess_token&oauth_consumer_key%3De1nTvIGVCPkbfqZdIE7OyA%26oauth_nonce%3DEF35F352-6FB0-4CFD-98E2-136BC6507434%26oauth_signature_method%3DHMAC-SHA1%26oauth_timestamp%3D1245711961%26oauth_token%3DkRmeTe0wvuIJrIUbjoOfc4UZcUerJKR67BfXy20UM%26oauth_version%3D1.0', $req->getSignatureBaseString());
+    }
+
+    public function testHttpsRequest()
+    {
+        $_SERVER['HTTPS'] = 'on';
+        $req = new HTTP_OAuth_Provider_Request($this->getPostRequest());
+        $this->assertEquals('https://twitter.com/oauth/access_token', $req->getUrl());
+    }
+
+    /**
      * @dataProvider requestProvider
      */
     public function testArrayAccess(HttpMessage $message)

@@ -18,6 +18,16 @@ class HTTP_OAuth_Consumer_Response extends HTTP_OAuth_Message
         parse_str($this->message->getBody(), $result);
         return $result;
     }
+
+    public function __call($method, $args)
+    {
+        if (method_exists($this->message, $method)) {
+            return call_user_func_array(array($this->message, $method), $args);
+        }
+
+        throw new BadMethodCallException($method);
+    }
+
 }
 
 ?>

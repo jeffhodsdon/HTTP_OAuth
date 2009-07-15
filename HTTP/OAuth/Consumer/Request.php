@@ -1,5 +1,6 @@
 <?php
 
+require_once 'Validate.php';
 require_once 'HTTP/OAuth/Message.php';
 require_once 'HTTP/OAuth/Consumer/Response.php';
 require_once 'HTTP/OAuth/Signature.php';
@@ -24,9 +25,18 @@ class HTTP_OAuth_Consumer_Request extends HTTP_OAuth_Message
 
     public function __construct($url, array $secrets, $method = 'POST')
     {
-        $this->url     = $url;
+        $this->setUrl($url);
         $this->method  = $method;
         $this->secrets = $secrets;
+    }
+
+    public function setUrl($url)
+    {
+        if (!Validate::uri($url)) {
+            throw new HTTP_OAuth_Exception("Invalid url: $url");
+        }
+
+        $this->url = $url;
     }
 
     public function getSecrets()
@@ -46,7 +56,7 @@ class HTTP_OAuth_Consumer_Request extends HTTP_OAuth_Message
 
     public function send()
     {
-        $request  = $this->buildRequest();
+        $request = $this->buildRequest();
         try {
             $response = $request->send();
         } catch (Exception $e) {
@@ -67,10 +77,16 @@ class HTTP_OAuth_Consumer_Request extends HTTP_OAuth_Message
             $this->getRequestMethod(),
             $this->getUrl(),
             $this->getParameters(),
-            $this->getSecrets()
+            $this->secrets[0],
+            $this->secrets[1]
         );
 
-        $request = new HttpRequest($this->url, HttpRequest::METH_POST);
+        $method = HttpRequest::METH_POST;
+        if ($this->method == 'GET') {
+            $method = HttpRequest::METH_GET;
+        }
+
+        $request = new HttpRequest($this->url, $method);
         $request->addHeaders(array('Expect' => ''));
         $params = $this->getOAuthParameters();
         switch ($this->getAuthType()) {
