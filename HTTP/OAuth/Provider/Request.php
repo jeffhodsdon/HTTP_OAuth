@@ -1,22 +1,22 @@
 <?php
 /**
- * HTTP_OAuth_Provider_Request
+ * HTTP_OAuth
  *
  * PHP version 5.2.0+
  *
  * LICENSE: This source file is subject to the New BSD license that is
  * available through the world-wide-web at the following URI:
- * http://www.opensource.org/licenses/bsd-license.php. If you did not receive  
- * a copy of the New BSD License and are unable to obtain it through the web, 
+ * http://www.opensource.org/licenses/bsd-license.php. If you did not receive
+ * a copy of the New BSD License and are unable to obtain it through the web,
  * please send a note to license@php.net so we can mail you a copy immediately.
  *
  * @category  HTTP
- * @package   HTTP_OAuth_Provider
- * @author    Jeff Hodsdon <jeffhodsdon@gmail.com> 
- * @copyright 2009 Jeff Hodsdon <jeffhodsdon@gmail.com> 
+ * @package   HTTP_OAuth
+ * @author    Jeff Hodsdon <jeffhodsdon@gmail.com>
+ * @copyright 2009 Jeff Hodsdon <jeffhodsdon@gmail.com>
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
- * @link      http://pear.php.net/package/HTTP_OAuth_Provider
- * @link      http://github.com/jeffhodsdon/HTTP_OAuth_Provider
+ * @link      http://pear.php.net/package/HTTP_OAuth
+ * @link      http://github.com/jeffhodsdon/HTTP_OAuth
  */
 
 require_once 'HTTP/OAuth/Message.php';
@@ -25,26 +25,28 @@ require_once 'HTTP/OAuth/Provider/Exception/InvalidRequest.php';
 
 /**
  * HTTP_OAuth_Provider_Request
- * 
+ *
  * @category  HTTP
- * @package   HTTP_OAuth_Provider
- * @copyright 2009 Jeff Hodsdon <jeffhodsdon@gmail.com> 
- * @author    Jeff Hodsdon <jeffhodsdon@gmail.com> 
+ * @package   HTTP_OAuth
+ * @author    Jeff Hodsdon <jeffhodsdon@gmail.com>
+ * @copyright 2009 Jeff Hodsdon <jeffhodsdon@gmail.com>
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
+ * @link      http://pear.php.net/package/HTTP_OAuth
+ * @link      http://github.com/jeffhodsdon/HTTP_OAuth
  */
 class HTTP_OAuth_Provider_Request extends HTTP_OAuth_Message
 {
 
     /**
-     * Message 
-     * 
+     * Message
+     *
      * @var HttpMessage $message Instance of HttpMessage
      */
     protected $message = null;
 
     /**
-     * Construct 
-     * 
+     * Construct
+     *
      * @param HttpMessage $message Optional current HttpMessage
      *
      * @return void
@@ -60,8 +62,8 @@ class HTTP_OAuth_Provider_Request extends HTTP_OAuth_Message
     }
 
     /**
-     * Set parameters from request 
-     * 
+     * Set parameters from request
+     *
      * @return void
      */
     protected function setParametersFromRequest()
@@ -86,30 +88,27 @@ class HTTP_OAuth_Provider_Request extends HTTP_OAuth_Message
         } else if ($this->message->getRequestMethod() == 'POST') {
             $contentType = $this->message->getHeader('Content-Type');
             if ($contentType !== 'application/x-www-form-urlencoded') {
-                throw new HTTP_OAuth_Provider_Exception_InvalidRequest(
-                    'Invalid content type for POST request'
-                );
+                throw new HTTP_OAuth_Provider_Exception_InvalidRequest('Invalid ' .
+                    'content type for POST request');
             }
 
             parse_str($this->message->getBody(), $params);
         } else {
-            parse_str(
-                parse_url($this->message->getRequestUrl(), PHP_URL_QUERY), $params
-            );
+            parse_str(parse_url($this->message->getRequestUrl(), PHP_URL_QUERY),
+                $params);
         }
 
         if (empty($params)) {
-            throw new HTTP_OAuth_Provider_Exception_InvalidRequest(
-                'No oauth data found from request'
-            );
+            throw new HTTP_OAuth_Provider_Exception_InvalidRequest('No oauth data ' .
+                'found from request');
         }
 
         $this->setParameters(HTTP_OAuth::urldecode($params));
     }
 
     /**
-     * Is valid signature 
-     * 
+     * Is valid signature
+     *
      * @param string $consumerSecret Consumer secret value
      * @param string $tokenSecret    Token secret value (if exists)
      *
@@ -118,13 +117,8 @@ class HTTP_OAuth_Provider_Request extends HTTP_OAuth_Message
     public function isValidSignature($consumerSecret, $tokenSecret = '')
     {
         $sign  = HTTP_OAuth_Signature::factory($this->oauth_signature_method);
-        $check = $sign->build(
-            $this->getRequestMethod(),
-            $this->getUrl(),
-            $this->getParameters(),
-            $consumerSecret,
-            $tokenSecret
-        );
+        $check = $sign->build($this->getRequestMethod(), $this->getUrl(),
+            $this->getParameters(), $consumerSecret, $tokenSecret);
 
         return ($this->oauth_signature === $check);
     }
@@ -139,11 +133,8 @@ class HTTP_OAuth_Provider_Request extends HTTP_OAuth_Message
     public function getSignatureBaseString()
     {
         $sign = HTTP_OAuth_Signature::factory($this->oauth_signature_method);
-        return $sign->getBase(
-            $this->getRequestMethod(),
-            $this->getUrl(),
-            $this->getParameters()
-        );
+        return $sign->getBase($this->getRequestMethod(), $this->getUrl(),
+            $this->getParameters());
     }
 
     /**

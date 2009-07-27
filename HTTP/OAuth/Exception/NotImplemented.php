@@ -17,8 +17,8 @@
  * @author    Jeff Hodsdon <jeffhodsdon@gmail.com> 
  * @copyright 2009 Jeff Hodsdon <jeffhodsdon@gmail.com> 
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
- * @link      http://pear.php.net/package/HTTP_OAuth_Provider
- * @link      http://github.com/jeffhodsdon/HTTP_OAuth_Provider
+ * @link      http://pear.php.net/package/HTTP_OAuth
+ * @link      http://github.com/jeffhodsdon/HTTP_OAuth
  */
 
 require_once 'HTTP/OAuth/Exception.php';
@@ -33,8 +33,8 @@ require_once 'HTTP/OAuth/Exception.php';
  * @author    Jeff Hodsdon <jeffhodsdon@gmail.com> 
  * @copyright 2009 Jeff Hodsdon <jeffhodsdon@gmail.com> 
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
- * @link      http://pear.php.net/package/HTTP_OAuth_Provider
- * @link      http://github.com/jeffhodsdon/HTTP_OAuth_Provider
+ * @link      http://pear.php.net/package/HTTP_OAuth
+ * @link      http://github.com/jeffhodsdon/HTTP_OAuth
  */
 class HTTP_OAuth_Exception_NotImplemented extends HTTP_OAuth_Exception
 {
