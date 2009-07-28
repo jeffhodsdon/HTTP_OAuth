@@ -82,6 +82,14 @@ class HTTP_OAuth_Consumer_Request extends HTTP_OAuth_Message
      */
     protected $secrets = array('', '');
 
+    static protected $methodMap = array(
+        'GET'    => HttpRequest::METH_GET,
+        'POST'   => HttpRequest::METH_POST,
+        'PUT'    => HttpRequest::METH_PUT,
+        'DELETE' => HttpRequest::METH_DELETE
+    );
+
+
     /**
      * Construct
      *
@@ -213,7 +221,7 @@ class HTTP_OAuth_Consumer_Request extends HTTP_OAuth_Message
         $this->oauth_nonce     = md5(microtime(true) . rand(1, 999));
         $this->oauth_version   = '1.0';
         $this->oauth_signature = $sig->build(
-            $this->getMethod(), $this->getUrl(), $this->getParameters(),
+            $this->getMethod(true), $this->getUrl(), $this->getParameters(),
             $this->secrets[0], $this->secrets[1]
         );
 
@@ -282,18 +290,11 @@ class HTTP_OAuth_Consumer_Request extends HTTP_OAuth_Message
      */
     public function setMethod($method)
     {
-        static $map = array(
-            'GET'    => HttpRequest::METH_GET,
-            'POST'   => HttpRequest::METH_POST,
-            'PUT'    => HttpRequest::METH_PUT,
-            'DELETE' => HttpRequest::METH_DELETE
-        );
-
-        if (!array_key_exists($method, $map)) {
+        if (!array_key_exists($method, self::$methodMap)) {
             throw new InvalidArgumentException('Unsupported HTTP method');
         }
 
-        $this->method = $map[$method];
+        $this->method = self::$methodMap[$method];
     }
 
     /**
@@ -301,8 +302,13 @@ class HTTP_OAuth_Consumer_Request extends HTTP_OAuth_Message
      *
      * @return string HTTP request method
      */
-    public function getMethod()
+    public function getMethod($string = false)
     {
+        if ($string) {
+            $map = array_flip(self::$methodMap);
+            return $map[$this->method];
+        }
+
         return $this->method;
     }
 

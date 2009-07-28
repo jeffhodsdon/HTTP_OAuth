@@ -1,0 +1,123 @@
+html {
+background: #ededed;
+font: 82.5% Helvetica Neue, HelveticaNeue, Helvetica, sans-serif;
+}
+
+.defaults {
+width: 160px;
+float: right;
+}
+.defaults img {
+border: 0;
+}
+
+
+
+h3 {
+float: left;
+margin-top: 13px;
+color: #444;
+float: left;
+font-size: 1em;
+line-height: 1;
+font-weight: 500;
+letter-spacing: -1px;
+
+}
+.defaults select {
+float: right;
+margin-top: 8px;
+padding: 2px;
+}
+#error {
+display: none;
+margin-top: 0px !important;
+font-weight: bold;
+font-size: 1.8em;
+letter-spacing: -1px;
+}
+
+#success{
+display: none;
+margin-top: 0px;
+}
+
+.settings, .example, #error, #success {
+width: 686px;
+margin: 60px auto 20px;
+padding: 30px;
+background: #fff;
+-moz-border-radius: 6px;
+-webkit-border-radius: 6px;
+}
+
+.settings h2, .example h2 {
+color: #444;
+width: 250px;
+float: left;
+font-size: 2.4em;
+line-height: 1;
+font-weight: ;
+letter-spacing: -1px;
+margin-top: 5px;
+}
+
+.setting label {
+
+font-size: .85em;
+font-weight: bold;
+color: #444;
+float: left;
+
+}
+
+.setting input {
+width: 350px;
+display: block;
+margin-bottom: 12px;
+margin-left:155px !important;
+}
+
+.example {
+margin-top: 10px !important;
+background: #f6f6f6;
+}
+
+.step span a {
+cursor: pointer;
+float: left;
+width: 150px;
+padding: 7px;
+display: block;
+background: #333;
+margin-right: 10px;
+text-decoration: none;
+font-weight: bold;
+-moz-border-radius: 3px;
+-webkit-border-radius: 3px;
+color: #fff;
+}
+a#oauth_request {
+margin-right: 0;
+}
+
+a.disabled {
+color: #999 !important;
+background: #aaa !important;
+}
+
+.example a:hover {
+background: #111;
+color: #fff;
+}
+
+.clear {
+clear: both;
+}
+
+.code {
+margin-top: 50px;
+display: none;
+clear: both;
+}
+

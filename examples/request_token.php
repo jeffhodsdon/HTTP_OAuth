@@ -35,9 +35,10 @@ try {
         )
     );
 } catch (HTTP_OAuth_Consumer_Exception_InvalidResponse $e) {
-    echo $e->getBody();
+    echo get_class($e) . "<br>\n" . implode("<br>\n", $e->getHeaders()) .
+        "<br>\n" . $e->getBody() . "<br>\n";
 } catch (Exception $e) {
-    echo $e->getMessage();
+    echo get_class($e) . ': ' . $e->getMessage() . "\n";
 }
 
 ?>

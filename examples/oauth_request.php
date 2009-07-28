@@ -32,7 +32,7 @@ $consumer = new HTTP_OAuth_Consumer(
 );
 
 try {
-    $response = $consumer->sendRequest($config->protected_resource, array(), 'GET');
+    $response = $consumer->sendRequest($config->protected_resource, array(), $config->method);
     echo $response->getBody();
 } catch (HTTP_OAuth_Consumer_Exception_InvalidResponse $e) {
     echo $e->getBody();
