@@ -42,6 +42,107 @@ class HTTP_OAuth_ConsumerTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('tokenSecret', $instance->getTokenSecret());
     }
 
+    public function testGetRequestToken()
+    {
+        $res = $this->mockedResponse(array('oauth_token' => 'token',
+            'oauth_token_secret' => 'token_secret'));
+        $req = $this->mockedRequest($res);
+        $con = $this->mockedConsumer($req);
+        $con->getRequestToken('http://example.com/request_token');
+        $this->assertEquals('token', $con->getToken());
+        $this->assertEquals('token_secret', $con->getTokenSecret());
+    }
+
+    /**
+     * @expectedException HTTP_OAuth_Consumer_Exception_InvalidResponse
+     */
+    public function testGetRequestTokenWithMissingData()
+    {
+        $res = $this->mockedResponse(array());
+        $req = $this->mockedRequest($res);
+        $con = $this->mockedConsumer($req);
+        $con->getRequestToken('http://example.com/request_token');
+        $this->assertEquals('token', $con->getToken());
+        $this->assertEquals('token_secret', $con->getTokenSecret());
+    }
+
+    public function testGetAccessToken()
+    {
+        $res = $this->mockedResponse(array('oauth_token' => 'token',
+            'oauth_token_secret' => 'token_secret'));
+        $req = $this->mockedRequest($res);
+        $con = $this->mockedConsumer($req);
+        $con->getAccessToken('http://example.com/request_token');
+        $this->assertEquals('token', $con->getToken());
+        $this->assertEquals('token_secret', $con->getTokenSecret());
+    }
+
+    /**
+     * @expectedException HTTP_OAuth_Consumer_Exception_InvalidResponse
+     */
+    public function testGetAccessTokenWithMissingData()
+    {
+        $res = $this->mockedResponse(array());
+        $req = $this->mockedRequest($res);
+        $con = $this->mockedConsumer($req);
+        $con->getAccessToken('http://example.com/request_token');
+        $this->assertEquals('token', $con->getToken());
+        $this->assertEquals('token_secret', $con->getTokenSecret());
+    }
+
+    public function testGetAuthorizeUrl()
+    {
+        $con = new HTTP_OAuth_Consumer('key', 'secret', 'token');
+        $this->assertEquals('http://example.com/?oauth_token=token',
+            $con->getAuthorizeUrl('http://example.com/'));
+    }
+
+    public function testSetSignatureMethod()
+    {
+        $con = new HTTP_OAuth_Consumer('key', 'secret', 'token');
+        $con->setSignatureMethod('PLAINTEXT');
+        $this->assertEquals('PLAINTEXT', $con->getSignatureMethod());
+    }
+
+    public function testGetOAuthConsumerRequest()
+    {
+        $con = new HTTP_OAuth_Consumer('key', 'secret', 'token');
+        $this->assertType('HTTP_OAuth_Consumer_Request',
+            $con->getOAuthConsumerRequest('http://foo.com/'));
+    }
+
+    private function mockedConsumer($req)
+    {
+
+        $instance = $this->getMock('HTTP_OAuth_Consumer',
+            array('getOAuthConsumerRequest'), array('key', 'secret', 'token',
+            'token_secret'));
+        $instance->expects($this->any())->method('getOAuthConsumerRequest')
+            ->will($this->returnValue($req));
+
+        return $instance;
+    }
+
+    private function mockedRequest($res)
+    {
+        $req = $this->getMock('HTTP_OAuth_Consumer_Request', array('send'),
+            array('http://foo.com'));
+        $req->expects($this->any())->method('send')
+            ->will($this->returnValue($res));
+
+        return $req;
+    }
+
+    private function mockedResponse($bodyData)
+    {
+        $res = $this->getMock('HTTP_OAuth_Consumer_Response',
+            array('getDataFromBody'), array(new HttpMessage('')));
+        $res->expects($this->any())->method('getDataFromBody')
+            ->will($this->returnValue($bodyData));
+
+        return $res;
+    }
+
 }
 
 ?>

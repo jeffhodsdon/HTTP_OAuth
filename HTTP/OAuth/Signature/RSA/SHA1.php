@@ -52,8 +52,8 @@ class HTTP_OAuth_Signature_RSA_SHA1
      * @return string Signature
      */
     public function build($method, $url, array $params, $consumerSecret,
-        $tokenSecret = '')
-    {
+        $tokenSecret = ''
+    ) {
         throw new HTTP_OAuth_Exception_NotImplemented;
     }
 

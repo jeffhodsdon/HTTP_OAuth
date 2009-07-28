@@ -130,8 +130,8 @@ class HTTP_OAuth_Consumer
      * @return void
      */
     public function getRequestToken($url, $callback = 'oob',
-        array $additional = array())
-    {
+        array $additional = array()
+    ) {
         $additional['oauth_callback'] = $callback;
         $res                          = $this->sendRequest($url, $additional);
         $data                         = $res->getDataFromBody();
@@ -205,7 +205,9 @@ class HTTP_OAuth_Consumer
 
         $params = array_merge($additional, $params);
 
-        $req = new HTTP_OAuth_Consumer_Request($url, $this->getSecrets(), $method);
+        $req = $this->getOAuthConsumerRequest($url);
+        $req->setMethod($method);
+        $req->setSecrets($this->getSecrets());
         $req->setParameters($params);
         return $req->send();
     }
@@ -306,6 +308,17 @@ class HTTP_OAuth_Consumer
         return array($this->secret, (string) $this->tokenSecret);
     }
 
+    /**
+     * Gets instance of HTTP_OAuth_Consumer_Request
+     *
+     * @param string $url Url going to be requested
+     *
+     * @return HTTP_OAuth_Consumer_Request New request object
+     */
+    public function getOAuthConsumerRequest($url)
+    {
+        return new HTTP_OAuth_Consumer_Request($url);
+    }
 }
 
 ?>

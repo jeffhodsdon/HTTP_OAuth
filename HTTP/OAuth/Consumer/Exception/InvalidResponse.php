@@ -62,34 +62,29 @@ class HTTP_OAuth_Consumer_Exception_InvalidResponse extends HTTP_OAuth_Exception
     }
 
     /**
-     * Gets response body
+     * Call
      *
-     * @return string Body of the response
+     * If method exists on self::$response pass to that, otherwise
+     * throw BadMethodCallException
+     *
+     * @param string $method Name of the method
+     * @param array  $args   Arguments for the method
+     *
+     * @return mixed Result from method
+     * @throws BadMethodCallException When method does not exist on
+     *                                self::$response
      */
-    public function getBody()
+    public function __call($method, $args)
     {
-        return $this->response->getBody();
+        if (method_exists($this->response->getMessage(), $method)
+            || method_exists($this->response->getMessage(), $method)
+        ) {
+            return call_user_func_array(array($this->response, $method), $args);
+        }
+
+        throw new BadMethodCallException($method);
     }
 
-    /**
-     * Gets raw request message
-     *
-     * @return string Raw request message
-     */
-    public function getRawRequest()
-    {
-        return $this->response->getRawRequestMessage();
-    }
-
-    /**
-     * Gets raw response message
-     *
-     * @return string Raw response message
-     */
-    public function getRawResponse()
-    {
-        return $this->response->getRawResponseMessage();
-    }
 
 }
 

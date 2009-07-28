@@ -51,11 +51,14 @@ class HTTP_OAuth_Signature_HMAC_SHA1 extends HTTP_OAuth_Signature_Common
      * @return string Signature
      */
     public function build($method, $url, array $params, $consumerSecret,
-        $tokenSecret = '')
-    {
-        return base64_encode(hash_hmac('sha1',
-            $this->getBase($method, $url, $params),
-            $this->getKey($consumerSecret, $tokenSecret), true));
+        $tokenSecret = ''
+    ) {
+        return base64_encode(
+            hash_hmac(
+                'sha1', $this->getBase($method, $url, $params),
+                $this->getKey($consumerSecret, $tokenSecret), true
+            )
+        );
     }
 
 }

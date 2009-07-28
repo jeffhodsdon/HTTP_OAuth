@@ -84,12 +84,9 @@ abstract class HTTP_OAuth_Signature_Common
      *
      * @return string Signature
      */
-    abstract public function build($method,
-                                   $url,
-                                   array $params,
-                                   $consumerSecret,
-                                   $tokenSecret = '');
-
+    abstract public function build($method, $url, array $params,
+        $consumerSecret, $tokenSecret = ''
+    );
 }
 
 

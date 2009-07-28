@@ -94,8 +94,9 @@ class HTTP_OAuth_Provider_Request extends HTTP_OAuth_Message
 
             parse_str($this->message->getBody(), $params);
         } else {
-            parse_str(parse_url($this->message->getRequestUrl(), PHP_URL_QUERY),
-                $params);
+            parse_str(
+                parse_url($this->message->getRequestUrl(), PHP_URL_QUERY), $params
+            );
         }
 
         if (empty($params)) {
@@ -117,8 +118,10 @@ class HTTP_OAuth_Provider_Request extends HTTP_OAuth_Message
     public function isValidSignature($consumerSecret, $tokenSecret = '')
     {
         $sign  = HTTP_OAuth_Signature::factory($this->oauth_signature_method);
-        $check = $sign->build($this->getRequestMethod(), $this->getUrl(),
-            $this->getParameters(), $consumerSecret, $tokenSecret);
+        $check = $sign->build(
+            $this->getRequestMethod(), $this->getUrl(),
+            $this->getParameters(), $consumerSecret, $tokenSecret
+        );
 
         return ($this->oauth_signature === $check);
     }
@@ -133,8 +136,9 @@ class HTTP_OAuth_Provider_Request extends HTTP_OAuth_Message
     public function getSignatureBaseString()
     {
         $sign = HTTP_OAuth_Signature::factory($this->oauth_signature_method);
-        return $sign->getBase($this->getRequestMethod(), $this->getUrl(),
-            $this->getParameters());
+        return $sign->getBase(
+            $this->getRequestMethod(), $this->getUrl(), $this->getParameters()
+        );
     }
 
     /**

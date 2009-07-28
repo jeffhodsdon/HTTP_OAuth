@@ -80,7 +80,7 @@ class HTTP_OAuth_Consumer_Request extends HTTP_OAuth_Message
      *
      * @var array $secrets Array of consumer and token secret
      */
-    protected $secrets = array();
+    protected $secrets = array('', '');
 
     /**
      * Construct
@@ -93,11 +93,13 @@ class HTTP_OAuth_Consumer_Request extends HTTP_OAuth_Message
      *
      * @return void
      */
-    public function __construct($url, array $secrets, $method = 'POST')
+    public function __construct($url, array $secrets = array(), $method = 'POST')
     {
         $this->setUrl($url);
-        $this->method  = $method;
-        $this->secrets = $secrets;
+        $this->setMethod($method);
+        if (count($secrets)) {
+            $this->setSecrets($secrets);
+        }
     }
 
     /**
@@ -111,10 +113,26 @@ class HTTP_OAuth_Consumer_Request extends HTTP_OAuth_Message
     public function setUrl($url)
     {
         if (!Validate::uri($url)) {
-            throw new HTTP_OAuth_Exception("Invalid url: $url");
+            throw new InvalidArgumentException("Invalid url: $url");
         }
 
         $this->url = $url;
+    }
+
+    /**
+     * Sets consumer/token secrets array
+     *
+     * @param array $secrets Array of secrets to set
+     *
+     * @return void
+     */
+    public function setSecrets(array $secrets = array())
+    {
+        if (count($secrets) == 1) {
+            $secrets[1] = '';
+        }
+
+        $this->secrets = $secrets;
     }
 
     /**
@@ -139,6 +157,13 @@ class HTTP_OAuth_Consumer_Request extends HTTP_OAuth_Message
      */
     public function setAuthType($type)
     {
+        static $valid = array(self::AUTH_HEADER, self::AUTH_POST,
+            self::AUTH_GET);
+        if (!in_array($type, $valid)) {
+            throw new InvalidArgumentException('Invalid Auth Type, see class ' .
+                'constants');
+        }
+
         $this->authType = $type;
     }
 
@@ -187,16 +212,13 @@ class HTTP_OAuth_Consumer_Request extends HTTP_OAuth_Message
         $this->oauth_timestamp = time();
         $this->oauth_nonce     = md5(microtime(true) . rand(1, 999));
         $this->oauth_version   = '1.0';
-        $this->oauth_signature = $sig->build($this->getRequestMethod(),
-            $this->getUrl(), $this->getParameters(), $this->secrets[0],
-            $this->secrets[1]);
+        $this->oauth_signature = $sig->build(
+            $this->getMethod(), $this->getUrl(), $this->getParameters(),
+            $this->secrets[0], $this->secrets[1]
+        );
 
-        $method = HttpRequest::METH_POST;
-        if ($this->method == 'GET') {
-            $method = HttpRequest::METH_GET;
-        }
-
-        $request = new HttpRequest($this->url, $method);
+        $request = $this->getHttpRequest($this->url);
+        $request->setMethod($this->getMethod());
         $request->addHeaders(array('Expect' => ''));
         $params = $this->getOAuthParameters();
         switch ($this->getAuthType()) {
@@ -205,17 +227,26 @@ class HTTP_OAuth_Consumer_Request extends HTTP_OAuth_Message
             $request->addHeaders(array('Authorization' => $auth));
             break;
         case self::AUTH_POST:
-            $request->addPostData(HTTP_OAuth::urlencode($params));
+            $request->addPostFields(HTTP_OAuth::urlencode($params));
             break;
         case self::AUTH_GET:
             $request->addQueryData(HTTP_OAuth::urlencode($params));
             break;
-        default:
-            throw new HTTP_OAuth_Exception;
-            break;
         }
 
         return $request;
+    }
+
+    /**
+     * Gets a HttpRequest instance
+     *
+     * @param string $url Url to be requested
+     *
+     * @return HttpRequest Instance of the request object
+     */
+    public function getHttpRequest($url)
+    {
+        return new HttpRequest($url);
     }
 
     /**
@@ -242,11 +273,35 @@ class HTTP_OAuth_Consumer_Request extends HTTP_OAuth_Message
     }
 
     /**
+     * Sets request method
+     *
+     * @param string $method HTTP Request method to use
+     *
+     * @return void
+     * @throws InvalidArgumentException on unsupported HTTP request method
+     */
+    public function setMethod($method)
+    {
+        static $map = array(
+            'GET'    => HttpRequest::METH_GET,
+            'POST'   => HttpRequest::METH_POST,
+            'PUT'    => HttpRequest::METH_PUT,
+            'DELETE' => HttpRequest::METH_DELETE
+        );
+
+        if (!array_key_exists($method, $map)) {
+            throw new InvalidArgumentException('Unsupported HTTP method');
+        }
+
+        $this->method = $map[$method];
+    }
+
+    /**
      * Gets request method
      *
      * @return string HTTP request method
      */
-    public function getRequestMethod()
+    public function getMethod()
     {
         return $this->method;
     }

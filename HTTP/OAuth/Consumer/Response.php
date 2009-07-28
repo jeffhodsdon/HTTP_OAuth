@@ -70,8 +70,18 @@ class HTTP_OAuth_Consumer_Response extends HTTP_OAuth_Message
     public function getDataFromBody()
     {
         $result = array();
-        parse_str($this->message->getBody(), $result);
+        parse_str($this->getBody(), $result);
         return $result;
+    }
+
+    /**
+     * Gets HttpMessage
+     *
+     * @return HttpMessage Instance of the current HttpMessage
+     */
+    public function getMessage()
+    {
+        return $this->message;
     }
 
     /**

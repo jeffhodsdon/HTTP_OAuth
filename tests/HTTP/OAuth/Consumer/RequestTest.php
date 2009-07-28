@@ -1,0 +1,125 @@
+<?php
+/**
+ * HTTP_OAuth
+ *
+ * Implementation of the OAuth specification
+ *
+ * PHP version 5.2.0+
+ *
+ * LICENSE: This source file is subject to the New BSD license that is
+ * available through the world-wide-web at the following URI:
+ * http://www.opensource.org/licenses/bsd-license.php. If you did not receive  
+ * a copy of the New BSD License and are unable to obtain it through the web, 
+ * please send a note to license@php.net so we can mail you a copy immediately.
+ *
+ * @category  HTTP
+ * @package   HTTP_OAuth
+ * @author    Jeff Hodsdon <jeffhodsdon@gmail.com> 
+ * @copyright 2009 Jeff Hodsdon <jeffhodsdon@gmail.com> 
+ * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
+ * @link      http://pear.php.net/package/HTTP_OAuth_Provider
+ * @link      http://github.com/jeffhodsdon/HTTP_OAuth_Provider
+ */
+
+require_once 'PHPUnit/Framework/TestCase.php';
+require_once 'HTTP/OAuth/Consumer/Request.php';
+
+class HTTP_OAuth_Consumer_RequestTest extends PHPUnit_Framework_TestCase
+{
+
+    public function testConstruct()
+    {
+        $req = new HTTP_OAuth_Consumer_Request('http://example.com/',
+            array('consumer', 'token'));
+        $this->assertType('HTTP_OAuth_Consumer_Request', $req);
+        $this->assertEquals(array('consumer', 'token'), $req->getSecrets());
+    }
+
+    public function testSetUrl()
+    {
+        $req = new HTTP_OAuth_Consumer_Request('http://example.com/');
+        $this->assertEquals('http://example.com/', $req->getUrl());
+    }
+
+    /**
+     * @expectedException InvalidArgumentException
+     */
+    public function testSetInvalidUrl()
+    {
+        $req = new HTTP_OAuth_Consumer_Request('jdoijfo//le.com/');
+    }
+
+    public function testSetSecrets()
+    {
+        $req = new HTTP_OAuth_Consumer_Request('http://example.com/');
+        $req->setSecrets(array('consumer'));
+        $this->assertEquals(array('consumer', ''), $req->getSecrets());
+    }
+
+    public function testSetAuthType()
+    {
+        $req = new HTTP_OAuth_Consumer_Request('http://example.com/');
+        $req->setAuthType(HTTP_OAuth_Consumer_Request::AUTH_POST);
+        $this->assertEquals(HTTP_OAuth_Consumer_Request::AUTH_POST,
+            $req->getAuthType());
+    }
+
+    /**
+     * @expectedException InvalidArgumentException
+     */
+    public function testSetInvalidAuthType()
+    {
+        $req = new HTTP_OAuth_Consumer_Request('http://example.com/');
+        $req->setAuthType('POST');
+    }
+
+    public function testSend()
+    {
+        $httpRequest = $this->getMock('HttpRequest', array('send'),
+            array('http://example.com'));
+        $httpRequest->expects($this->any())->method('send')
+            ->will($this->returnValue(new HttpMessage('')));
+        $req = $this->getMock('HTTP_OAuth_Consumer_Request',
+            array('buildRequest'), array('http://example.com/'));
+        $req->expects($this->any())->method('buildRequest')
+            ->will($this->returnValue($httpRequest));
+        $req->send();
+    }
+
+    public function testBuildRequest()
+    {
+        $httpRequest = $this->getMock('HttpRequest', array('send'),
+            array('http://example.com'));
+        $httpRequest->expects($this->any())->method('send')
+            ->will($this->returnValue(new HttpMessage('')));
+        $req = $this->getMock('HTTP_OAuth_Consumer_Request',
+            array('getHttpRequest'), array('http://example.com/'));
+        $req->expects($this->any())->method('getHttpRequest')
+            ->will($this->returnValue($httpRequest));
+        $req->signature_method = 'HMAC-SHA1';
+        $req->send();
+        $req->setAuthType(HTTP_OAuth_Consumer_Request::AUTH_POST);
+        $req->send();
+        $req->setAuthType(HTTP_OAuth_Consumer_Request::AUTH_GET);
+        $req->send();
+ 
+    }
+
+    public function testGetHttpRequest()
+    {
+        $req = new HTTP_OAuth_Consumer_Request('http://example.com/');
+        $this->assertType('HttpRequest',
+            $req->getHttpRequest('http://example.com/'));
+    }
+
+    /**
+     * @expectedException InvalidArgumentException
+     */
+    public function testSetInvalidMethod()
+    {
+        $req = new HTTP_OAuth_Consumer_Request('http://example.com/');
+        $req->setMethod('foo');
+    }
+}
+
+?>
