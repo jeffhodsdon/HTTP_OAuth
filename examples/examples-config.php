@@ -24,7 +24,7 @@
 chdir(dirname(__FILE__) . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR);
 
 $base = realpath(dirname(__FILE__) . '/../../') . '/';
-set_include_path("{$base}HTTP_OAuth:{$base}HTTP_OAuth_Consumer:{$base}HTTP_OAuth_Provider:" . get_include_path());
+set_include_path("{$base}HTTP_OAuth:" . get_include_path());
 
 /* Configuration for Examples */
 
