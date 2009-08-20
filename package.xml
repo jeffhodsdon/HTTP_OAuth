@@ -10,11 +10,11 @@
   <email>jeffhodsdon@gmail.com</email>
   <active>yes</active>
  </lead>
- <date>2009-07-28</date>
- <time>23:47:04</time>
+ <date>2009-08-20</date>
+ <time>17:32:42</time>
  <version>
-  <release>0.0.1</release>
-  <api>0.0.1</api>
+  <release>0.0.2</release>
+  <api>0.0.2</api>
  </version>
  <stability>
   <release>alpha</release>
@@ -43,34 +43,34 @@ Initial release
    <file baseinstalldir="/" md5sum="9932fdf6757fdb6ecff5e0862e13b61e" name="examples/styles.css" role="doc" />
    <file baseinstalldir="/" md5sum="1d5167f08206d3371716b260e86ccb1b" name="examples/twitter.gif" role="doc" />
    <file baseinstalldir="/" md5sum="3c4b5735850df3948a83c9ac1354279a" name="examples/yahoo.gif" role="doc" />
-   <file baseinstalldir="/" md5sum="b6690941b4e5dd389454d9759758c040" name="HTTP/OAuth.php" role="php" />
-   <file baseinstalldir="/" md5sum="51eb2da8b6268a3c0f1a64f6f75ca98e" name="HTTP/OAuth/Consumer.php" role="php" />
+   <file baseinstalldir="/" md5sum="cd0e7143b9b515f3a0b36e2d2806d991" name="HTTP/OAuth.php" role="php" />
+   <file baseinstalldir="/" md5sum="71fcbdf0462079cdaf5559968e650c63" name="HTTP/OAuth/Consumer.php" role="php" />
    <file baseinstalldir="/" md5sum="b0b747f0357f685088d4f7cd7982a66e" name="HTTP/OAuth/Exception.php" role="php" />
-   <file baseinstalldir="/" md5sum="9019a203f4e16f694c5c3a746aade37d" name="HTTP/OAuth/Message.php" role="php" />
+   <file baseinstalldir="/" md5sum="9dce303e8c88672ce64e6c5652343019" name="HTTP/OAuth/Message.php" role="php" />
    <file baseinstalldir="/" md5sum="52275f9361890df5c1a20a50894543f0" name="HTTP/OAuth/Signature.php" role="php" />
-   <file baseinstalldir="/" md5sum="e42036bdbd9416439fd7798baff52989" name="HTTP/OAuth/Consumer/Request.php" role="php" />
-   <file baseinstalldir="/" md5sum="90f1aff400ef3b17fff331b1e8935a6b" name="HTTP/OAuth/Consumer/Response.php" role="php" />
-   <file baseinstalldir="/" md5sum="4fe795cb7b0fefcf7def8b0cffed45b6" name="HTTP/OAuth/Consumer/Exception/InvalidResponse.php" role="php" />
+   <file baseinstalldir="/" md5sum="9d1fbd8822d6c5b4cc22e62092317626" name="HTTP/OAuth/Consumer/Request.php" role="php" />
+   <file baseinstalldir="/" md5sum="95b930577ec7f658b51dc999985cb57c" name="HTTP/OAuth/Consumer/Response.php" role="php" />
+   <file baseinstalldir="/" md5sum="af4cd4dcf46a1c1ed77c418548012357" name="HTTP/OAuth/Consumer/Exception/InvalidResponse.php" role="php" />
    <file baseinstalldir="/" md5sum="3549952dae4f40b674854d6f8f4d0e73" name="HTTP/OAuth/Exception/NotImplemented.php" role="php" />
    <file baseinstalldir="/" md5sum="b94552592b48533a131e6177c9cf6210" name="HTTP/OAuth/Provider/Exception.php" role="php" />
-   <file baseinstalldir="/" md5sum="ce296a21d6dd9cebb9f20b79e3b11af2" name="HTTP/OAuth/Provider/Request.php" role="php" />
-   <file baseinstalldir="/" md5sum="6560d608d8a0030c668673ceaef2d8ee" name="HTTP/OAuth/Provider/Response.php" role="php" />
+   <file baseinstalldir="/" md5sum="0b2b256440c3f2e6bea2e8caffca353e" name="HTTP/OAuth/Provider/Request.php" role="php" />
+   <file baseinstalldir="/" md5sum="dabaf5256c97ba0f2434c8d68269cf30" name="HTTP/OAuth/Provider/Response.php" role="php" />
    <file baseinstalldir="/" md5sum="8b4884d6b2125a5ac4d39766680eac0d" name="HTTP/OAuth/Provider/Exception/InvalidRequest.php" role="php" />
-   <file baseinstalldir="/" md5sum="feb9ec0e210dd9ed8e112711da375af6" name="HTTP/OAuth/Signature/Common.php" role="php" />
+   <file baseinstalldir="/" md5sum="b60fed97b5a96b967ba3b6729c4db02d" name="HTTP/OAuth/Signature/Common.php" role="php" />
    <file baseinstalldir="/" md5sum="17773749509ad6bf95fe247cf605addb" name="HTTP/OAuth/Signature/PLAINTEXT.php" role="php" />
    <file baseinstalldir="/" md5sum="c304f86c838aa909cd5be01595cf884e" name="HTTP/OAuth/Signature/HMAC/SHA1.php" role="php" />
    <file baseinstalldir="/" md5sum="74cf9e13628ef3aba06d823e9e5a855d" name="HTTP/OAuth/Signature/RSA/SHA1.php" role="php" />
    <file baseinstalldir="/" md5sum="057563e7b8729ebe6f7ebd8c7dcb611c" name="tests/AllTests.php" role="test" />
-   <file baseinstalldir="/" md5sum="5b2a9f0850379761845a55c1a60f4a48" name="tests/HTTP/OAuthTest.php" role="test" />
-   <file baseinstalldir="/" md5sum="603e6b470d669a4e22da78377616b528" name="tests/HTTP/OAuth/ConsumerTest.php" role="test" />
+   <file baseinstalldir="/" md5sum="da505625420bd71a21baf2dab7cc41d3" name="tests/HTTP/OAuthTest.php" role="test" />
+   <file baseinstalldir="/" md5sum="6db91046140a810dc974112003e025d4" name="tests/HTTP/OAuth/ConsumerTest.php" role="test" />
    <file baseinstalldir="/" md5sum="9de1701fb32ad3b009e986ac9c189651" name="tests/HTTP/OAuth/MessageMock.php" role="test" />
-   <file baseinstalldir="/" md5sum="d99c610345bfb564d72c6a4a84fe173c" name="tests/HTTP/OAuth/MessageTest.php" role="test" />
+   <file baseinstalldir="/" md5sum="6a20dea3f7fa6002f17babc6857a47a3" name="tests/HTTP/OAuth/MessageTest.php" role="test" />
    <file baseinstalldir="/" md5sum="0a578b56b56b978007fe3d880fc24f2b" name="tests/HTTP/OAuth/SignatureTest.php" role="test" />
-   <file baseinstalldir="/" md5sum="372c3ef8d563faf6981b61f3765177a8" name="tests/HTTP/OAuth/Consumer/RequestTest.php" role="test" />
-   <file baseinstalldir="/" md5sum="6d4b01d7c1410465bd27c8e9433c636c" name="tests/HTTP/OAuth/Consumer/ResponseTest.php" role="test" />
-   <file baseinstalldir="/" md5sum="ebc9451a77ddf4a6d47dec85ee335971" name="tests/HTTP/OAuth/Consumer/Exception/InvalidResponseTest.php" role="test" />
-   <file baseinstalldir="/" md5sum="8700202dff01e034c6876df380d0d266" name="tests/HTTP/OAuth/Provider/RequestTest.php" role="test" />
-   <file baseinstalldir="/" md5sum="f81235a451ff1aad875cad91dc7808f8" name="tests/HTTP/OAuth/Provider/ResponseTest.php" role="test" />
+   <file baseinstalldir="/" md5sum="9d38235feb40fb1a85cc8138666ab18b" name="tests/HTTP/OAuth/Consumer/RequestTest.php" role="test" />
+   <file baseinstalldir="/" md5sum="afa77081643fb2cd0a27f4143837def8" name="tests/HTTP/OAuth/Consumer/ResponseTest.php" role="test" />
+   <file baseinstalldir="/" md5sum="6809ba90fce3cf7bd81fa378fcff0087" name="tests/HTTP/OAuth/Consumer/Exception/InvalidResponseTest.php" role="test" />
+   <file baseinstalldir="/" md5sum="6ba7b8815dfbfc125844e33f9ec98aa4" name="tests/HTTP/OAuth/Provider/RequestTest.php" role="test" />
+   <file baseinstalldir="/" md5sum="8a3b9fcc87d43f8a72c028eb946097d0" name="tests/HTTP/OAuth/Provider/ResponseTest.php" role="test" />
    <file baseinstalldir="/" md5sum="fc458d321aff0523ae41082b9560dd6e" name="tests/HTTP/OAuth/Signature/CommonMock.php" role="test" />
    <file baseinstalldir="/" md5sum="bf4fe00d5f7625e6bdb048ce8e9f5b03" name="tests/HTTP/OAuth/Signature/CommonTest.php" role="test" />
    <file baseinstalldir="/" md5sum="91d625d3fdfe58120af9b18109804eec" name="tests/HTTP/OAuth/Signature/NoClass.php" role="test" />
@@ -78,6 +78,7 @@ Initial release
    <file baseinstalldir="/" md5sum="c84af90f5a080ae833fdf6ebb29d5f52" name="tests/HTTP/OAuth/Signature/PLAINTEXTTest.php" role="test" />
    <file baseinstalldir="/" md5sum="1321ef2eb53b6da6ef0f5505844ff4c1" name="tests/HTTP/OAuth/Signature/HMAC/SHA1Test.php" role="test" />
    <file baseinstalldir="/" md5sum="b967a7e1d433333d442a87918e415e56" name="tests/HTTP/OAuth/Signature/RSA/SHA1Test.php" role="test" />
+   <file baseinstalldir="/" md5sum="c41ac43aced230c1e54a5132189f0129" name="HTTP_OAuth-0.0.1.tgz" role="data" />
    <file baseinstalldir="/" md5sum="d41d8cd98f00b204e9800998ecf8427e" name="README" role="data" />
   </dir>
  </contents>
@@ -90,16 +91,23 @@ Initial release
     <min>1.4.0</min>
    </pearinstaller>
    <package>
-    <name>Validate</name>
+    <name>HTTP_Request2</name>
     <channel>pear.php.net</channel>
-    <min>0.7.0</min>
+    <min>0.4.0</min>
+   </package>
+  </required>
+  <optional>
+   <package>
+    <name>Log</name>
+    <channel>pear.php.net</channel>
+    <min>1.11.0</min>
    </package>
    <package>
     <name>pecl_http</name>
     <channel>pecl.php.net</channel>
     <min>1.6.0</min>
    </package>
-  </required>
+  </optional>
  </dependencies>
  <phprelease />
  <changelog>
@@ -113,6 +121,21 @@ Initial release
     <api>alpha</api>
    </stability>
    <date>2009-07-28</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD Style</license>
+   <notes>
+Initial release
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>0.0.2</release>
+    <api>0.0.2</api>
+   </version>
+   <stability>
+    <release>alpha</release>
+    <api>alpha</api>
+   </stability>
+   <date>2009-08-20</date>
    <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD Style</license>
    <notes>
 Initial release

@@ -21,7 +21,6 @@
  * @link      http://github.com/jeffhodsdon/HTTP_OAuth
  */
 
-require_once 'Validate.php';
 require_once 'HTTP/Request2.php';
 require_once 'HTTP/Request2/Observer/Log.php';
 require_once 'HTTP/OAuth/Message.php';
