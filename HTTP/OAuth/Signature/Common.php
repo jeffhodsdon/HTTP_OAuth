@@ -37,7 +37,7 @@ require_once 'HTTP/OAuth.php';
  * @link      http://pear.php.net/package/HTTP_OAuth
  * @link      http://github.com/jeffhodsdon/HTTP_OAuth
  */
-abstract class HTTP_OAuth_Signature_Common
+abstract class HTTP_OAuth_Signature_Common extends HTTP_OAuth
 {
 
     /**
@@ -56,7 +56,9 @@ abstract class HTTP_OAuth_Signature_Common
         }
 
         $parts = array($method, $url, HTTP_OAuth::buildHTTPQuery($params));
-        return implode('&', HTTP_OAuth::urlencode($parts));
+        $base  = implode('&', HTTP_OAuth::urlencode($parts));
+        $this->debug('Signing with base string: ' . $base);
+        return $base;
     }
 
     /**
@@ -70,7 +72,9 @@ abstract class HTTP_OAuth_Signature_Common
     public function getKey($consumerSecret, $tokenSecret = '')
     {
         $secrets = array($consumerSecret, $tokenSecret);
-        return implode('&', HTTP_OAuth::urlencode($secrets));
+        $key = implode('&', HTTP_OAuth::urlencode($secrets));
+        $this->debug('Signing with key: ' . $key);
+        return $key;
     }
 
     /**

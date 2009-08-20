@@ -23,6 +23,8 @@
 
 require_once 'PHPUnit/Framework/TestCase.php';
 require_once 'HTTP/OAuth/Consumer/Request.php';
+require_once 'HTTP/Request2.php';
+require_once 'HTTP/Request2/Adapter/Mock.php';
 
 class HTTP_OAuth_Consumer_RequestTest extends PHPUnit_Framework_TestCase
 {
@@ -38,15 +40,7 @@ class HTTP_OAuth_Consumer_RequestTest extends PHPUnit_Framework_TestCase
     public function testSetUrl()
     {
         $req = new HTTP_OAuth_Consumer_Request('http://example.com/');
-        $this->assertEquals('http://example.com/', $req->getUrl());
-    }
-
-    /**
-     * @expectedException InvalidArgumentException
-     */
-    public function testSetInvalidUrl()
-    {
-        $req = new HTTP_OAuth_Consumer_Request('jdoijfo//le.com/');
+        $this->assertEquals('http://example.com/', $req->getUrl()->getURL());
     }
 
     public function testSetSecrets()
@@ -75,51 +69,18 @@ class HTTP_OAuth_Consumer_RequestTest extends PHPUnit_Framework_TestCase
 
     public function testSend()
     {
-        $httpRequest = $this->getMock('HttpRequest', array('send'),
-            array('http://example.com'));
-        $httpRequest->expects($this->any())->method('send')
-            ->will($this->returnValue(new HttpMessage('')));
-        $req = $this->getMock('HTTP_OAuth_Consumer_Request',
-            array('buildRequest'), array('http://example.com/'));
-        $req->expects($this->any())->method('buildRequest')
-            ->will($this->returnValue($httpRequest));
-        $req->send();
+        $mockAdapter = new HTTP_Request2_Adapter_Mock;
+        $mockAdapter->addResponse("HTTP/1.1 200 OK\n\nfoo");
+        $mockReq = new HTTP_Request2('http://example.com');
+        $mockReq->setAdapter($mockAdapter);
+        $req = new HTTP_OAuth_Consumer_Request;
+        $req->accept($mockReq);
+        $res = $req->send();
+        $this->assertType('HTTP_OAuth_Consumer_Request', $req);
+        $this->assertType('HTTP_OAuth_Consumer_Response', $res);
+        $this->assertEquals('foo', $res->getBody());
     }
 
-    public function testBuildRequest()
-    {
-        $httpRequest = $this->getMock('HttpRequest', array('send'),
-            array('http://example.com'));
-        $httpRequest->expects($this->any())->method('send')
-            ->will($this->returnValue(new HttpMessage('')));
-        $req = $this->getMock('HTTP_OAuth_Consumer_Request',
-            array('getHttpRequest'), array('http://example.com/'));
-        $req->expects($this->any())->method('getHttpRequest')
-            ->will($this->returnValue($httpRequest));
-        $req->signature_method = 'HMAC-SHA1';
-        $req->send();
-        $req->setAuthType(HTTP_OAuth_Consumer_Request::AUTH_POST);
-        $req->send();
-        $req->setAuthType(HTTP_OAuth_Consumer_Request::AUTH_GET);
-        $req->send();
- 
-    }
-
-    public function testGetHttpRequest()
-    {
-        $req = new HTTP_OAuth_Consumer_Request('http://example.com/');
-        $this->assertType('HttpRequest',
-            $req->getHttpRequest('http://example.com/'));
-    }
-
-    /**
-     * @expectedException InvalidArgumentException
-     */
-    public function testSetInvalidMethod()
-    {
-        $req = new HTTP_OAuth_Consumer_Request('http://example.com/');
-        $req->setMethod('foo');
-    }
 }
 
 ?>

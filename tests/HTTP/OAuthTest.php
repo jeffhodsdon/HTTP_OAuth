@@ -23,6 +23,7 @@
 
 require_once 'PHPUnit/Framework/TestCase.php';
 require_once 'HTTP/OAuth.php';
+require_once 'Log.php';
 
 class HTTP_OAuthTest extends PHPUnit_Framework_TestCase
 {
@@ -59,8 +60,10 @@ class HTTP_OAuthTest extends PHPUnit_Framework_TestCase
         $raw = 'http://www.joestump.net/~foobar';
         $exp = 'http%3A%2F%2Fwww.joestump.net%2F~foobar';
         $res = HTTP_OAuth::urldecode($exp);
-
         $this->assertEquals($res, $raw);
+
+        $res = HTTP_OAuth::urldecode(array($exp));
+        $this->assertEquals($res, array($raw));
     }
 
     public function testScalarCheck()
@@ -73,6 +76,17 @@ class HTTP_OAuthTest extends PHPUnit_Framework_TestCase
     {
         $s = HTTP_OAuth::buildHttpQuery(array());
         $this->assertEquals('', $s);
+    }
+
+    public function testAttachLog()
+    {
+        $log = Log::factory('null');
+        HTTP_OAuth::attachLog($log);
+        $this->assertEquals(array($log), HTTP_OAuth::$logs);
+        $oauth = $this->getMock('HTTP_OAuth', array('foo'));
+        $oauth->debug('foo');
+        $oauth->info('foo');
+        $oauth->err('foo');
     }
 
 }

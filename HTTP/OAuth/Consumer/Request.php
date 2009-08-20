@@ -22,6 +22,8 @@
  */
 
 require_once 'Validate.php';
+require_once 'HTTP/Request2.php';
+require_once 'HTTP/Request2/Observer/Log.php';
 require_once 'HTTP/OAuth/Message.php';
 require_once 'HTTP/OAuth/Consumer/Response.php';
 require_once 'HTTP/OAuth/Signature.php';
@@ -59,20 +61,6 @@ class HTTP_OAuth_Consumer_Request extends HTTP_OAuth_Message
     protected $authType = self::AUTH_HEADER;
 
     /**
-     * Url
-     *
-     * @var string $url Url to request
-     */
-    protected $url = null;
-
-    /**
-     * HTTP Method
-     *
-     * @var string $message HTTP method to use
-     */
-    protected $method = null;
-
-    /**
      * Secrets
      *
      * Consumer and token secrets that will be used to sign
@@ -82,13 +70,12 @@ class HTTP_OAuth_Consumer_Request extends HTTP_OAuth_Message
      */
     protected $secrets = array('', '');
 
-    static protected $methodMap = array(
-        'GET'    => HttpRequest::METH_GET,
-        'POST'   => HttpRequest::METH_POST,
-        'PUT'    => HttpRequest::METH_PUT,
-        'DELETE' => HttpRequest::METH_DELETE
-    );
-
+    /**
+     * HTTP_Request2 instance
+     *
+     * @var HTTP_Request2 $request Instance of HTTP_Request2
+     */
+    protected $request = null;
 
     /**
      * Construct
@@ -97,34 +84,57 @@ class HTTP_OAuth_Consumer_Request extends HTTP_OAuth_Message
      *
      * @param string $url     Url to be requested
      * @param array  $secrets Array of consumer and token secret
-     * @param string $method  HTTP method
      *
      * @return void
      */
-    public function __construct($url, array $secrets = array(), $method = 'POST')
+    public function __construct($url = null, array $secrets = array())
     {
-        $this->setUrl($url);
-        $this->setMethod($method);
+        $this->request = new HTTP_Request2;
+        foreach (self::$logs as $log) {
+            $this->request->attach(new HTTP_Request2_Observer_Log($log));
+        }
+
+        if ($url !== null) {
+            $this->setUrl($url);
+        }
+
         if (count($secrets)) {
             $this->setSecrets($secrets);
         }
     }
 
     /**
-     * Sets a url
+     * Accept
      *
-     * @param string $url Url to request
+     * @param mixed $object Object to accept
      *
      * @return void
-     * @throws HTTP_OAuth_Exception on invalid url
      */
-    public function setUrl($url)
+    public function accept($object)
     {
-        if (!Validate::uri($url)) {
-            throw new InvalidArgumentException("Invalid url: $url");
+        switch (get_class($object)) {
+        case 'HTTP_Request2':
+            $this->request = $object;
+            break;
+        default:
+            break;
         }
+    }
 
-        $this->url = $url;
+    /**
+     * Attaches an instance of PEAR Log
+     *
+     * Attached instances of PEAR Log handlers will be logged to
+     * through out the use of HTTP_OAuth. Attaches it to HTTP_Request2 as well
+     *
+     * @param Log $log Instance of a Log
+     *
+     * @return void
+     */
+    static public function attachLog(Log $log)
+    {
+        parent::attachLog($log);
+        $this->request->attach(new HTTP_Request2_Observer_Log($log));
     }
 
     /**
@@ -196,11 +206,11 @@ class HTTP_OAuth_Consumer_Request extends HTTP_OAuth_Message
      */
     public function send()
     {
-        $request = $this->buildRequest();
+        $this->buildRequest();
         try {
-            $response = $request->send();
+            $response = $this->request->send();
         } catch (Exception $e) {
-            throw new HTTP_OAuth_Exception($request->getResponseInfo('error'));
+            throw new HTTP_OAuth_Exception;
         }
 
         return new HTTP_OAuth_Consumer_Response($response);
@@ -215,46 +225,32 @@ class HTTP_OAuth_Consumer_Request extends HTTP_OAuth_Message
      */
     protected function buildRequest()
     {
+        $method = $this->getSignatureMethod();
+        $this->debug('signing request with: ' . $method);
         $sig = HTTP_OAuth_Signature::factory($this->getSignatureMethod());
 
         $this->oauth_timestamp = time();
         $this->oauth_nonce     = md5(microtime(true) . rand(1, 999));
         $this->oauth_version   = '1.0';
         $this->oauth_signature = $sig->build(
-            $this->getMethod(true), $this->getUrl(), $this->getParameters(),
+            $this->getMethod(), $this->getUrl()->getURL(), $this->getParameters(),
             $this->secrets[0], $this->secrets[1]
         );
 
-        $request = $this->getHttpRequest($this->url);
-        $request->setMethod($this->getMethod());
-        $request->addHeaders(array('Expect' => ''));
         $params = $this->getOAuthParameters();
         switch ($this->getAuthType()) {
         case self::AUTH_HEADER:
             $auth = $this->getAuthForHeader($params);
-            $request->addHeaders(array('Authorization' => $auth));
+            $this->setHeader('Authorization', $auth);
             break;
         case self::AUTH_POST:
-            $request->addPostFields(HTTP_OAuth::urlencode($params));
+            foreach ($params as $name => $value) {
+                $this->addPostParameter($name, HTTP_OAuth::urlencode($value));
+            }
             break;
         case self::AUTH_GET:
-            $request->addQueryData(HTTP_OAuth::urlencode($params));
             break;
         }
-
-        return $request;
-    }
-
-    /**
-     * Gets a HttpRequest instance
-     *
-     * @param string $url Url to be requested
-     *
-     * @return HttpRequest Instance of the request object
-     */
-    public function getHttpRequest($url)
-    {
-        return new HttpRequest($url);
     }
 
     /**
@@ -269,8 +265,8 @@ class HTTP_OAuth_Consumer_Request extends HTTP_OAuth_Message
      */
     protected function getAuthForHeader(array $params)
     {
-        $url    = parse_url($this->url);
-        $realm  = $url['scheme'] . '://' . $url['host'] . '/';
+        $url    = $this->getUrl();
+        $realm  = $url->getScheme() . '://' . $url->getHost() . '/';
         $header = 'OAuth realm="' . $realm . '"';
         foreach ($params as $name => $value) {
             $header .= ", " . HTTP_OAuth::urlencode($name) . '="' .
@@ -281,45 +277,24 @@ class HTTP_OAuth_Consumer_Request extends HTTP_OAuth_Message
     }
 
     /**
-     * Sets request method
+     * Call
      *
-     * @param string $method HTTP Request method to use
+     * If method exists on HTTP_Request2 pass to that, otherwise
+     * throw BadMethodCallException
      *
-     * @return void
-     * @throws InvalidArgumentException on unsupported HTTP request method
+     * @param string $method Name of the method
+     * @param array  $args   Arguments for the method
+     *
+     * @return mixed Result from method
+     * @throws BadMethodCallException When method does not exist on HTTP_Request2
      */
-    public function setMethod($method)
+    public function __call($method, $args)
     {
-        if (!array_key_exists($method, self::$methodMap)) {
-            throw new InvalidArgumentException('Unsupported HTTP method');
+        if (method_exists($this->request, $method)) {
+            return call_user_func_array(array($this->request, $method), $args);
         }
 
-        $this->method = self::$methodMap[$method];
-    }
-
-    /**
-     * Gets request method
-     *
-     * @return string HTTP request method
-     */
-    public function getMethod($string = false)
-    {
-        if ($string) {
-            $map = array_flip(self::$methodMap);
-            return $map[$this->method];
-        }
-
-        return $this->method;
-    }
-
-    /**
-     * Gets url
-     *
-     * @return string Url to request
-     */
-    public function getUrl()
-    {
-        return $this->url;
+        throw new BadMethodCallException($method);
     }
 
 }

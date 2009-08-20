@@ -36,7 +36,7 @@ class HTTP_OAuth_MessageTest extends PHPUnit_Framework_TestCase
 
         $p = $m->getOAuthParameters();
         $this->assertEquals(
-            $p, array('oauth_consumer_key' => 'key', 'oauth_token' => 'foo')
+            $p, array('oauth_signature_method' => 'HMAC-SHA1', 'oauth_consumer_key' => 'key', 'oauth_token' => 'foo')
         );
     }
 
@@ -45,6 +45,7 @@ class HTTP_OAuth_MessageTest extends PHPUnit_Framework_TestCase
         $p = array(
             'oauth_token'        => 'foo',
             'oauth_consumer_key' => 'key',
+            'oauth_signature_method' => 'HMAC-SHA1',
             'bar'          => 'w00t'
         );
 
@@ -124,8 +125,9 @@ class HTTP_OAuth_MessageTest extends PHPUnit_Framework_TestCase
         $m['bar'] = 'http';
 
         $this->assertType('Countable', $m);
-        $this->assertEquals(count($m), 2);
+        $this->assertEquals(count($m), 3);
     }
+
 
 }
 

@@ -64,17 +64,6 @@ class HTTP_OAuth_Provider_RequestTest extends PHPUnit_Framework_TestCase
     );
 
     /**
-     * Headers 
-     * 
-     * @var array $headers Headers for every example OAuth request
-     */
-    protected $headers = array(
-        'Host'       => 'twitter.com',
-        'Accept'     => '*/*',
-        'User-Agent' =>  __CLASS__
-    );
-
-    /**
      * @expectedException HTTP_OAuth_Provider_Exception_InvalidRequest
      */
     public function testConstruct()
@@ -82,39 +71,9 @@ class HTTP_OAuth_Provider_RequestTest extends PHPUnit_Framework_TestCase
         $req = new HTTP_OAuth_Provider_Request;
     }
 
-    /**
-     * @expectedException HTTP_OAuth_Provider_Exception_InvalidRequest
-     */
-    public function testInvalidContentTypeForPost()
+    public function testArrayAccess()
     {
-        $message = $this->getPostRequest();
-        $headers = $message->getHeaders();
-        $headers['Content-Type'] = 'text/html';
-        $message->setHeaders($headers);
-
-        $req = new HTTP_OAuth_Provider_Request($message);
-    }
-
-    public function testGetSignatureBaseString()
-    {
-        $req = new HTTP_OAuth_Provider_Request($this->getPostRequest());
-        $this->assertEquals('POST&http%3A%2F%2Ftwitter.com%2Foauth%2Faccess_token&oauth_consumer_key%3De1nTvIGVCPkbfqZdIE7OyA%26oauth_nonce%3DEF35F352-6FB0-4CFD-98E2-136BC6507434%26oauth_signature_method%3DHMAC-SHA1%26oauth_timestamp%3D1245711961%26oauth_token%3DkRmeTe0wvuIJrIUbjoOfc4UZcUerJKR67BfXy20UM%26oauth_version%3D1.0', $req->getSignatureBaseString());
-    }
-
-    public function testHttpsRequest()
-    {
-        $_SERVER['HTTPS'] = 'on';
-        $req = new HTTP_OAuth_Provider_Request($this->getPostRequest());
-        $this->assertEquals('https://twitter.com/oauth/access_token', $req->getUrl());
-    }
-
-    /**
-     * @dataProvider requestProvider
-     */
-    public function testArrayAccess(HttpMessage $message)
-    {
-        $request = new HTTP_OAuth_Provider_Request($message);
-
+        $request = $this->mockedRequest();
         foreach ($this->params as $key => $val) {
 
             $this->assertTrue(
@@ -126,139 +85,21 @@ class HTTP_OAuth_Provider_RequestTest extends PHPUnit_Framework_TestCase
         }
     }
 
-    /**
-     * @dataProvider requestProvider
-     */
-    public function testIteratorAggregate(HttpMessage $message)
+    public function testCountable()
     {
-        $request = new HTTP_OAuth_Provider_Request($message);
-        foreach ($request as $key => $val) {
-            $this->assertEquals($this->params[$key], $val);
-        }
-    }
-
-    /**
-     * @dataProvider requestProvider
-     */
-    public function testCountable(HttpMessage $message)
-    {
-        $request = new HTTP_OAuth_Provider_Request($message);
+        $request = $this->mockedRequest();
         $this->assertEquals(count($this->params), count($request));
     }
 
-    public function testIsValidSignature()
+    protected function mockedRequest()
     {
-        $message = $this->getPostRequest();
-        $request = new HTTP_OAuth_Provider_Request($message);
-        $this->assertTrue(
-            $request->isValidSignature($this->consumerSecret, $this->tokenSecret)
-        );
+        $request = $this->getMock('HTTP_OAuth_Provider_Request', array('foo'),
+            array(), 'HTTP_OAuth_Provider_RequestMock' . rand(1, 99999), false);
+        $request->setParameters($this->params);
+
+        return $request;
     }
 
-    public function requestProvider()
-    {
-        return array(
-            array($this->getGetRequest()),
-            array($this->getPostRequest()),
-            array($this->getAuthorizationRequest())
-        );
-    }
-
-    /**
-     * Create parameters string 
-     * 
-     * @return string Parameter string
-     */
-    protected function createParamsString()
-    {
-        $sets = array();
-        foreach ($this->params as $key => $val) {
-            $sets[] = $key . '=' . HTTP_OAuth::urlencode($val);
-        }
-
-        return implode('&', $sets);
-    }
-
-    /**
-     * Add headers 
-     * 
-     * @param mixed $message Current message
-     * @param array $headers Headers to add
-     *
-     * @return string Header
-     */
-    protected function addHeaders($message, array $headers) 
-    {
-        $sets = array();
-        foreach ($headers as $header => $val) {
-            $sets[] = $header . ': ' . $val; 
-        }
-
-        $message .= "\r\n";
-        $message .= implode("\r\n", $sets);
-        $message .= "\r\n\r\n";
-
-        return $message;
-    }
-
-    /**
-     * Get GET Request 
-     * 
-     * @return object|HttpMessage Instance of a GET HttpMessage
-     */
-    protected function getGetRequest()
-    {
-        $headers = $this->headers;
-        $headers['Content-Length'] = 0;
-
-        $msg = 'GET /oauth?' . $this->createParamsString() . ' HTTP/1.1';
-        $msg = $this->addHeaders($msg, $headers);
-
-        return HttpMessage::factory($msg);
-    }
-
-    /**
-     * Get POST Request 
-     * 
-     * @return object|HttpMessage Instance of a POST HttpMessage
-     */
-    protected function getPostRequest()
-    {
-        $body = $this->createParamsString();
-
-        $headers = $this->headers;
-        $headers['Content-Length'] = strlen($body);
-        $headers['Content-Type']   = 'application/x-www-form-urlencoded';
-
-        $msg = 'POST /oauth/access_token HTTP/1.1';
-        $msg = $this->addHeaders($msg, $headers) . $body;
-
-        return HttpMessage::factory($msg);
-    }
-
-    /**
-     * Get Authorization Request 
-     * 
-     * @return object|HttpMessage Instance of a HttpMessage with Auth headers
-     */
-    protected function getAuthorizationRequest()
-    {
-        $sets   = array();
-        $sets[] = 'realm="http://pear.php.net/package/HTTP_OAuth_Provider"';
-
-        foreach ($this->params as $key => $val) {
-            $sets[] = $key . '="' . HTTP_OAuth::urlencode($val) . '"';
-        }
- 
-        $headers = $this->headers;
-        $headers['Content-Length'] = 0;
-        $headers['Authorization']  = 'OAuth ' . implode(",\n\t", $sets);
-
-        $msg = 'PUT /oauth HTTP/1.1';
-        $msg = $this->addHeaders($msg, $headers);
-
-        return HttpMessage::factory($msg);
-    }
 }
 
 ?>

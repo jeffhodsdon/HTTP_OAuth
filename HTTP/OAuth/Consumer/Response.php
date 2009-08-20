@@ -23,6 +23,7 @@
 
 require_once 'HTTP/OAuth/Message.php';
 require_once 'HTTP/OAuth/Exception.php';
+require_once 'HTTP/Request2/Response.php';
 
 /**
  * HTTP_OAuth_Consumer_Response
@@ -42,22 +43,22 @@ class HTTP_OAuth_Consumer_Response extends HTTP_OAuth_Message
 {
 
     /**
-     * Instance of HttpMessage
+     * Instance of HTTP_Request2_Response
      *
-     * @var HttpMessage Response message
+     * @var HTTP_Request2_Response $response Response from the HTTP_Request2
      */
-    protected $message = null;
+    protected $response = null;
 
     /**
      * Construct
      *
-     * @param HttpMessage $message OAuth response message
+     * @param HTTP_Request2_Response $response Response from HTTP_Request2
      *
      * @return void
      */
-    public function __construct(HttpMessage $message)
+    public function __construct(HTTP_Request2_Response $response)
     {
-        $this->message = $message;
+        $this->response = $response;
     }
 
     /**
@@ -79,9 +80,9 @@ class HTTP_OAuth_Consumer_Response extends HTTP_OAuth_Message
      *
      * @return HttpMessage Instance of the current HttpMessage
      */
-    public function getMessage()
+    public function getResponse()
     {
-        return $this->message;
+        return $this->response;
     }
 
     /**
@@ -98,8 +99,8 @@ class HTTP_OAuth_Consumer_Response extends HTTP_OAuth_Message
      */
     public function __call($method, $args)
     {
-        if (method_exists($this->message, $method)) {
-            return call_user_func_array(array($this->message, $method), $args);
+        if (method_exists($this->response, $method)) {
+            return call_user_func_array(array($this->response, $method), $args);
         }
 
         throw new BadMethodCallException($method);

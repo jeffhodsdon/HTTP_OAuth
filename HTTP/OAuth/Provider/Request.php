@@ -38,39 +38,69 @@ class HTTP_OAuth_Provider_Request extends HTTP_OAuth_Message
 {
 
     /**
-     * Message
+     * Headers from the incoming request
      *
-     * @var HttpMessage $message Instance of HttpMessage
+     * @var array $headers Headers from the incoming request
      */
-    protected $message = null;
+    protected $headers = array();
+
+    /**
+     * Method used in the incoming request
+     * 
+     * @var string Method used in the incoming request
+     */
+    protected $method = '';
 
     /**
      * Construct
      *
-     * @param HttpMessage $message Optional current HttpMessage
-     *
      * @return void
      */
-    public function __construct(HttpMessage $message = null)
+    public function __construct()
     {
-        $this->message = $message;
-        if ($message === null) {
-            $this->message = HttpMessage::fromEnv(HttpMessage::TYPE_REQUEST);
-        }
-
+        $this->setHeaders();
         $this->setParametersFromRequest();
     }
 
     /**
-     * Set parameters from request
+     * Set incoming request headers
      *
      * @return void
      */
-    protected function setParametersFromRequest()
+    public function setHeaders()
     {
-        $auth   = $this->message->getHeader('Authorization');
+        if (function_exists('apache_request_headers')) {
+            $this->debug('Using apache_request_headers() to get request headers');
+            $this->headers = apache_request_headers();
+        } else if (extension_loaded('http') && class_exists('HttpMessage')) {
+            $this->debug('Using pecl_http to get request headers');
+            $message = HttpMessage::fromEnv(HttpMessage::TYPE_REQUEST);
+            $this->headers = $message->getHeaders();
+        } else { 
+            $this->debug('Using $_SERVER to get request headers');
+            foreach ($_SERVER as $name => $value) {
+                if (substr($name, 0, 5) == 'HTTP_') {
+                    $name = str_replace(
+                        ' ', '-',
+                        ucwords(strtolower(str_replace('_', ' ', substr($name, 5))))
+                    );
+                    $this->headers[$name] = $value;
+                }
+            }
+        }
+    }
+
+    /**
+     * Set parameters from the incoming request 
+     * 
+     * @return void
+     */
+    public function setParametersFromRequest()
+    {
         $params = array();
+        $auth   = $this->getHeader('Authorization');
         if ($auth !== null) {
+            $this->debug('Using OAuth data from header');
             $parts = explode(',', $auth);
             foreach ($parts as $part) {
                 list($key, $value) = explode('=', trim($part));
@@ -83,25 +113,33 @@ class HTTP_OAuth_Provider_Request extends HTTP_OAuth_Message
                 $value = trim($value);
                 $value = str_replace('"', '', $value);
 
-                $params[$key] = HTTP_OAuth::urldecode($value);
+                $params[$key] = $value;
             }
-        } else if ($this->message->getRequestMethod() == 'POST') {
-            $contentType = $this->message->getHeader('Content-Type');
+        } else if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $this->debug('Using OAuth data from POST');
+            $contentType = $this->getHeader('Content-Type');
             if ($contentType !== 'application/x-www-form-urlencoded') {
                 throw new HTTP_OAuth_Provider_Exception_InvalidRequest('Invalid ' .
                     'content type for POST request');
             }
 
-            parse_str($this->message->getBody(), $params);
+            if (!empty($HTTP_RAW_POST_DATA)) {
+                parse_str($HTTP_RAW_POST_DATA, $params);
+            } else {
+                $params = $_POST;
+            }
         } else {
-            parse_str(
-                parse_url($this->message->getRequestUrl(), PHP_URL_QUERY), $params
-            );
+            $this->debug('Using OAuth data from GET');
+            if (!empty($_SERVER['QUERY_STRING'])) {
+                parse_str($_SERVER['QUERY_STRING'], $params);
+            } else {
+                $params = $_GET;
+            }
         }
 
         if (empty($params)) {
-            throw new HTTP_OAuth_Provider_Exception_InvalidRequest('No oauth data ' .
-                'found from request');
+            throw new HTTP_OAuth_Provider_Exception_InvalidRequest('No oauth ' .
+                'data found from request');
         }
 
         $this->setParameters(HTTP_OAuth::urldecode($params));
@@ -123,22 +161,14 @@ class HTTP_OAuth_Provider_Request extends HTTP_OAuth_Message
             $this->getParameters(), $consumerSecret, $tokenSecret
         );
 
-        return ($this->oauth_signature === $check);
-    }
+        if ($this->oauth_signature === $check) {
+            $this->info('Valid signature');
+            return true;
+        }
 
-    /**
-     * Get signature base string
-     *
-     * Useful for debugging invalid signatures
-     *
-     * @return string Signature base string
-     */
-    public function getSignatureBaseString()
-    {
-        $sign = HTTP_OAuth_Signature::factory($this->oauth_signature_method);
-        return $sign->getBase(
-            $this->getRequestMethod(), $this->getUrl(), $this->getParameters()
-        );
+        $this->err('Invalid signature');
+        return false;
+
     }
 
     /**
@@ -148,7 +178,21 @@ class HTTP_OAuth_Provider_Request extends HTTP_OAuth_Message
      */
     public function getRequestMethod()
     {
-        return $this->message->getRequestMethod();
+        if (!array_key_exists('REQUEST_METHOD', $_SERVER)) {
+            return 'HEAD';
+        }
+
+        return $_SERVER['REQUEST_METHOD'];
+    }
+
+    /**
+     * Gets the incoming request url
+     *
+     * @return string Requested url
+     */
+    public function getRequestUrl()
+    {
+        return $_SERVER['REQUEST_URI'];
     }
 
     /**
@@ -163,8 +207,35 @@ class HTTP_OAuth_Provider_Request extends HTTP_OAuth_Message
             $schema .= 's';
         }
 
-        return $schema . '://' . $this->message->getHeader('Host')
-            . $this->message->getRequestUrl();
+        return $schema . '://' . $this->getHeader('Host')
+            . $this->getRequestUrl();
+    }
+
+    /**
+     * Gets a header
+     *
+     * @param string $header Which header to fetch
+     *
+     * @return string|null Header if exists, null if not
+     */
+    public function getHeader($header)
+    {
+        if (array_key_exists($header, $this->headers)) {
+            return $this->headers[$header];
+        }
+
+        return null;
+    }
+
+    /**
+     * getHeaders 
+     * 
+     * @access public
+     * @return void
+     */
+    public function getHeaders()
+    {
+        return $this->headers;
     }
 
 }

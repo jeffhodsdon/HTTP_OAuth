@@ -34,8 +34,84 @@
  * @link      http://pear.php.net/package/HTTP_OAuth
  * @link      http://github.com/jeffhodsdon/HTTP_OAuth
  */
-class HTTP_OAuth
+abstract class HTTP_OAuth
 {
+
+    /**
+     * Log instances
+     *
+     * @var array $logs Instances of PEAR Log handlers
+     */
+    static public $logs = array();
+
+    /**
+     * Attaches an instance of PEAR Log
+     *
+     * Attached instances of PEAR Log handlers will be logged to
+     * through out the use of HTTP_OAuth
+     *
+     * @param Log $log Instance of a Log
+     *
+     * @return void
+     */
+    static public function attachLog(Log $log)
+    {
+        self::$logs[] = $log;
+    }
+
+    /**
+     * Log a message
+     *
+     * Announces a message to log to all the attached instances of
+     * PEAR Log handlers.  Second argument is the method on Log to call.
+     *
+     * @param string $message Message to announce to Logs
+     * @param string $method  Method to log with on Log instances
+     *
+     * @return void
+     */
+    public function log($message, $method)
+    {
+        foreach (self::$logs as $log) {
+            $log->$method($message);
+        }
+    }
+
+    /**
+     * Log debug message
+     *
+     * @param string $message Debug message
+     *
+     * @return void
+     */
+    public function debug($message)
+    {
+        $this->log($message, 'debug');
+    }
+
+    /**
+     * Log info message
+     *
+     * @param string $message Info message
+     *
+     * @return void
+     */
+    public function info($message)
+    {
+        $this->log($message, 'info');
+    }
+
+    /**
+     * Log error message
+     *
+     * @param string $message Error message
+     *
+     * @return void
+     */
+    public function err($message)
+    {
+        $this->log($message, 'err');
+    }
 
     /**
      * Build HTTP Query

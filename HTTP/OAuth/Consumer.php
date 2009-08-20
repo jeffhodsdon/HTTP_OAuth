@@ -63,7 +63,7 @@ require_once 'HTTP/OAuth/Consumer/Exception/InvalidResponse.php';
  * @link      http://pear.php.net/package/HTTP_OAuth
  * @link      http://github.com/jeffhodsdon/HTTP_OAuth
  */
-class HTTP_OAuth_Consumer
+class HTTP_OAuth_Consumer extends HTTP_OAuth
 {
 
     /**
@@ -132,12 +132,15 @@ class HTTP_OAuth_Consumer
     public function getRequestToken($url, $callback = 'oob',
         array $additional = array()
     ) {
+        $this->debug('Getting request token from ' . $url);
         $additional['oauth_callback'] = $callback;
-        $res                          = $this->sendRequest($url, $additional);
-        $data                         = $res->getDataFromBody();
+
+        $this->debug('callback: ' . $callback);
+        $response = $this->sendRequest($url, $additional);
+        $data     = $response->getDataFromBody();
         if (empty($data['oauth_token']) || empty($data['oauth_token_secret'])) {
             throw new HTTP_OAuth_Consumer_Exception_InvalidResponse(
-                'Failed getting token and token secret from response', $res
+                'Failed getting token and token secret from response', $response
             );
         }
 
@@ -155,11 +158,13 @@ class HTTP_OAuth_Consumer
      */
     public function getAccessToken($url, $verifier = '')
     {
-        $res  = $this->sendRequest($url, array('oauth_verifier' => $verifier));
-        $data = $res->getDataFromBody();
+        $this->debug('Getting access token from ' . $url);
+        $this->debug('verifier: ' . $verifier);
+        $response = $this->sendRequest($url, array('oauth_verifier' => $verifier));
+        $data     = $response->getDataFromBody();
         if (empty($data['oauth_token']) || empty($data['oauth_token_secret'])) {
             throw new HTTP_OAuth_Consumer_Exception_InvalidResponse(
-                'Failed getting token and token secret from response', $res
+                'Failed getting token and token secret from response', $response
             );
         }
 
@@ -205,7 +210,8 @@ class HTTP_OAuth_Consumer
 
         $params = array_merge($additional, $params);
 
-        $req = $this->getOAuthConsumerRequest($url);
+        $req = $this->getOAuthConsumerRequest();
+        $req->setUrl($url);
         $req->setMethod($method);
         $req->setSecrets($this->getSecrets());
         $req->setParameters($params);
@@ -251,6 +257,7 @@ class HTTP_OAuth_Consumer
      */
     public function setToken($token)
     {
+        $this->debug('token is now: ' . $token);
         $this->token = $token;
     }
 
@@ -273,6 +280,7 @@ class HTTP_OAuth_Consumer
      */
     public function setTokenSecret($secret)
     {
+        $this->debug('token_secret is now: ' . $secret);
         $this->tokenSecret = $secret;
     }
 
@@ -311,13 +319,11 @@ class HTTP_OAuth_Consumer
     /**
      * Gets instance of HTTP_OAuth_Consumer_Request
      *
-     * @param string $url Url going to be requested
-     *
      * @return HTTP_OAuth_Consumer_Request New request object
      */
-    public function getOAuthConsumerRequest($url)
+    public function getOAuthConsumerRequest()
     {
-        return new HTTP_OAuth_Consumer_Request($url);
+        return new HTTP_OAuth_Consumer_Request;
     }
 }
 

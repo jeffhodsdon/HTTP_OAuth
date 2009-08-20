@@ -113,7 +113,6 @@ class HTTP_OAuth_ConsumerTest extends PHPUnit_Framework_TestCase
 
     private function mockedConsumer($req)
     {
-
         $instance = $this->getMock('HTTP_OAuth_Consumer',
             array('getOAuthConsumerRequest'), array('key', 'secret', 'token',
             'token_secret'));
@@ -136,7 +135,7 @@ class HTTP_OAuth_ConsumerTest extends PHPUnit_Framework_TestCase
     private function mockedResponse($bodyData)
     {
         $res = $this->getMock('HTTP_OAuth_Consumer_Response',
-            array('getDataFromBody'), array(new HttpMessage('')));
+            array('getDataFromBody'), array(new HTTP_Request2_Response('HTTP/1.1 200 OK')));
         $res->expects($this->any())->method('getDataFromBody')
             ->will($this->returnValue($bodyData));
 

@@ -21,6 +21,8 @@
  * @link      http://github.com/jeffhodsdon/HTTP_OAuth
  */
 
+require_once 'HTTP/OAuth.php';
+
 /**
  * HTTP_OAuth_Message
  *
@@ -38,6 +40,7 @@
  * @link      http://github.com/jeffhodsdon/HTTP_OAuth
  */
 abstract class HTTP_OAuth_Message
+extends HTTP_OAuth
 implements ArrayAccess, Countable, IteratorAggregate
 {
 
@@ -64,7 +67,9 @@ implements ArrayAccess, Countable, IteratorAggregate
      *
      * @var array $parameters Parameters
      */
-    protected $parameters = array();
+    protected $parameters = array(
+        'oauth_signature_method' => 'HMAC-SHA1'
+    );
 
     /**
      * Get OAuth Parameters

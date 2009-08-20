@@ -29,10 +29,9 @@ class HTTP_OAuth_Consumer_ResponseTest extends PHPUnit_Framework_TestCase
 
     public function testGetDataFromBody()
     {
-        $message = $this->getMock('HttpMessage', array('getBody'), array(''));
-        $message->expects($this->any())->method('getBody')
-            ->will($this->returnValue('oauth_token=foo&oauth_token_secret=bar'));
-        $res = new HTTP_OAuth_Consumer_Response($message);
+        $response = new HTTP_Request2_Response('HTTP/1.1 200 OK');
+        $response->appendBody('oauth_token=foo&oauth_token_secret=bar');
+        $res = new HTTP_OAuth_Consumer_Response($response);
         $this->assertEquals(array('oauth_token' => 'foo',
             'oauth_token_secret' => 'bar'), $res->getDataFromBody());
     }
@@ -42,7 +41,7 @@ class HTTP_OAuth_Consumer_ResponseTest extends PHPUnit_Framework_TestCase
      */
     public function testBadMethodCall()
     {
-        $res = new HTTP_OAuth_Consumer_Response(new HttpMessage(''));
+        $res = new HTTP_OAuth_Consumer_Response(new HTTP_Request2_Response('HTTP/1.1 200 OK'));
         $res->foo();
     }
 

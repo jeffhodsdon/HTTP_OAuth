@@ -31,7 +31,7 @@ extends PHPUnit_Framework_TestCase
     public function testCall()
     {
         $e = new HTTP_OAuth_Consumer_Exception_InvalidResponse('foo',
-            new HTTP_OAuth_Consumer_Response(new HttpMessage('')));
+            new HTTP_OAuth_Consumer_Response(new HTTP_Request2_Response('HTTP/1.1 200 OK')));
         $this->assertEquals('', $e->getBody());
     }
 
@@ -41,7 +41,7 @@ extends PHPUnit_Framework_TestCase
     public function testBadMethodCall()
     {
         $e = new HTTP_OAuth_Consumer_Exception_InvalidResponse('foo',
-            new HTTP_OAuth_Consumer_Response(new HttpMessage('')));
+            new HTTP_OAuth_Consumer_Response(new HTTP_Request2_Response('HTTP/1.1 200 OK')));
         $e->foo();
     }
 }

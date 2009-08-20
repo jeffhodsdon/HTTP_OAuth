@@ -80,26 +80,26 @@ class HTTP_OAuth_Provider_Response extends HTTP_OAuth_Message
     );
 
     /**
-     * Message
+     * Headers to be sent the OAuth response
      *
-     * @var HttpMessage $message HTTP message instance
+     * @var array $headers Headers to send as an OAuth response
      */
-    protected $message = null;
+    protected $headers = array();
+
+    /**
+     * Body of the response
+     *
+     * @var string $body Body of the response
+     */
+    protected $body = '';
 
     /**
      * Construct
      *
-     * @param HttpMessage $message Optional existing HTTP message instance
-     *
      * @return void
      */
-    public function __construct(HttpMessage $message = null)
+    public function __construct()
     {
-        if ($message === null) {
-            $message = HttpMessage::fromEnv(HttpMessage::TYPE_RESPONSE);
-        }
-
-        $this->setMessage($message);
         $this->setHeader('WWW-Authenticate', 'OAuth');
     }
 
@@ -126,9 +126,45 @@ class HTTP_OAuth_Provider_Response extends HTTP_OAuth_Message
      */
     public function setHeader($name, $value)
     {
-        $headers        = $this->getHeaders();
-        $headers[$name] = $value;
-        $this->setHeaders($headers);
+        $this->headers[$name] = $value;
+    }
+
+    /**
+     * Get header
+     *
+     * @param string $name Name of header
+     *
+     * @return string|null Header if exists, null if not
+     */
+    public function getHeader($name)
+    {
+        if (array_key_exists($name, $this->headers)) {
+            return $this->headers[$name];
+        }
+
+        return null;
+    }
+
+    /**
+     * Get all headers
+     *
+     * @return array Current headers to send
+     */
+    public function getHeaders()
+    {
+        return $this->headers;
+    }
+
+    /**
+     * Set all headers
+     *
+     * @param array $headers Sets all headers to this name/value array
+     *
+     * @return void
+     */
+    public function setHeaders(array $headers)
+    {
+        $this->headers = $headers;
     }
 
     /**
@@ -145,30 +181,45 @@ class HTTP_OAuth_Provider_Response extends HTTP_OAuth_Message
         }
 
         list($code, $text) = self::$statusMap[$status];
-        $this->setResponseCode($code);
         $this->setBody($text);
+
+        if ($this->headersSent()) {
+            throw new HTTP_OAuth_Exception('Status already sent');
+        }
+
+        switch ($code) {
+        case 400:
+            $this->header('HTTP/1.1 400 Bad Request');
+            break;
+        case 401:
+            $this->header('HTTP/1.1 401 Unauthorized');
+            break;
+        default:
+            throw new InvalidArgumentException;
+            break;
+        }
     }
 
     /**
-     * Get message
+     * Headers sent
      *
-     * @return HttpMessage Instance of HttpMessage
+     * @return bool If the headers have been sent
      */
-    public function getMessage()
+    protected function headersSent()
     {
-        return $this->message;
+        return headers_sent();
     }
 
     /**
-     * Set message
+     * Header
      *
-     * @param HttpMessage $message Message to set
+     * @param string $header Header to add
      *
      * @return void
      */
-    public function setMessage(HttpMessage $message)
+    protected function header($header)
     {
-        $this->message = $message;
+        return header($header);
     }
 
     /**
@@ -180,34 +231,55 @@ class HTTP_OAuth_Provider_Response extends HTTP_OAuth_Message
      */
     protected function prepareBody()
     {
-        if ($this->getBody() === '') {
+        if ($this->headersSent() && $this->getBody() !== '') {
+            $this->err('Body already sent, not setting');
+        } else {
             $this->setBody(HTTP_OAuth::buildHTTPQuery($this->getParameters()));
         }
     }
 
     /**
-     * Call
+     * Set body
      *
-     * Helps wrap self::$message (HttpMessage) to pass method calls to it
+     * @param string $body Sets the body to send
      *
-     * @param string $method Method to call
-     * @param array  $args   Arguments for the method being called
-     *
-     * @return mixed Result of the method
-     * @throws BadMethodCallException Upon method not existing on self::$message
+     * @return void
      */
-    public function __call($method, $args)
+    public function setBody($body)
     {
-        static $prepareBodyFor = array('send', 'toString');
-        if (in_array($method, $prepareBodyFor)) {
-            $this->prepareBody();
+        $this->body = $body;
+    }
+
+    /**
+     * Get body
+     *
+     * @return string Body that will be sent
+     */
+    public function getBody()
+    {
+        return $this->body;
+    }
+
+    /**
+     * Send response
+     *
+     * Does a check whether or not headers have been sent in order
+     * to determine if it can send them.
+     *
+     * @return void
+     */
+    public function send()
+    {
+        $this->prepareBody();
+        if (!$this->headersSent()) {
+            foreach ($this->getHeaders() as $name => $value) {
+                $this->header($name . ': ' . $value);
+            }
+        } else {
+            $this->err('Headers already sent, can not send headers');
         }
 
-        if (method_exists($this->message, $method)) {
-            return call_user_func_array(array($this->message, $method), $args);
-        }
-
-        throw new BadMethodCallException;
+        echo $this->getBody();
     }
 
 }

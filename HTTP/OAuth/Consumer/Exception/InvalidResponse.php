@@ -76,8 +76,8 @@ class HTTP_OAuth_Consumer_Exception_InvalidResponse extends HTTP_OAuth_Exception
      */
     public function __call($method, $args)
     {
-        if (method_exists($this->response->getMessage(), $method)
-            || method_exists($this->response->getMessage(), $method)
+        if (method_exists($this->response->getResponse(), $method)
+            || method_exists($this->response, $method)
         ) {
             return call_user_func_array(array($this->response, $method), $args);
         }

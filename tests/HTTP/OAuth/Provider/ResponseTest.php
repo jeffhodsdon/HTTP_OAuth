@@ -8,7 +8,7 @@ class HTTP_OAuth_Provider_ResponseTest extends PHPUnit_Framework_TestCase
 
     public function testAuthenticateHeader()
     {
-        $res = new HTTP_OAuth_Provider_Response;
+        $res = $this->mockedResponse();
         $headers = $res->getHeaders();
         $this->assertArrayHasKey('WWW-Authenticate', $headers);
         $this->assertEquals($headers['WWW-Authenticate'], 'OAuth');
@@ -23,9 +23,8 @@ class HTTP_OAuth_Provider_ResponseTest extends PHPUnit_Framework_TestCase
                 continue;
             }
 
-            $res = new HTTP_OAuth_Provider_Response;
+            $res = $this->mockedResponse();
             $res->setStatus($val);
-            $this->assertNotEquals($res->getResponseCode(), 200);
             $this->assertTrue((strlen($res->getBody()) > 1));
         }
     }
@@ -35,42 +34,26 @@ class HTTP_OAuth_Provider_ResponseTest extends PHPUnit_Framework_TestCase
      */
     public function testInvalidStatus()
     {
-        $res = new HTTP_OAuth_Provider_Response;
+        $res = $this->mockedResponse();
         $res->setStatus(69);
-    }
-
-    /**
-     * @expectedException BadMethodCallException
-     */
-    public function testBadMethodCall()
-    {
-        $res = new HTTP_OAuth_Provider_Response;
-        $res->methodThatShouldNotExistLOL();
-    }
-
-    public function testGetMessage()
-    {
-        $res = new HTTP_OAuth_Provider_Response;
-        $this->assertType('HttpMessage', $res->getMessage());
     }
 
     public function testSetRealm()
     {
-        $res = new HTTP_OAuth_Provider_Response;
+        $res = $this->mockedResponse();
         $res->setRealm('Digg OAuth');
         $headers = $res->getHeaders();
         $this->assertArrayHasKey('WWW-Authenticate', $headers);
         $this->assertEquals($headers['WWW-Authenticate'], 'OAuth realm="Digg OAuth"');
     }
 
-    public function testToString()
+    protected function mockedResponse()
     {
-        $res = new HTTP_OAuth_Provider_Response;
-        $res->setRealm('Digg OAuth');
-        $res['token']  = md5('jeff rules');
-        $res['secret'] = md5('pizza is the best');
-        $string = "HTTP/1.1 200 Ok\r\nWWW-Authenticate: OAuth realm=\"Digg OAuth\"\r\n\r\noauth_token=52512b016323420ea8afdf8a02066657&secret=55aa35ebd6d5f4e4162f5cacf63e0b61\r\n";
-        $this->assertEquals($string, $res->toString());
+        $res = $this->getMock('HTTP_OAuth_Provider_Response',
+            array('headersSent', 'header'));
+        $res->expects($this->any())->method('headersSent')
+            ->will($this->returnValue(false));
+        return $res;
     }
 
 }
