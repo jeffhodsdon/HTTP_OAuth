@@ -78,7 +78,6 @@ Initial release
    <file baseinstalldir="/" md5sum="c84af90f5a080ae833fdf6ebb29d5f52" name="tests/HTTP/OAuth/Signature/PLAINTEXTTest.php" role="test" />
    <file baseinstalldir="/" md5sum="1321ef2eb53b6da6ef0f5505844ff4c1" name="tests/HTTP/OAuth/Signature/HMAC/SHA1Test.php" role="test" />
    <file baseinstalldir="/" md5sum="b967a7e1d433333d442a87918e415e56" name="tests/HTTP/OAuth/Signature/RSA/SHA1Test.php" role="test" />
-   <file baseinstalldir="/" md5sum="c41ac43aced230c1e54a5132189f0129" name="HTTP_OAuth-0.0.1.tgz" role="data" />
    <file baseinstalldir="/" md5sum="d41d8cd98f00b204e9800998ecf8427e" name="README" role="data" />
   </dir>
  </contents>
