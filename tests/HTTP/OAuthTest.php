@@ -23,7 +23,6 @@
 
 require_once 'PHPUnit/Framework/TestCase.php';
 require_once 'HTTP/OAuth.php';
-require_once 'Log.php';
 
 class HTTP_OAuthTest extends PHPUnit_Framework_TestCase
 {
@@ -80,6 +79,16 @@ class HTTP_OAuthTest extends PHPUnit_Framework_TestCase
 
     public function testAttachLog()
     {
+        foreach (explode(':', get_include_path()) as $path) {
+            if (file_exists($path . '/Log.php')) {
+                include_once 'Log.php';
+            }
+        }
+
+        if (!class_exists('Log')) {
+            $this->markTestSkipped();
+        }
+
         $log = Log::factory('null');
         HTTP_OAuth::attachLog($log);
         $this->assertEquals(array($log), HTTP_OAuth::$logs);

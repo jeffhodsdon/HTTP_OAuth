@@ -25,7 +25,6 @@ require_once 'PHPUnit/Framework/TestCase.php';
 require_once 'HTTP/OAuth/Consumer/Request.php';
 require_once 'HTTP/Request2.php';
 require_once 'HTTP/Request2/Adapter/Mock.php';
-require_once 'Log.php';
 
 class HTTP_OAuth_Consumer_RequestTest extends PHPUnit_Framework_TestCase
 {
@@ -89,6 +88,16 @@ class HTTP_OAuth_Consumer_RequestTest extends PHPUnit_Framework_TestCase
      */
     public function testAccept()
     {
+        foreach (explode(':', get_include_path()) as $path) {
+            if (file_exists($path . '/Log.php')) {
+                include_once 'Log.php';
+            }
+        }
+
+        if (!class_exists('Log')) {
+            $this->markTestSkipped();
+        }
+
         $log = Log::factory('null');
         $req = new HTTP_OAuth_Consumer_Request('http://example.com/');
         $req->accept($log);
