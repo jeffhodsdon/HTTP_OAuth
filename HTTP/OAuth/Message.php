@@ -70,7 +70,7 @@ implements ArrayAccess, Countable, IteratorAggregate
     protected $parameters = array();
 
     /**
-     * Get OAuth Parameters
+     * Get OAuth specific parameters
      *
      * @return array OAuth specific parameters
      */

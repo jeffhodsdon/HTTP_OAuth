@@ -29,7 +29,7 @@ require_once 'HTTP/Request2/Response.php';
  * HTTP_OAuth_Consumer_Response
  *
  * Class to handle OAuth responses from a provider.  Accepts and decorates a
- * HttpMessage instance
+ * HTTP_Request2_Response instance
  *
  * @category  HTTP
  * @package   HTTP_OAuth
@@ -76,9 +76,9 @@ class HTTP_OAuth_Consumer_Response extends HTTP_OAuth_Message
     }
 
     /**
-     * Gets HttpMessage
+     * Gets HTTP_Request2_Response
      *
-     * @return HttpMessage Instance of the current HttpMessage
+     * @return HTTP_Request2_Response Instance of the current HTTP_Request2_Response
      */
     public function getResponse()
     {
@@ -88,14 +88,15 @@ class HTTP_OAuth_Consumer_Response extends HTTP_OAuth_Message
     /**
      * Call
      *
-     * If method exists on HttpMessage pass to that, otherwise
+     * If method exists on HTTP_Request2_Response pass to that, otherwise
      * throw BadMethodCallException
      *
      * @param string $method Name of the method
      * @param array  $args   Arguments for the method
      *
      * @return mixed Result from method
-     * @throws BadMethodCallException When method does not exist on HttpMessage
+     * @throws BadMethodCallException When method does not exist on
+                                      HTTP_Request2_Response
      */
     public function __call($method, $args)
     {

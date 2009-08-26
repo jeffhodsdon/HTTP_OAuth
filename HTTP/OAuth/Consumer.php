@@ -137,6 +137,7 @@ class HTTP_OAuth_Consumer extends HTTP_OAuth
      *                           recommended in the spec.
      *
      * @return void
+     * @throws HTTP_OAuth_Consumer_Exception_InvalidResponse Missing token/secret
      */
     public function getRequestToken($url, $callback = 'oob',
         array $additional = array()
@@ -165,6 +166,7 @@ class HTTP_OAuth_Consumer extends HTTP_OAuth
      * @param string $verifier OAuth verifier from the provider
      *
      * @return array Token and token secret
+     * @throws HTTP_OAuth_Consumer_Exception_InvalidResponse Mising token/secret
      */
     public function getAccessToken($url, $verifier = '')
     {

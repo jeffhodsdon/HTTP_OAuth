@@ -24,7 +24,7 @@
 /**
  * HTTP_OAuth
  *
- * Main HTTP_OAuth class. Contains help encoding methods.
+ * Main HTTP_OAuth class. Contains helper encoding methods.
  *
  * @category  HTTP
  * @package   HTTP_OAuth
@@ -42,7 +42,7 @@ abstract class HTTP_OAuth
      *
      * @var array $logs Instances of PEAR Log handlers
      */
-    static public $logs = array();
+    static protected $logs = array();
 
     /**
      * Attaches an instance of PEAR Log
@@ -57,6 +57,22 @@ abstract class HTTP_OAuth
     static public function attachLog(Log $log)
     {
         self::$logs[] = $log;
+    }
+
+    /**
+     * Detaches an instance of PEAR Log
+     *
+     * @param Log $detach Instance of PEAR Log to detach
+     *
+     * @return void
+     */
+    static public function detachLog(Log $detach)
+    {
+        foreach(self::$logs as $key => $log) {
+            if ($log == $detach) {
+                unset(self::$logs[$key]);
+            }
+        }
     }
 
     /**

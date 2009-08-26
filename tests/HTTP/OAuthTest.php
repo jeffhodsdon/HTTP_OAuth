@@ -91,11 +91,11 @@ class HTTP_OAuthTest extends PHPUnit_Framework_TestCase
 
         $log = Log::factory('null');
         HTTP_OAuth::attachLog($log);
-        $this->assertEquals(array($log), HTTP_OAuth::$logs);
         $oauth = $this->getMock('HTTP_OAuth', array('foo'));
         $oauth->debug('foo');
         $oauth->info('foo');
         $oauth->err('foo');
+        HTTP_OAuth::detachLog($log);
     }
 
 }

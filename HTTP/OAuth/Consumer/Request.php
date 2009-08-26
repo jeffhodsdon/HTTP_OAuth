@@ -133,7 +133,7 @@ class HTTP_OAuth_Consumer_Request extends HTTP_OAuth_Message
     protected function getHTTPRequest2()
     {
         if (!$this->request instanceof HTTP_Request2) {
-            $this->request = new HTTP_Request2;
+            $this->accept(new HTTP_Request2);
         }
         return $this->request;
     }
@@ -211,7 +211,7 @@ class HTTP_OAuth_Consumer_Request extends HTTP_OAuth_Message
         try {
             $response = $this->getHTTPRequest2()->send();
         } catch (Exception $e) {
-            throw new HTTP_OAuth_Exception;
+            throw new HTTP_OAuth_Exception($e->getMessage(), $e->getCode());
         }
 
         return new HTTP_OAuth_Consumer_Response($response);
