@@ -119,9 +119,7 @@ class HTTP_OAuth_Provider_Request extends HTTP_OAuth_Message
 
                 $params[$key] = $value;
             }
-        } else if (isset($_SERVER['REQUEST_METHOD'])
-            && $_SERVER['REQUEST_METHOD'] == 'POST'
-        ) {
+        } else if ($this->getRequestMethod() == 'POST') {
             $this->debug('Using OAuth data from POST');
             $contentType = $this->getHeader('Content-Type');
             if ($contentType !== 'application/x-www-form-urlencoded') {
@@ -136,8 +134,8 @@ class HTTP_OAuth_Provider_Request extends HTTP_OAuth_Message
             }
         } else {
             $this->debug('Using OAuth data from GET');
-            if (!empty($_SERVER['QUERY_STRING'])) {
-                parse_str($_SERVER['QUERY_STRING'], $params);
+            if ($this->getQueryString() !== null) {
+                parse_str($this->getQueryString(), $params);
             } else {
                 $params = $_GET;
             }
@@ -178,6 +176,20 @@ class HTTP_OAuth_Provider_Request extends HTTP_OAuth_Message
     }
 
     /**
+     * Gets incoming request query string
+     *
+     * @return string|null Query string
+     */
+    public function getQueryString()
+    {
+        if (!empty($_SERVER['QUERY_STRING'])) {
+            return $_SERVER['QUERY_STRING'];
+        }
+
+        return null;
+    }
+
+    /**
      * Get request method
      *
      * @return string Request method
@@ -189,16 +201,6 @@ class HTTP_OAuth_Provider_Request extends HTTP_OAuth_Message
         }
 
         return $_SERVER['REQUEST_METHOD'];
-    }
-
-    /**
-     * Gets the incoming request url
-     *
-     * @return string Requested url
-     */
-    public function getRequestUrl()
-    {
-        return $_SERVER['REQUEST_URI'];
     }
 
     /**
@@ -214,7 +216,21 @@ class HTTP_OAuth_Provider_Request extends HTTP_OAuth_Message
         }
 
         return $schema . '://' . $this->getHeader('Host')
-            . $this->getRequestUrl();
+            . $this->getRequestUri();
+    }
+
+    /**
+     * Gets incoming request URI
+     *
+     * @return string|null Request URI, null if doesn't exist
+     */
+    public function getRequestUri()
+    {
+        if (!array_key_exists('REQUEST_URI', $_SERVER)) {
+            return null;
+        }
+
+        return $_SERVER['REQUEST_URI'];
     }
 
     /**
