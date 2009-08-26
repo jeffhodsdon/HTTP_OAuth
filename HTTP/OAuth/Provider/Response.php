@@ -194,9 +194,6 @@ class HTTP_OAuth_Provider_Response extends HTTP_OAuth_Message
         case 401:
             $this->header('HTTP/1.1 401 Unauthorized');
             break;
-        default:
-            throw new InvalidArgumentException;
-            break;
         }
     }
 

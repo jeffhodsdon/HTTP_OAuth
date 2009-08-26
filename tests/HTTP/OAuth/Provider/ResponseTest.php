@@ -32,6 +32,17 @@ class HTTP_OAuth_Provider_ResponseTest extends PHPUnit_Framework_TestCase
     /**
      * @expectedException HTTP_OAuth_Exception
      */
+    public function testHeadersSentSetStatus()
+    {
+        $res = $this->mockedResponse();
+        $res->expects($this->any())->method('headersSent')
+            ->will($this->returnValue(true));
+        $res->setStatus(HTTP_OAuth_Provider_Response::STATUS_UNSUPPORTED_PARAMETER);
+    }
+
+    /**
+     * @expectedException HTTP_OAuth_Exception
+     */
     public function testInvalidStatus()
     {
         $res = $this->mockedResponse();
@@ -47,12 +58,42 @@ class HTTP_OAuth_Provider_ResponseTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($headers['WWW-Authenticate'], 'OAuth realm="Digg OAuth"');
     }
 
-    protected function mockedResponse()
+    public function testGetHeader()
     {
-        $res = $this->getMock('HTTP_OAuth_Provider_Response',
-            array('headersSent', 'header'));
+        $res = $this->mockedResponse();
+        $res->setHeader('Content-Type', 'foo');
+        $this->assertEquals('foo', $res->getHeader('Content-Type'));
+        $this->assertNull($res->getHeader('doesnotexist'));
+
+        $res->setHeaders(array('foo' => 'bar'));
+        $this->assertEquals(array('foo' => 'bar'), $res->getHeaders());
+    }
+
+    public function testSend()
+    {
+        $res = $this->mockedResponse();
+        $res->token = 'foo';
+
+        ob_start();
+        $res->send();
+        $output = ob_get_clean();
+        $this->assertEquals('oauth_token=foo', $output);
+
         $res->expects($this->any())->method('headersSent')
-            ->will($this->returnValue(false));
+            ->will($this->returnValue(true));
+ 
+        ob_start();
+        $res->send();
+        $output = ob_get_clean();
+        $this->assertEquals('oauth_token=foo', $output);
+ 
+    }
+
+    protected function mockedResponse(array $methods = array())
+    {
+        $methods = array_unique(array_merge($methods,
+            array('headersSent', 'header')));
+        $res = $this->getMock('HTTP_OAuth_Provider_Response', $methods);
         return $res;
     }
 

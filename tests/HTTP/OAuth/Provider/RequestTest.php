@@ -93,7 +93,10 @@ class HTTP_OAuth_Provider_RequestTest extends PHPUnit_Framework_TestCase
     public function testSetHeaders()
     {
         $request = $this->mockedRequest();
+        $request->expects($this->any())->method('apacheRequestHeaders')
+            ->will($this->returnValue(array('foo' => 'bar')));
         $request->setHeaders();
+        $this->assertArrayHasKey('foo', $request->getHeaders());
     }
 
     public function testSetParametersFromRequest()
