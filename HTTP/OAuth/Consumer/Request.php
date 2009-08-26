@@ -88,11 +88,6 @@ class HTTP_OAuth_Consumer_Request extends HTTP_OAuth_Message
      */
     public function __construct($url = null, array $secrets = array())
     {
-        $this->request = new HTTP_Request2;
-        foreach (self::$logs as $log) {
-            $this->request->attach(new HTTP_Request2_Observer_Log($log));
-        }
-
         if ($url !== null) {
             $this->setUrl($url);
         }
@@ -107,6 +102,7 @@ class HTTP_OAuth_Consumer_Request extends HTTP_OAuth_Message
      *
      * @param mixed $object Object to accept
      *
+     * @see getHTTPRequest2()
      * @return void
      */
     public function accept($object)
@@ -114,14 +110,31 @@ class HTTP_OAuth_Consumer_Request extends HTTP_OAuth_Message
         switch (get_class($object)) {
         case 'HTTP_Request2':
             $this->request = $object;
+            foreach (self::$logs as $log) {
+                $this->request->attach(new HTTP_Request2_Observer_Log($log));
+            }
             break;
         default:
             if ($object instanceof Log) {
                 HTTP_OAuth::attachLog($object);
-                $this->request->attach(new HTTP_Request2_Observer_Log($log));
+                $this->getHTTPRequest2()->attach(new HTTP_Request2_Observer_Log($object));
             }
             break;
         }
+    }
+
+    /**
+     * Returns $this->request if it is an instance of HTTP_Request.  If not, it 
+     * creates one.
+     * 
+     * @return HTTP_Request2
+     */
+    protected function getHTTPRequest2()
+    {
+        if (!$this->request instanceof HTTP_Request2) {
+            $this->request = new HTTP_Request2;
+        }
+        return $this->request;
     }
 
     /**
@@ -195,7 +208,7 @@ class HTTP_OAuth_Consumer_Request extends HTTP_OAuth_Message
     {
         $this->buildRequest();
         try {
-            $response = $this->request->send();
+            $response = $this->getHTTPRequest2()->send();
         } catch (Exception $e) {
             throw new HTTP_OAuth_Exception;
         }
@@ -277,8 +290,8 @@ class HTTP_OAuth_Consumer_Request extends HTTP_OAuth_Message
      */
     public function __call($method, $args)
     {
-        if (method_exists($this->request, $method)) {
-            return call_user_func_array(array($this->request, $method), $args);
+        if (method_exists($this->getHTTPRequest2(), $method)) {
+            return call_user_func_array(array($this->getHTTPRequest2(), $method), $args);
         }
 
         throw new BadMethodCallException($method);

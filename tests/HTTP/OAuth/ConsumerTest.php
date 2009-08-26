@@ -23,6 +23,7 @@
 
 require_once 'PHPUnit/Framework/TestCase.php';
 require_once 'HTTP/OAuth/Consumer.php';
+require_once 'HTTP/OAuth/Consumer/Request.php';
 
 class HTTP_OAuth_ConsumerTest extends PHPUnit_Framework_TestCase
 {
@@ -140,6 +141,23 @@ class HTTP_OAuth_ConsumerTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue($bodyData));
 
         return $res;
+    }
+
+    /**
+     * testAccept 
+     * 
+     * @return void
+     */
+    public function testAccept()
+    {
+        $consumer = new HTTP_OAuth_Consumer('key', 'secret');
+        $request  = new HTTP_OAuth_Consumer_Request;
+
+        $this->assertFalse($request === $consumer->getOAuthConsumerRequest());
+        $consumer->accept($request);
+        $this->assertTrue($request === $consumer->getOAuthConsumerRequest());
+        $consumer->accept(new stdClass);
+        $this->assertTrue($request === $consumer->getOAuthConsumerRequest());
     }
 
 }

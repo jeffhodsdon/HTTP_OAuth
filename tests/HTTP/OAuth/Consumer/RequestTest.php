@@ -25,6 +25,7 @@ require_once 'PHPUnit/Framework/TestCase.php';
 require_once 'HTTP/OAuth/Consumer/Request.php';
 require_once 'HTTP/Request2.php';
 require_once 'HTTP/Request2/Adapter/Mock.php';
+require_once 'Log.php';
 
 class HTTP_OAuth_Consumer_RequestTest extends PHPUnit_Framework_TestCase
 {
@@ -79,6 +80,18 @@ class HTTP_OAuth_Consumer_RequestTest extends PHPUnit_Framework_TestCase
         $this->assertType('HTTP_OAuth_Consumer_Request', $req);
         $this->assertType('HTTP_OAuth_Consumer_Response', $res);
         $this->assertEquals('foo', $res->getBody());
+    }
+
+    /**
+     * testAccept 
+     * 
+     * @return void
+     */
+    public function testAccept()
+    {
+        $log = Log::factory('null');
+        $req = new HTTP_OAuth_Consumer_Request('http://example.com/');
+        $req->accept($log);
     }
 
 }

@@ -102,6 +102,15 @@ class HTTP_OAuth_Consumer extends HTTP_OAuth
     protected $signatureMethod = 'HMAC-SHA1';
 
     /**
+     * Instance of HTTP_OAuth_Consumer_Request
+     * 
+     * @see accept()
+     * @see getOAuthConsumerRequest()
+     * @var HTTP_OAuth_Consumer_Request
+     */
+    protected $consumerRequest = null;
+
+    /**
      * Construct
      *
      * @param string $key         Consumer key
@@ -317,13 +326,37 @@ class HTTP_OAuth_Consumer extends HTTP_OAuth
     }
 
     /**
+     * Accepts a custom instance of HTTP_OAuth_Consumer_Request.
+     * 
+     * @param HTTP_OAuth_Consumer_Request $object Custom instance
+     * 
+     * @see getOAuthConsumerRequest()
+     * @return void
+     */
+    public function accept($object)
+    {
+        switch (get_class($object))
+        {
+            case 'HTTP_OAuth_Consumer_Request':
+                $this->consumerRequest = $object;
+                break;
+            default:
+                break;
+        }
+    }
+
+    /**
      * Gets instance of HTTP_OAuth_Consumer_Request
      *
-     * @return HTTP_OAuth_Consumer_Request New request object
+     * @see accept()
+     * @return HTTP_OAuth_Consumer_Request
      */
     public function getOAuthConsumerRequest()
     {
-        return new HTTP_OAuth_Consumer_Request;
+        if (!$this->consumerRequest instanceof HTTP_OAuth_Consumer_Request) {
+            $this->consumerRequest = new HTTP_OAuth_Consumer_Request;
+        } 
+        return $this->consumerRequest;
     }
 }
 
