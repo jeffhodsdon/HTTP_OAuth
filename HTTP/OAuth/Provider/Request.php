@@ -65,11 +65,15 @@ class HTTP_OAuth_Provider_Request extends HTTP_OAuth_Message
     /**
      * Set incoming request headers
      *
+     * @param array $headers Optional headers to set
+     *
      * @return void
      */
-    public function setHeaders()
+    public function setHeaders(array $headers = array())
     {
-        if (function_exists('apache_request_headers')) {
+        if (count($headers)) {
+            $this->headers = $headers;
+        } else if (function_exists('apache_request_headers')) {
             $this->debug('Using apache_request_headers() to get request headers');
             $this->headers = apache_request_headers();
         } else if (extension_loaded('http') && class_exists('HttpMessage')) {
@@ -115,7 +119,9 @@ class HTTP_OAuth_Provider_Request extends HTTP_OAuth_Message
 
                 $params[$key] = $value;
             }
-        } else if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        } else if (isset($_SERVER['REQUEST_METHOD'])
+            && $_SERVER['REQUEST_METHOD'] == 'POST'
+        ) {
             $this->debug('Using OAuth data from POST');
             $contentType = $this->getHeader('Content-Type');
             if ($contentType !== 'application/x-www-form-urlencoded') {

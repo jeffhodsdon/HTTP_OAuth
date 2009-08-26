@@ -116,24 +116,12 @@ class HTTP_OAuth_Consumer_Request extends HTTP_OAuth_Message
             $this->request = $object;
             break;
         default:
+            if ($object instanceof Log) {
+                HTTP_OAuth::attachLog($object);
+                $this->request->attach(new HTTP_Request2_Observer_Log($log));
+            }
             break;
         }
-    }
-
-    /**
-     * Attaches an instance of PEAR Log
-     *
-     * Attached instances of PEAR Log handlers will be logged to
-     * through out the use of HTTP_OAuth. Attaches it to HTTP_Request2 as well
-     *
-     * @param Log $log Instance of a Log
-     *
-     * @return void
-     */
-    static public function attachLog(Log $log)
-    {
-        parent::attachLog($log);
-        $this->request->attach(new HTTP_Request2_Observer_Log($log));
     }
 
     /**

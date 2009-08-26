@@ -101,7 +101,7 @@ class HTTP_OAuth_MessageTest extends PHPUnit_Framework_TestCase
         $this->assertFalse(isset($m['foo']));
     }
 
-    public function getGetIterator()
+    public function testGetIterator()
     {
         $m = new HTTP_OAuth_MessageMock;
         $m['foo'] = 'www';
@@ -109,13 +109,15 @@ class HTTP_OAuth_MessageTest extends PHPUnit_Framework_TestCase
 
         $this->assertType('IteratorAggregate', $m);
 
-        $i = $this->getIterator();
+        $i = $m->getIterator();
         $this->assertType('ArrayIterator', $i);
 
+        $i = 0;
         foreach ($m as $key => $value) {
-            $this->assertTrue(strlen($value) === 3);
-            $this->assertTrue(strlen($key) === 3);
+            $i++;
         }
+
+        $this->assertEquals(3, $i);
     }
 
     public function testCount()
@@ -127,7 +129,6 @@ class HTTP_OAuth_MessageTest extends PHPUnit_Framework_TestCase
         $this->assertType('Countable', $m);
         $this->assertEquals(count($m), 3);
     }
-
 
 }
 

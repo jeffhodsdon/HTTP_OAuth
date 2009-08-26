@@ -110,7 +110,7 @@ implements ArrayAccess, Countable, IteratorAggregate
     public function setParameters(array $params)
     {
         foreach ($params as $name => $value) {
-            $this->$name = $value;
+            $this->parameters[$this->prefixParameter($name)] = $value;
         }
     }
 

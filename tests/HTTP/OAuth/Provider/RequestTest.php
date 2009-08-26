@@ -91,9 +91,36 @@ class HTTP_OAuth_Provider_RequestTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(count($this->params), count($request));
     }
 
-    protected function mockedRequest()
+    public function testSetHeaders()
     {
-        $request = $this->getMock('HTTP_OAuth_Provider_Request', array('foo'),
+        $request = $this->mockedRequest();
+        $request->setHeaders();
+    }
+
+    public function testSetParametersFromRequest()
+    {
+        $header = 'Authorization: OAuth realm="", oauth_consumer_key="key", oauth_signature_method="HMAC-SHA1", oauth_signature="ZUgC96UBRxYOl1Pml32hNDsNNUc%3D", oauth_timestamp="1251304744", oauth_nonce="18B2129F-4A4E-4502-8EB5-801DE2BB0247", oauth_version="1.0"';
+        $expected = array(
+            'oauth_signature_method' => 'HMAC-SHA1',
+            'oauth_consumer_key'     => 'key',
+            'oauth_token'            => 'kRmeTe0wvuIJrIUbjoOfc4UZcUerJKR67BfXy20UM',
+            'oauth_signature'        => 'ZUgC96UBRxYOl1Pml32hNDsNNUc=',
+            'oauth_timestamp'        => '1251304744',
+            'oauth_nonce'            => '18B2129F-4A4E-4502-8EB5-801DE2BB0247',
+            'oauth_version'          => '1.0'
+        );
+
+        $request = $this->mockedRequest();
+        $request->setHeaders(array('Authorization' => $header));
+        $request->setParametersFromRequest();
+        $this->assertEquals($expected, $request->getParameters());
+
+        $request->setHeaders(array('foo' => 'bar'));
+    }
+
+    protected function mockedRequest(array $methods = array('foo'))
+    {
+        $request = $this->getMock('HTTP_OAuth_Provider_Request', $methods,
             array(), 'HTTP_OAuth_Provider_RequestMock' . rand(1, 99999), false);
         $request->setParameters($this->params);
 
