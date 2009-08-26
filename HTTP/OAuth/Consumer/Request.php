@@ -117,7 +117,8 @@ class HTTP_OAuth_Consumer_Request extends HTTP_OAuth_Message
         default:
             if ($object instanceof Log) {
                 HTTP_OAuth::attachLog($object);
-                $this->getHTTPRequest2()->attach(new HTTP_Request2_Observer_Log($object));
+                $this->getHTTPRequest2()
+                     ->attach(new HTTP_Request2_Observer_Log($object));
             }
             break;
         }
@@ -232,10 +233,11 @@ class HTTP_OAuth_Consumer_Request extends HTTP_OAuth_Message
         $this->oauth_timestamp = time();
         $this->oauth_nonce     = md5(microtime(true) . rand(1, 999));
         $this->oauth_version   = '1.0';
-        $this->oauth_signature = $sig->build(
-            $this->getMethod(), $this->getUrl()->getURL(), $this->getParameters(),
-            $this->secrets[0], $this->secrets[1]
-        );
+        $this->oauth_signature = $sig->build($this->getMethod(),
+                                             $this->getUrl()->getURL(),
+                                             $this->getParameters(),
+                                             $this->secrets[0],
+                                             $this->secrets[1]);
 
         $params = $this->getOAuthParameters();
         switch ($this->getAuthType()) {
@@ -291,7 +293,8 @@ class HTTP_OAuth_Consumer_Request extends HTTP_OAuth_Message
     public function __call($method, $args)
     {
         if (method_exists($this->getHTTPRequest2(), $method)) {
-            return call_user_func_array(array($this->getHTTPRequest2(), $method), $args);
+            return call_user_func_array(array($this->getHTTPRequest2(), $method),
+                                        $args);
         }
 
         throw new BadMethodCallException($method);

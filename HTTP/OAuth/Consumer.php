@@ -140,7 +140,8 @@ class HTTP_OAuth_Consumer extends HTTP_OAuth
      */
     public function getRequestToken($url, $callback = 'oob',
         array $additional = array()
-    ) {
+    )
+    {
         $this->debug('Getting request token from ' . $url);
         $additional['oauth_callback'] = $callback;
 
@@ -337,11 +338,11 @@ class HTTP_OAuth_Consumer extends HTTP_OAuth
     {
         switch (get_class($object))
         {
-            case 'HTTP_OAuth_Consumer_Request':
-                $this->consumerRequest = $object;
-                break;
-            default:
-                break;
+        case 'HTTP_OAuth_Consumer_Request':
+            $this->consumerRequest = $object;
+            break;
+        default:
+            break;
         }
     }
 
