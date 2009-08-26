@@ -73,13 +73,12 @@ class HTTP_OAuth_Provider_Request extends HTTP_OAuth_Message
     {
         if (count($headers)) {
             $this->headers = $headers;
-        } else if (function_exists('apache_request_headers')) {
+        } else if (is_array($this->apacheRequestHeaders())) {
             $this->debug('Using apache_request_headers() to get request headers');
-            $this->headers = apache_request_headers();
-        } else if (extension_loaded('http') && class_exists('HttpMessage')) {
+            $this->headers = $this->apacheRequestHeaders();
+        } else if (is_array($this->peclHttpHeaders())) {
             $this->debug('Using pecl_http to get request headers');
-            $message = HttpMessage::fromEnv(HttpMessage::TYPE_REQUEST);
-            $this->headers = $message->getHeaders();
+            $this->headers = $this->peclHttpHeaders();
         } else { 
             $this->debug('Using $_SERVER to get request headers');
             foreach ($_SERVER as $name => $value) {
@@ -92,6 +91,43 @@ class HTTP_OAuth_Provider_Request extends HTTP_OAuth_Message
                 }
             }
         }
+    }
+
+    /**
+     * Apache request headers
+     *
+     * If the function exists to get the request headers from apache
+     * use it to get them, otherwise return null. Abstracted for
+     * testing purposes.
+     *
+     * @return array|null Headers or null if no function
+     */
+    protected function apacheRequestHeaders()
+    {
+        if (function_exists('apache_request_headers')) {
+            return apache_request_headers();
+        }
+
+        return null;
+    }
+
+    /**
+     * Pecl HTTP request headers
+     *
+     * If the pecl_http extension is loaded use it to get the incoming
+     * request headers, otherwise return null. Abstracted for testing
+     * purposes.
+     *
+     * @return array|null Headers or null if no extension
+     */
+    protected function peclHttpHeaders()
+    {
+        if (extension_loaded('http') && class_exists('HttpMessage')) {
+            $message = HttpMessage::fromEnv(HttpMessage::TYPE_REQUEST);
+            return $message->getHeaders();
+        }
+
+        return null;
     }
 
     /**

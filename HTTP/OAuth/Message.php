@@ -67,9 +67,7 @@ implements ArrayAccess, Countable, IteratorAggregate
      *
      * @var array $parameters Parameters
      */
-    protected $parameters = array(
-        'oauth_signature_method' => 'HMAC-SHA1'
-    );
+    protected $parameters = array();
 
     /**
      * Get OAuth Parameters
@@ -121,7 +119,11 @@ implements ArrayAccess, Countable, IteratorAggregate
      */
     public function getSignatureMethod()
     {
-        return $this->oauth_signature_method;
+        if ($this->oauth_signature_method !== null) {
+            return $this->oauth_signature_method;
+        }
+
+        return 'HMAC-SHA1';
     }
 
     /**
