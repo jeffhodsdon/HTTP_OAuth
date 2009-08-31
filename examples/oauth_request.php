@@ -32,8 +32,11 @@ $consumer = new HTTP_OAuth_Consumer(
 );
 
 try {
-    $response = $consumer->sendRequest($config->protected_resource, array(), $config->method);
-    echo $response->getBody();
+    $response = $consumer->sendRequest($config->protected_resource,
+                                       array(),
+                                       $config->method);
+
+    echo "<pre>" . htmlentities($response->getBody()) . "</pre>";
 } catch (HTTP_OAuth_Consumer_Exception_InvalidResponse $e) {
     echo $e->getBody();
 }
