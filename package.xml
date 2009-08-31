@@ -2,8 +2,8 @@
 <package packagerversion="1.8.1" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0     http://pear.php.net/dtd/tasks-1.0.xsd     http://pear.php.net/dtd/package-2.0     http://pear.php.net/dtd/package-2.0.xsd">
  <name>HTTP_OAuth</name>
  <channel>pear.php.net</channel>
- <summary>An OAuth implementation in PHP for PEAR</summary>
- <description>Contains signature, provider, and consumer classes that allow one to act as an OAuth consumer or provider.</description>
+ <summary>PEAR implementation of the OAuth spec.</summary>
+ <description>Allows the use of the consumer and provider angles of the OAuth spec.</description>
  <lead>
   <name>Jeff Hodsdon</name>
   <user>jeffhodsdon</user>
@@ -11,10 +11,10 @@
   <active>yes</active>
  </lead>
  <date>2009-08-31</date>
- <time>21:54:59</time>
+ <time>22:46:32</time>
  <version>
-  <release>0.0.4</release>
-  <api>0.0.3</api>
+  <release>0.0.1</release>
+  <api>0.0.1</api>
  </version>
  <stability>
   <release>alpha</release>
@@ -22,7 +22,7 @@
  </stability>
  <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD Style</license>
  <notes>
-Initial release
+Initial release.
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
@@ -38,13 +38,13 @@ Initial release
    <file baseinstalldir="/" md5sum="168af7d26496bb5e75dcccfe8a8667d0" name="examples/jquery.fade.js" role="doc" />
    <file baseinstalldir="/" md5sum="bb381e2d19d8eace86b34d20759491a5" name="examples/jquery.js" role="doc" />
    <file baseinstalldir="/" md5sum="d0b1ddbf2230ef5609b3167b94e6458c" name="examples/myspace.jpg" role="doc" />
-   <file baseinstalldir="/" md5sum="77a73c07f23095271af75c0b6b2a0531" name="examples/oauth_request.php" role="doc" />
+   <file baseinstalldir="/" md5sum="394abeca8b1e38666d42318af5b0422f" name="examples/oauth_request.php" role="doc" />
    <file baseinstalldir="/" md5sum="bbc23577d61382c62425dd05478d9deb" name="examples/request_token.php" role="doc" />
    <file baseinstalldir="/" md5sum="9932fdf6757fdb6ecff5e0862e13b61e" name="examples/styles.css" role="doc" />
    <file baseinstalldir="/" md5sum="1d5167f08206d3371716b260e86ccb1b" name="examples/twitter.gif" role="doc" />
    <file baseinstalldir="/" md5sum="3c4b5735850df3948a83c9ac1354279a" name="examples/yahoo.gif" role="doc" />
    <file baseinstalldir="/" md5sum="92b7dedc5ac0630b8bc821084b142e7c" name="HTTP/OAuth.php" role="php" />
-   <file baseinstalldir="/" md5sum="9a70d6f4cf730e6319425a78c129070f" name="HTTP/OAuth/Consumer.php" role="php" />
+   <file baseinstalldir="/" md5sum="e947f47db7c1aaac6ea79abcdaf314e6" name="HTTP/OAuth/Consumer.php" role="php" />
    <file baseinstalldir="/" md5sum="b0b747f0357f685088d4f7cd7982a66e" name="HTTP/OAuth/Exception.php" role="php" />
    <file baseinstalldir="/" md5sum="f68a548cbbff0a55b377698d13405057" name="HTTP/OAuth/Message.php" role="php" />
    <file baseinstalldir="/" md5sum="52275f9361890df5c1a20a50894543f0" name="HTTP/OAuth/Signature.php" role="php" />
@@ -119,55 +119,10 @@ Initial release
     <release>alpha</release>
     <api>alpha</api>
    </stability>
-   <date>2009-07-28</date>
-   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD Style</license>
-   <notes>
-Initial release
-   </notes>
-  </release>
-  <release>
-   <version>
-    <release>0.0.2</release>
-    <api>0.0.2</api>
-   </version>
-   <stability>
-    <release>alpha</release>
-    <api>alpha</api>
-   </stability>
-   <date>2009-08-20</date>
-   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD Style</license>
-   <notes>
-Initial release
-   </notes>
-  </release>
-  <release>
-   <version>
-    <release>0.0.3</release>
-    <api>0.0.3</api>
-   </version>
-   <stability>
-    <release>alpha</release>
-    <api>alpha</api>
-   </stability>
    <date>2009-08-31</date>
    <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD Style</license>
    <notes>
-Initial release
-   </notes>
-  </release>
-  <release>
-   <version>
-    <release>0.0.4</release>
-    <api>0.0.3</api>
-   </version>
-   <stability>
-    <release>alpha</release>
-    <api>alpha</api>
-   </stability>
-   <date>2009-08-31</date>
-   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD Style</license>
-   <notes>
-Initial release
+Initial release.
    </notes>
   </release>
  </changelog>

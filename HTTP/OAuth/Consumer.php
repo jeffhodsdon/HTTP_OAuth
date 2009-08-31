@@ -135,19 +135,20 @@ class HTTP_OAuth_Consumer extends HTTP_OAuth
      * @param string $callback   Callback url
      * @param array  $additional Additional parameters to be in the request
      *                           recommended in the spec.
+     * @param string $method     HTTP method to use for the request
      *
      * @return void
      * @throws HTTP_OAuth_Consumer_Exception_InvalidResponse Missing token/secret
      */
     public function getRequestToken($url, $callback = 'oob',
-        array $additional = array()
+        array $additional = array(), $method = 'POST'
     )
     {
         $this->debug('Getting request token from ' . $url);
         $additional['oauth_callback'] = $callback;
 
         $this->debug('callback: ' . $callback);
-        $response = $this->sendRequest($url, $additional);
+        $response = $this->sendRequest($url, $additional, $method);
         $data     = $response->getDataFromBody();
         if (empty($data['oauth_token']) || empty($data['oauth_token_secret'])) {
             throw new HTTP_OAuth_Consumer_Exception_InvalidResponse(
@@ -162,21 +163,28 @@ class HTTP_OAuth_Consumer extends HTTP_OAuth
     /**
      * Get access token
      *
-     * @param string $url      Access token url
-     * @param string $verifier OAuth verifier from the provider
+     * @param string $url        Access token url
+     * @param string $verifier   OAuth verifier from the provider
+     * @param array  $additional Additional parameters to be in the request
+     *                           recommended in the spec.
+     * @param string $method     HTTP method to use for the request
      *
      * @return array Token and token secret
      * @throws HTTP_OAuth_Consumer_Exception_InvalidResponse Mising token/secret
      */
-    public function getAccessToken($url, $verifier = '')
+    public function getAccessToken($url, $verifier = '',
+        array $additional = array(), $method = 'POST'
+    )
     {
         if ($this->getToken() === null || $this->getTokenSecret() === null) {
             throw new HTTP_OAuth_Exception('No token or token_secret');
         }
 
         $this->debug('Getting access token from ' . $url);
+        $additional['oauth_verifier'] = $verifier;
+
         $this->debug('verifier: ' . $verifier);
-        $response = $this->sendRequest($url, array('oauth_verifier' => $verifier));
+        $response = $this->sendRequest($url, $additional, $method);
         $data     = $response->getDataFromBody();
         if (empty($data['oauth_token']) || empty($data['oauth_token_secret'])) {
             throw new HTTP_OAuth_Consumer_Exception_InvalidResponse(
