@@ -253,6 +253,16 @@ class HTTP_OAuth_Consumer_Request extends HTTP_OAuth_Message
         case self::AUTH_GET:
             break;
         }
+
+        if ($this->getMethod() == 'POST') {
+            foreach ($this->getParameters() as $name => $value) {
+                if (substr($name, 0, 6) == 'oauth_') {
+                    continue;
+                }
+
+                $this->addPostParameter($name, HTTP_OAuth::urlencode($value));
+            }
+        }
     }
 
     /**

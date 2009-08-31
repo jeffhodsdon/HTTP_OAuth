@@ -6,14 +6,6 @@ require_once 'HTTP/OAuth/Provider/Response.php';
 class HTTP_OAuth_Provider_ResponseTest extends PHPUnit_Framework_TestCase
 {
 
-    public function testAuthenticateHeader()
-    {
-        $res = $this->mockedResponse();
-        $headers = $res->getHeaders();
-        $this->assertArrayHasKey('WWW-Authenticate', $headers);
-        $this->assertEquals($headers['WWW-Authenticate'], 'OAuth');
-    }
-
     public function testSetStatus()
     {
         $ref = new ReflectionClass('HTTP_OAuth_Provider_Response');

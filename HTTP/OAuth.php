@@ -68,7 +68,7 @@ abstract class HTTP_OAuth
      */
     static public function detachLog(Log $detach)
     {
-        foreach(self::$logs as $key => $log) {
+        foreach (self::$logs as $key => $log) {
             if ($log == $detach) {
                 unset(self::$logs[$key]);
             }

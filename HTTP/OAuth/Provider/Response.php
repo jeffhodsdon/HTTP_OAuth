@@ -94,16 +94,6 @@ class HTTP_OAuth_Provider_Response extends HTTP_OAuth_Message
     protected $body = '';
 
     /**
-     * Construct
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->setHeader('WWW-Authenticate', 'OAuth');
-    }
-
-    /**
      * Set realm
      *
      * @param string $realm Realm for the WWW-Authenticate header
@@ -269,6 +259,7 @@ class HTTP_OAuth_Provider_Response extends HTTP_OAuth_Message
     {
         $this->prepareBody();
         if (!$this->headersSent()) {
+            $this->header('HTTP/1.1 200 OK');
             foreach ($this->getHeaders() as $name => $value) {
                 $this->header($name . ': ' . $value);
             }

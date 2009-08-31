@@ -146,6 +146,7 @@ class HTTP_OAuth_Provider_Request extends HTTP_OAuth_Message
                 list($key, $value) = explode('=', trim($part));
                 if (strstr(strtolower($key), 'oauth ')
                     || strstr(strtolower($key), 'uth re')
+                    || substr(strtolower($key), 0, 6) != 'oauth_'
                 ) {
                     continue;
                 }
@@ -155,26 +156,22 @@ class HTTP_OAuth_Provider_Request extends HTTP_OAuth_Message
 
                 $params[$key] = $value;
             }
-        } else if ($this->getRequestMethod() == 'POST') {
-            $this->debug('Using OAuth data from POST');
+        }
+
+        if ($this->getRequestMethod() == 'POST') {
+            $this->debug('getting data from POST');
             $contentType = $this->getHeader('Content-Type');
             if ($contentType !== 'application/x-www-form-urlencoded') {
                 throw new HTTP_OAuth_Provider_Exception_InvalidRequest('Invalid ' .
                     'content type for POST request');
             }
 
-            if (!empty($HTTP_RAW_POST_DATA)) {
-                parse_str($HTTP_RAW_POST_DATA, $params);
-            } else {
-                $params = $_POST;
-            }
+            $params = array_merge($params,
+                $this->parseQueryString($this->getPostData()));
         } else {
-            $this->debug('Using OAuth data from GET');
-            if ($this->getQueryString() !== null) {
-                parse_str($this->getQueryString(), $params);
-            } else {
-                $params = $_GET;
-            }
+            $this->debug('getting data from GET');
+            $params = array_merge($params,
+                $this->parseQueryString($this->getQueryString()));
         }
 
         if (empty($params)) {
@@ -294,6 +291,44 @@ class HTTP_OAuth_Provider_Request extends HTTP_OAuth_Message
     public function getHeaders()
     {
         return $this->headers;
+    }
+
+    /**
+     * Gets POST data
+     *
+     * @return string Post data
+     */
+    protected function getPostData()
+    {
+        return file_get_contents('php://input');
+    }
+
+    /**
+     * Parses a query string
+     *
+     * Does not urldecode the name or values like $_GET and $_POST
+     *
+     * @param string $string Query string
+     *
+     * @return array Data from the query string
+     */
+    protected function parseQueryString($string)
+    {
+        $data = array();
+        if (empty($string)) {
+            return $data;
+        }
+
+        foreach (explode('&', $string) as $part) {
+            if (!strstr($part, '=')) {
+                continue;
+            }
+
+            list($key, $value)     = explode('=', $part);
+            $data[$key] = $value;
+        }
+
+        return $data;
     }
 
 }

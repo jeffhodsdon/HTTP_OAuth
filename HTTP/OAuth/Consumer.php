@@ -170,6 +170,10 @@ class HTTP_OAuth_Consumer extends HTTP_OAuth
      */
     public function getAccessToken($url, $verifier = '')
     {
+        if ($this->getToken() === null || $this->getTokenSecret() === null) {
+            throw new HTTP_OAuth_Exception('No token or token_secret');
+        }
+
         $this->debug('Getting access token from ' . $url);
         $this->debug('verifier: ' . $verifier);
         $response = $this->sendRequest($url, array('oauth_verifier' => $verifier));

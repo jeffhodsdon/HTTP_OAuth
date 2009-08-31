@@ -102,7 +102,7 @@ class HTTP_OAuth_Provider_RequestTest extends PHPUnit_Framework_TestCase
     public function testSetParametersFromRequest()
     {
         $header = 'Authorization: OAuth realm="", oauth_consumer_key="key", oauth_signature_method="HMAC-SHA1", oauth_signature="ZUgC96UBRxYOl1Pml32hNDsNNUc%3D", oauth_timestamp="1251304744", oauth_nonce="18B2129F-4A4E-4502-8EB5-801DE2BB0247", oauth_version="1.0"';
-        $queryString = 'oauth_signature_method=HMAC-SHA1&oauth_consumer_key=key&oauth_token=kRmeTe0wvuIJrIUbjoOfc4UZcUerJKR67BfXy20UM&oauth_signature=ZUgC96UBRxYOl1Pml32hNDsNNUc%3D&oauth_timestamp=1251304744&oauth_nonce=18B2129F-4A4E-4502-8EB5-801DE2BB0247&oauth_version=1.0';
+        $queryString = 'oauth_consumer_key=key&oauth_signature_method=HMAC-SHA1&oauth_signature=ZUgC96UBRxYOl1Pml32hNDsNNUc%3D&oauth_timestamp=1251304744&oauth_nonce=18B2129F-4A4E-4502-8EB5-801DE2BB0247&oauth_version=1.0';
         $expected = array(
             'oauth_signature_method' => 'HMAC-SHA1',
             'oauth_consumer_key'     => 'key',
@@ -118,10 +118,11 @@ class HTTP_OAuth_Provider_RequestTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $request->getParameters());
         $this->assertEquals(array('Authorization' => $header), $request->getHeaders());
 
-        $_POST = $expected;
         $request = $this->mockedRequest(array('getRequestMethod'));
         $request->expects($this->any())->method('getRequestMethod')
             ->will($this->returnValue('POST'));
+        $request->expects($this->any())->method('getPostData')
+            ->will($this->returnValue($queryString));
         $request->setHeaders(
             array('Content-Type' => 'application/x-www-form-urlencoded'));
         $request->setParametersFromRequest();
@@ -223,7 +224,7 @@ class HTTP_OAuth_Provider_RequestTest extends PHPUnit_Framework_TestCase
     protected function mockedRequest(array $methods = array())
     {
         $methods = array_unique(array_merge($methods,
-            array('apacheRequestHeaders', 'peclHttpHeaders')));
+            array('getPostData', 'apacheRequestHeaders', 'peclHttpHeaders')));
 
         $_SERVER['HTTP_AUTHORIZATION'] = 'OAuth realm="", oauth_consumer_key="key", oauth_signature_method="HMAC-SHA1", oauth_signature="ZUgC96UBRxYOl1Pml32hNDsNNUc%3D", oauth_timestamp="1251304744", oauth_nonce="18B2129F-4A4E-4502-8EB5-801DE2BB0247", oauth_version="1.0"';
         $request = $this->getMock('HTTP_OAuth_Provider_Request', $methods);
