@@ -26,6 +26,13 @@ chdir(dirname(__FILE__) . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR);
 $base = realpath(dirname(__FILE__) . '/../../') . '/';
 set_include_path("{$base}HTTP_OAuth:" . get_include_path());
 
+require_once 'HTTP/OAuth.php';
+require_once 'HTTP/OAuth/Consumer/Request.php';
+require_once 'HTTP/Request2.php';
+
+//require_once 'Log.php';
+//HTTP_OAuth::attachLog(Log::singleton('display'));
+
 /* Configuration for Examples */
 
 class Config
@@ -58,12 +65,25 @@ $config = new Config;
 if (!empty($_GET)) {
     $config->isHttp = true;
     foreach ($_GET as $name => $val) {
-        if (!strlen($val)) {
+        if (empty($val)) {
             continue;
+        }
+
+        if (is_array($val)) {
+            foreach ($val as $n => $v) {
+                if (!strlen($v)) {
+                    unset($val[$n]);
+                }
+            }
         }
 
         $config->$name = $val;
     }
 }
+
+$httpRequest = new HTTP_Request2;
+$httpRequest->setHeader('Accept-Encoding', '.*');
+$request = new HTTP_OAuth_Consumer_Request;
+$request->accept($httpRequest);
 
 ?>

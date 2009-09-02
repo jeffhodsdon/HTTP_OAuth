@@ -25,9 +25,16 @@ require_once 'examples-config.php';
 require_once 'HTTP/OAuth/Consumer.php';
 
 $consumer = new HTTP_OAuth_Consumer($config->consumer_key, $config->consumer_secret);
+$consumer->accept($request);
+
+$args = array();
+if ($config->method == 'POST' && !empty($_GET['args'])) {
+    $args = $config->args;
+}
 
 try {
-    $consumer->getRequestToken($config->request_token_url, $config->callback_url);
+    $consumer->getRequestToken($config->request_token_url, $config->callback_url,
+        $args, $config->method);
     echo json_encode(
         array(
             'token'        => $consumer->getToken(),
@@ -35,7 +42,7 @@ try {
         )
     );
 } catch (HTTP_OAuth_Consumer_Exception_InvalidResponse $e) {
-    echo get_class($e) . "<br>\n" . implode("<br>\n", $e->getHeaders()) .
+    echo get_class($e) . "<br>\n" .
         "<br>\n" . $e->getBody() . "<br>\n";
 } catch (Exception $e) {
     echo get_class($e) . ': ' . $e->getMessage() . "\n";

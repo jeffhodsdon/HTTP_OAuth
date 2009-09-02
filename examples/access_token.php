@@ -30,9 +30,16 @@ $consumer = new HTTP_OAuth_Consumer(
     $config->token,
     $config->token_secret
 );
+$consumer->accept($request);
+
+$args = array();
+if ($config->method == 'POST' && !empty($_GET['args'])) {
+    $args = $config->args;
+}
 
 try {
-    $consumer->getAccessToken($config->access_token_url, $config->verifier);
+    $consumer->getAccessToken($config->access_token_url, $config->verifier,
+        $args, $config->method);
     echo json_encode(
         array(
             'token'        => $consumer->getToken(),

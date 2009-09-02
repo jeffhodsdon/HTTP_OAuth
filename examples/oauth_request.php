@@ -30,10 +30,16 @@ $consumer = new HTTP_OAuth_Consumer(
     $config->token,
     $config->token_secret
 );
+$consumer->accept($request);
+
+$args = array();
+if ($config->method == 'POST' && !empty($_GET['args'])) {
+    $args = $config->args;
+}
 
 try {
     $response = $consumer->sendRequest($config->protected_resource,
-                                       array(),
+                                       $args,
                                        $config->method);
 
     echo "<pre>" . htmlentities($response->getBody()) . "</pre>";

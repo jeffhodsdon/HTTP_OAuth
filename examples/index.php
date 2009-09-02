@@ -3,10 +3,12 @@
     <title>HTTP_OAuth Example Tool</title>
 
     <style type="text/css" media="all">@import "styles.css";</style>
+    <style type="text/css" media="all">@import "thickbox.css";</style>
 
     <script src="jquery.js" type="text/javascript"></script>
     <script src="jquery.cookie.js" type="text/javascript"></script>
     <script src="jquery.fade.js" type="text/javascript"></script>
+    <script src="thickbox.js" type="text/javascript"></script>
 </head>
 <body>
 
@@ -16,6 +18,13 @@ $(document).ready(function() {
         if (this.value.length < 1) {
             this.value = $.cookie(this.id);
         }
+    });
+
+    $('#add-argument').click(function() {
+        var add = $(this).siblings('div').eq(0).clone();
+        add.children('input').val('');
+        $(this).before(add);
+        return false;
     });
 
     if ($('#verifier').val().length > 1) {
@@ -32,16 +41,27 @@ $(document).ready(function() {
 
     function activate_request_token() {
         $('#fetch_request_token').removeClass('disabled').click(function() {
+            var data = {
+                consumer_key: $('#consumer_key').val(),
+                consumer_secret: $('#consumer_secret').val(),
+                request_token_url: $('#request_token_url').val(),
+                callback_url: window.location.toString(),
+                method: $('#request_token_method').val()
+            }
+
+            if ($('#request_token_method').val() == 'POST') {
+                method = 'POST';
+                $('#request_token_arguments > div.argument').each(function() {
+                    data['args[' + $(this).children('input').eq(0).val() + ']'] =
+                        $(this).children('input').eq(1).val();
+                });
+            }
+
             $.ajax({
                 type: "GET",
                 url: "request_token.php",
                 dataType: "json",
-                data: {
-                    consumer_key: $('#consumer_key').val(),
-                    consumer_secret: $('#consumer_secret').val(),
-                    request_token_url: $('#request_token_url').val(),
-                    callback_url: window.location.toString()
-                },
+                data: data,
                 success: function(json) {
                     if (json.token === undefined || json.token_secret === undefined) {
                         alert('Error!');
@@ -89,18 +109,29 @@ $(document).ready(function() {
 
     function activate_access_token() {
         $('#fetch_access_token').removeClass('disabled').click(function() {
+            var data = {
+                consumer_key: $('#consumer_key').val(),
+                consumer_secret: $('#consumer_secret').val(),
+                token: $('#token').val(),
+                token_secret: $('#token_secret').val(),
+                verifier: $('#verifier').val(),
+                access_token_url: $('#access_token_url').val(),
+                method: $('#access_token_method').val()
+            }
+
+            if ($('#access_token_method').val() == 'POST') {
+                method = 'POST';
+                $('#access_token_arguments > div.argument').each(function() {
+                    data['args[' + $(this).children('input').eq(0).val() + ']'] =
+                        $(this).children('input').eq(1).val();
+                });
+            }
+
             $.ajax({
                 type: "GET",
                 url: "access_token.php",
                 dataType: "json",
-                data: {
-                    consumer_key: $('#consumer_key').val(),
-                    consumer_secret: $('#consumer_secret').val(),
-                    access_token_url: $('#access_token_url').val(),
-                    token: $('#token').val(),
-                    token_secret: $('#token_secret').val(),
-                    verifier: $('#verifier').val()
-                },
+                data: data,
                 success: function(json) {
                     if (json.token === undefined || json.token_secret === undefined) {
                         alert('Error!');
@@ -126,17 +157,28 @@ $(document).ready(function() {
 
     function activate_oauth_request() {
         $('#oauth_request').removeClass('disabled').click(function() {
+            var data = {
+                consumer_key: $('#consumer_key').val(),
+                consumer_secret: $('#consumer_secret').val(),
+                token: $('#token').val(),
+                token_secret: $('#token_secret').val(),
+                protected_resource: $('#protected_resource_url').val(),
+                method: $('#protected_resource_method').val()
+            }
+
+            if ($('#protected_resource_method').val() == 'POST') {
+                method = 'POST';
+                $('#protected_resource_arguments > div.argument').each(function() {
+                    data['args[' + $(this).children('input').eq(0).val() + ']'] =
+                        $(this).children('input').eq(1).val();
+                });
+            }
+
+
             $.ajax({
                 type: "GET",
                 url: "oauth_request.php",
-                data: {
-                    consumer_key: $('#consumer_key').val(),
-                    consumer_secret: $('#consumer_secret').val(),
-                    protected_resource: $('#protected_resource').val(),
-                    token: $('#token').val(),
-                    token_secret: $('#token_secret').val(),
-                    method: $('#protected_resource_method').val()
-                },
+                data: data,
                 success: function(res) {
                     success(res);
                     $('.code').hide();
@@ -210,6 +252,18 @@ $(document).ready(function() {
         $('#error').html(msg).show('fast').vkfade();
         $('#success').hide('fast');
     }
+
+    $('.selector > span').click(function() {
+        $(this).addClass('selected');
+        $(this).siblings('.selected').removeClass('selected');
+        $(this).siblings('input').val(this.innerHTML);
+        if ($(this).siblings('input').val() == 'POST') {
+            $(this).parent().siblings('.arguments').show();
+        } else {
+            $(this).parent().siblings('.arguments').hide();
+        }
+    });
+
 });
 </script>
 
@@ -230,23 +284,51 @@ $(document).ready(function() {
 
     <div class="setting">
         <label for="">Consumer Key</label>
-        <input type="text" value="" id="consumer_key">
+        <input type="text" name="consumer_key" id="consumer_key">
     </div>
     <div class="setting">
         <label for="">Consumer Secret</label>
-        <input type="text" value="" id="consumer_secret">
+        <input type="text" name="consumer_secret" id="consumer_secret">
     </div>
     <div class="setting">
+        <div class="selector">
+            <span class="selected">GET</span>
+            <span>POST</span>
+            <input type="hidden" id="request_token_method" value="GET" />
+        </div>
         <label for="">Request Token URL</label>
-        <input type="text" value="" id="request_token_url">
+        <input type="text" name="request_token_url" id="request_token_url">
+        <div class="clear"></div>
+        <div style="display:none;" class="arguments" id="request_token_arguments">
+            <div class="argument">
+                <input type="text" class="argument" value="" id="" placeholder="name...">
+                <input type="text" class="argument" value="" id="" placeholder="value...">
+                <div class="clear"></div>
+            </div>
+            <a href="#" id="add-argument">Another argument...</a>
+        </div>
     </div>
     <div class="setting">
         <label for="">Authorize URL</label>
-        <input type="text" value="" id="authorize_url">
+        <input type="text" value="" id="authorize_url" name="authorize_url">
     </div>
     <div class="setting">
+        <div class="selector">
+            <span class="selected">GET</span>
+            <span>POST</span>
+            <input type="hidden" id="access_token_method" value="GET" />
+        </div>
         <label for="">Access Token URL</label>
-        <input type="text" value="" id="access_token_url">
+        <input type="text" name="access_token_url" id="access_token_url">
+        <div class="clear"></div>
+        <div style="display:none;" class="arguments" id="access_token_arguments">
+            <div class="argument">
+                <input type="text" class="argument" value="" id="" placeholder="name...">
+                <input type="text" class="argument" value="" id="" placeholder="value...">
+                <div class="clear"></div>
+            </div>
+            <a href="#" id="add-argument">Another argument...</a>
+        </div>
     </div>
     <div class="setting">
         <label for="">Token</label>
@@ -261,12 +343,23 @@ $(document).ready(function() {
         <input type="text" value="<?= @$_GET['oauth_verifier']; ?>" id="verifier">
     </div>
     <div class="setting">
+        <div class="selector">
+            <span class="selected">GET</span>
+            <span>POST</span>
+            <input type="hidden" id="protected_resource_method" value="GET" />
+        </div>
         <label for="">Protected resource</label>
-        <input type="text" value="" id="protected_resource">
-        <select id="protected_resource_method">
-            <option value="POST">POST</option>
-            <option value="GET">GET</option>
-        </select>
+        <input type="text" name="protected_resource" id="protected_resource_url">
+        <div class="clear"></div>
+        <div style="display:none;" class="arguments" id="protected_resource_arguments">
+            <div class="argument">
+                <input type="text" class="argument" value="" id="" placeholder="name...">
+                <input type="text" class="argument" value="" id="" placeholder="value...">
+                <div class="clear"></div>
+            </div>
+            <a href="#" id="add-argument">Another argument...</a>
+        </div>
+        <div class="clear"></div>
     </div>
     </form>
 </div>
@@ -301,5 +394,7 @@ success
         <? highlight_file('oauth_request.php'); ?>
     </div>
 </div>
+
+
 </body>
 </html>
