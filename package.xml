@@ -10,8 +10,8 @@
   <email>jeffhodsdon@gmail.com</email>
   <active>yes</active>
  </lead>
- <date>2009-08-31</date>
- <time>22:46:32</time>
+ <date>2009-09-02</date>
+ <time>10:06:44</time>
  <version>
   <release>0.1.0</release>
   <api>0.1.0</api>
@@ -26,21 +26,21 @@ Initial release.
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
-   <file baseinstalldir="/" md5sum="2f41dc5789670eedae55fbe6f5c0bf83" name="examples/access_token.php" role="doc" />
+   <file baseinstalldir="/" md5sum="7bf48e293762d40dab8651380ef7ce5d" name="examples/access_token.php" role="doc" />
    <file baseinstalldir="/" md5sum="b06183b0d94b3ae7a85cc02f50cdfd84" name="examples/authorize_url.php" role="doc" />
    <file baseinstalldir="/" md5sum="8ba0067cd5e5f514bcfa832556f3ddbf" name="examples/cli.php" role="doc" />
    <file baseinstalldir="/" md5sum="bb2fa45237c3b2ebd33cb9a2bdaa26c6" name="examples/config.php" role="doc" />
    <file baseinstalldir="/" md5sum="9220a7974a8d44db5826119da9261381" name="examples/digg.gif" role="doc" />
-   <file baseinstalldir="/" md5sum="40fad7e19e0fac9d8abacb5495f3d98e" name="examples/examples-config.php" role="doc" />
+   <file baseinstalldir="/" md5sum="c3ea1f5035a32a6a488c8c1bbd0cbea6" name="examples/examples-config.php" role="doc" />
    <file baseinstalldir="/" md5sum="eb3ed26a15e8a446dd67b083841ad67b" name="examples/google.gif" role="doc" />
-   <file baseinstalldir="/" md5sum="e5496bd1d8d8831d5cdfe92258f3cae7" name="examples/index.php" role="doc" />
+   <file baseinstalldir="/" md5sum="aae2a5f1881c95d5978497244c87220c" name="examples/index.php" role="doc" />
    <file baseinstalldir="/" md5sum="621cb6fcf57c3e29f9f06b8b00b0c030" name="examples/jquery.cookie.js" role="doc" />
    <file baseinstalldir="/" md5sum="168af7d26496bb5e75dcccfe8a8667d0" name="examples/jquery.fade.js" role="doc" />
    <file baseinstalldir="/" md5sum="bb381e2d19d8eace86b34d20759491a5" name="examples/jquery.js" role="doc" />
    <file baseinstalldir="/" md5sum="d0b1ddbf2230ef5609b3167b94e6458c" name="examples/myspace.jpg" role="doc" />
-   <file baseinstalldir="/" md5sum="394abeca8b1e38666d42318af5b0422f" name="examples/oauth_request.php" role="doc" />
-   <file baseinstalldir="/" md5sum="bbc23577d61382c62425dd05478d9deb" name="examples/request_token.php" role="doc" />
-   <file baseinstalldir="/" md5sum="9932fdf6757fdb6ecff5e0862e13b61e" name="examples/styles.css" role="doc" />
+   <file baseinstalldir="/" md5sum="cccb541fc32d08c50d3a4737627dbefa" name="examples/oauth_request.php" role="doc" />
+   <file baseinstalldir="/" md5sum="bcd0e45189328265b334821231ef1150" name="examples/request_token.php" role="doc" />
+   <file baseinstalldir="/" md5sum="73a37f6709b50188e8ebfaeb69afc7b7" name="examples/styles.css" role="doc" />
    <file baseinstalldir="/" md5sum="1d5167f08206d3371716b260e86ccb1b" name="examples/twitter.gif" role="doc" />
    <file baseinstalldir="/" md5sum="3c4b5735850df3948a83c9ac1354279a" name="examples/yahoo.gif" role="doc" />
    <file baseinstalldir="/" md5sum="92b7dedc5ac0630b8bc821084b142e7c" name="HTTP/OAuth.php" role="php" />
@@ -109,5 +109,21 @@ Initial release.
   </optional>
  </dependencies>
  <phprelease />
- <changelog />
+ <changelog>
+  <release>
+   <version>
+    <release>0.1.0</release>
+    <api>0.1.0</api>
+   </version>
+   <stability>
+    <release>alpha</release>
+    <api>alpha</api>
+   </stability>
+   <date>2009-09-02</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD Style</license>
+   <notes>
+Initial release.
+   </notes>
+  </release>
+ </changelog>
 </package>
