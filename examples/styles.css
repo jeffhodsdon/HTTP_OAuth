@@ -43,6 +43,7 @@ width: 400px;
 margin-left: 135px;
 float: left;
 }
+
 #request_token_arguments input {
 float: left;
 width: 180px !important;
@@ -50,6 +51,19 @@ padding: 2px;
 margin-left: 0px !important;
 }
 
+#access_token_arguments input {
+float: left;
+width: 180px !important;
+padding: 2px;
+margin-left: 0px !important;
+}
+
+#protected_resource_arguments input {
+float: left;
+width: 180px !important;
+padding: 2px;
+margin-left: 0px !important;
+}
 .arguments a {
 float: right;
 clear: both;

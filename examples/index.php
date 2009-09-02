@@ -20,7 +20,7 @@ $(document).ready(function() {
         }
     });
 
-    $('#add-argument').click(function() {
+    $('.add-argument').click(function() {
         var add = $(this).siblings('div').eq(0).clone();
         add.children('input').val('');
         $(this).before(add);
@@ -305,7 +305,7 @@ $(document).ready(function() {
                 <input type="text" class="argument" value="" id="" placeholder="value...">
                 <div class="clear"></div>
             </div>
-            <a href="#" id="add-argument">Another argument...</a>
+            <a href="#" class="add-argument">Another argument...</a>
         </div>
     </div>
     <div class="setting">
@@ -327,7 +327,7 @@ $(document).ready(function() {
                 <input type="text" class="argument" value="" id="" placeholder="value...">
                 <div class="clear"></div>
             </div>
-            <a href="#" id="add-argument">Another argument...</a>
+            <a href="#" class="add-argument">Another argument...</a>
         </div>
     </div>
     <div class="setting">
@@ -357,7 +357,7 @@ $(document).ready(function() {
                 <input type="text" class="argument" value="" id="" placeholder="value...">
                 <div class="clear"></div>
             </div>
-            <a href="#" id="add-argument">Another argument...</a>
+            <a href="#" class="add-argument">Another argument...</a>
         </div>
         <div class="clear"></div>
     </div>
