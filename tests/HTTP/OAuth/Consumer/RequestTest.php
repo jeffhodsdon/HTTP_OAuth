@@ -103,6 +103,22 @@ class HTTP_OAuth_Consumer_RequestTest extends PHPUnit_Framework_TestCase
         $req->accept($log);
     }
 
+    public function testContentTypeOnPOST()
+    {
+        $mockAdapter = new HTTP_Request2_Adapter_Mock;
+        $mockAdapter->addResponse("HTTP/1.1 200 OK\n\nfoo");
+        $mockReq = new HTTP_Request2('http://example.com');
+        $mockReq->setAdapter($mockAdapter);
+        $req = new HTTP_OAuth_Consumer_Request;
+        $req->accept($mockReq);
+        $req->setMethod('POST');
+        $res = $req->send();
+        $headers = $req->getHeaders();
+        $this->assertArrayHasKey('content-type', $headers);
+        $this->assertEquals($headers['content-type'],
+            'application/x-www-form-urlencoded');
+    }
+
 }
 
 ?>
