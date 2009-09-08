@@ -22,7 +22,7 @@
  </stability>
  <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD Style</license>
  <notes>
-Initial release.
+ * Added Content-Type: application/x-www-form-urlencoded to Consumer requests. Fixes Bug #16573
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
