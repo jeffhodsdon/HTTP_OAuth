@@ -247,7 +247,7 @@ class HTTP_OAuth_Consumer_Request extends HTTP_OAuth_Message
             break;
         case self::AUTH_POST:
             foreach ($params as $name => $value) {
-                $this->addPostParameter($name, HTTP_OAuth::urlencode($value));
+                $this->addPostParameter($name, $value);
             }
             break;
         case self::AUTH_GET:
@@ -261,7 +261,7 @@ class HTTP_OAuth_Consumer_Request extends HTTP_OAuth_Message
                     continue;
                 }
 
-                $this->addPostParameter($name, HTTP_OAuth::urlencode($value));
+                $this->addPostParameter($name, $value);
             }
         }
     }

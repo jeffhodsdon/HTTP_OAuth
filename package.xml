@@ -10,10 +10,10 @@
   <email>jeffhodsdon@gmail.com</email>
   <active>yes</active>
  </lead>
- <date>2009-09-08</date>
- <time>00:58:25</time>
+ <date>2009-09-14</date>
+ <time>02:07:17</time>
  <version>
-  <release>0.1.1</release>
+  <release>0.1.2</release>
   <api>0.1.0</api>
  </version>
  <stability>
@@ -22,7 +22,7 @@
  </stability>
  <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD Style</license>
  <notes>
- * Added Content-Type: application/x-www-form-urlencoded to Consumer requests. Fixes Bug #16573
+* Fixed double encoding issue for consumer POST requests
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
@@ -48,7 +48,7 @@
    <file baseinstalldir="/" md5sum="b0b747f0357f685088d4f7cd7982a66e" name="HTTP/OAuth/Exception.php" role="php" />
    <file baseinstalldir="/" md5sum="f68a548cbbff0a55b377698d13405057" name="HTTP/OAuth/Message.php" role="php" />
    <file baseinstalldir="/" md5sum="52275f9361890df5c1a20a50894543f0" name="HTTP/OAuth/Signature.php" role="php" />
-   <file baseinstalldir="/" md5sum="f1a370fe153914a031ca0b778236efa1" name="HTTP/OAuth/Consumer/Request.php" role="php" />
+   <file baseinstalldir="/" md5sum="e5993bc4624c9fc104ae4f05ff246da3" name="HTTP/OAuth/Consumer/Request.php" role="php" />
    <file baseinstalldir="/" md5sum="7c428fc3e827f14f31d2e04e5c54f8e0" name="HTTP/OAuth/Consumer/Response.php" role="php" />
    <file baseinstalldir="/" md5sum="af4cd4dcf46a1c1ed77c418548012357" name="HTTP/OAuth/Consumer/Exception/InvalidResponse.php" role="php" />
    <file baseinstalldir="/" md5sum="3549952dae4f40b674854d6f8f4d0e73" name="HTTP/OAuth/Exception/NotImplemented.php" role="php" />
@@ -138,6 +138,21 @@ Initial release.
    <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD Style</license>
    <notes>
 Initial release.
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>0.1.2</release>
+    <api>0.1.0</api>
+   </version>
+   <stability>
+    <release>alpha</release>
+    <api>alpha</api>
+   </stability>
+   <date>2009-09-14</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD Style</license>
+   <notes>
+* Fixed double encoding issue for consumer POST requests
    </notes>
   </release>
  </changelog>
