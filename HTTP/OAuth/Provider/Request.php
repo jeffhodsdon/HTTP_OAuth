@@ -161,7 +161,7 @@ class HTTP_OAuth_Provider_Request extends HTTP_OAuth_Message
         if ($this->getRequestMethod() == 'POST') {
             $this->debug('getting data from POST');
             $contentType = $this->getHeader('Content-Type');
-            if ($contentType !== 'application/x-www-form-urlencoded') {
+            if (substr($contentType, 0, 33) !== 'application/x-www-form-urlencoded') {
                 throw new HTTP_OAuth_Provider_Exception_InvalidRequest('Invalid ' .
                     'content type for POST request');
             }

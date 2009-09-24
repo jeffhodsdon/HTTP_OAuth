@@ -156,8 +156,16 @@ class HTTP_OAuth_ConsumerTest extends PHPUnit_Framework_TestCase
         $this->assertFalse($request === $consumer->getOAuthConsumerRequest());
         $consumer->accept($request);
         $this->assertTrue($request === $consumer->getOAuthConsumerRequest());
-        $consumer->accept(new stdClass);
         $this->assertTrue($request === $consumer->getOAuthConsumerRequest());
+    }
+
+    /**
+     * @expectedException HTTP_OAuth_Exception
+     */
+    public function testAcceptNotSupported()
+    {
+        $consumer = new HTTP_OAuth_Consumer('key', 'secret');
+        $consumer->accept(new stdClass);
     }
 
 }
