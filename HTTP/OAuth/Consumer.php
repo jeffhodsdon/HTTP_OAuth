@@ -357,7 +357,7 @@ class HTTP_OAuth_Consumer extends HTTP_OAuth
             $this->consumerRequest = $object;
             break;
         case 'HTTP_Request2':
-            $this->getConsumerRequest->accept($object);
+            $this->getOAuthConsumerRequest()->accept($object);
             break;
         default:
             throw new HTTP_OAuth_Exception('Could not accept: ' . $class);

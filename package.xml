@@ -10,10 +10,16 @@
   <email>jeffhodsdon@gmail.com</email>
   <active>yes</active>
  </lead>
- <date>2009-09-24</date>
- <time>15:28:30</time>
+ <lead>
+  <name>Bill Shupp</name>
+  <user>shupp</user>
+  <email>shupp@php.net</email>
+  <active>yes</active>
+ </lead>
+ <date>2009-10-12</date>
+ <time>14:19:00</time>
  <version>
-  <release>0.1.3</release>
+  <release>0.1.4</release>
   <api>0.1.0</api>
  </version>
  <stability>
@@ -22,9 +28,7 @@
  </stability>
  <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD Style</license>
  <notes>
-* Added cloning for request objects in HTTP_OAuth_Consumer
-* Added support for accepting HTTP_Request2 objects directly into HTTP_OAuth_Consumer
-* Corrected check for Content-Type in HTTP_OAuth_Provider
+* Fixed support for accepting HTTP_Request2 objects directly into HTTP_OAuth_Consumer
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
@@ -172,6 +176,21 @@ Initial release.
 * Added cloning for request objects in HTTP_OAuth_Consumer
 * Added support for accepting HTTP_Request2 objects directly into HTTP_OAuth_Consumer
 * Corrected check for Content-Type in HTTP_OAuth_Provider
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>0.1.4</release>
+    <api>0.1.0</api>
+   </version>
+   <stability>
+    <release>alpha</release>
+    <api>alpha</api>
+   </stability>
+   <date>2009-10-12</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD Style</license>
+   <notes>
+* Fixed support for accepting HTTP_Request2 objects directly into HTTP_OAuth_Consumer
    </notes>
   </release>
  </changelog>
