@@ -160,8 +160,8 @@ class HTTP_OAuth_Provider_Request extends HTTP_OAuth_Message
 
         if ($this->getRequestMethod() == 'POST') {
             $this->debug('getting data from POST');
-            $contentType = $this->getHeader('Content-Type');
-            if (substr($contentType, 0, 33) !== 'application/x-www-form-urlencoded') {
+            $contentType = substr($this->getHeader('Content-Type'), 0, 33);
+            if ($contentType !== 'application/x-www-form-urlencoded') {
                 throw new HTTP_OAuth_Provider_Exception_InvalidRequest('Invalid ' .
                     'content type for POST request');
             }
@@ -255,6 +255,9 @@ class HTTP_OAuth_Provider_Request extends HTTP_OAuth_Message
     /**
      * Gets incoming request URI
      *
+     * Checks if the schema/host is included and strips it.
+     * Thanks Naosumi! Bug #16800
+     *
      * @return string|null Request URI, null if doesn't exist
      */
     public function getRequestUri()
@@ -263,7 +266,13 @@ class HTTP_OAuth_Provider_Request extends HTTP_OAuth_Message
             return null;
         }
 
-        return $_SERVER['REQUEST_URI'];
+        $uri = $_SERVER['REQUEST_URI'];
+        $pos = stripos($uri, '://');
+        if (!$pos) {
+            return $uri;
+        }
+
+        return substr($uri, strpos($uri, '/', $pos + 3));
     }
 
     /**

@@ -233,6 +233,16 @@ class HTTP_OAuth_Provider_RequestTest extends PHPUnit_Framework_TestCase
         return $request;
     }
 
+    public function testGetURIWithSchemaDomainIncluded()
+    {
+        $req = $this->mockedRequest();
+
+        $_SERVER['REQUEST_URI'] = 'http://example.com/oauth_request';
+        $this->assertEquals($req->getRequestUri(), '/oauth_request');
+
+        $_SERVER['REQUEST_URI'] = '/oauth_request';
+        $this->assertEquals($req->getRequestUri(), '/oauth_request');
+    }
 }
 
 ?>

@@ -16,10 +16,10 @@
   <email>shupp@php.net</email>
   <active>yes</active>
  </lead>
- <date>2009-10-12</date>
- <time>14:19:00</time>
+ <date>2009-11-19</date>
+ <time>23:03:49</time>
  <version>
-  <release>0.1.4</release>
+  <release>0.1.5</release>
   <api>0.1.0</api>
  </version>
  <stability>
@@ -28,7 +28,9 @@
  </stability>
  <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD Style</license>
  <notes>
-* Fixed support for accepting HTTP_Request2 objects directly into HTTP_OAuth_Consumer
+* Fixed #16800 Issue with HTTP_OAuth_Provider_Request::getRequestUri()
+* Fixed #16782 Issue with HTTP_OAuth_Consumer::sendRequest() not including GET parameters
+* Added unit tests for bugs.
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
@@ -50,7 +52,7 @@
    <file baseinstalldir="/" md5sum="1d5167f08206d3371716b260e86ccb1b" name="examples/twitter.gif" role="doc" />
    <file baseinstalldir="/" md5sum="3c4b5735850df3948a83c9ac1354279a" name="examples/yahoo.gif" role="doc" />
    <file baseinstalldir="/" md5sum="92b7dedc5ac0630b8bc821084b142e7c" name="HTTP/OAuth.php" role="php" />
-   <file baseinstalldir="/" md5sum="615eab35c2ba1518037f3cf41f7adba1" name="HTTP/OAuth/Consumer.php" role="php" />
+   <file baseinstalldir="/" md5sum="af9479094f9d80bad4f8d6abbd66d840" name="HTTP/OAuth/Consumer.php" role="php" />
    <file baseinstalldir="/" md5sum="b0b747f0357f685088d4f7cd7982a66e" name="HTTP/OAuth/Exception.php" role="php" />
    <file baseinstalldir="/" md5sum="f68a548cbbff0a55b377698d13405057" name="HTTP/OAuth/Message.php" role="php" />
    <file baseinstalldir="/" md5sum="52275f9361890df5c1a20a50894543f0" name="HTTP/OAuth/Signature.php" role="php" />
@@ -59,7 +61,7 @@
    <file baseinstalldir="/" md5sum="af4cd4dcf46a1c1ed77c418548012357" name="HTTP/OAuth/Consumer/Exception/InvalidResponse.php" role="php" />
    <file baseinstalldir="/" md5sum="3549952dae4f40b674854d6f8f4d0e73" name="HTTP/OAuth/Exception/NotImplemented.php" role="php" />
    <file baseinstalldir="/" md5sum="b94552592b48533a131e6177c9cf6210" name="HTTP/OAuth/Provider/Exception.php" role="php" />
-   <file baseinstalldir="/" md5sum="264ca48b5a9a6fe9fb9c5fb4a446d0b0" name="HTTP/OAuth/Provider/Request.php" role="php" />
+   <file baseinstalldir="/" md5sum="08e90375048612b90e1d8f0676a19b32" name="HTTP/OAuth/Provider/Request.php" role="php" />
    <file baseinstalldir="/" md5sum="4ee4212917720f3d326a6bb664115e85" name="HTTP/OAuth/Provider/Response.php" role="php" />
    <file baseinstalldir="/" md5sum="8b4884d6b2125a5ac4d39766680eac0d" name="HTTP/OAuth/Provider/Exception/InvalidRequest.php" role="php" />
    <file baseinstalldir="/" md5sum="b60fed97b5a96b967ba3b6729c4db02d" name="HTTP/OAuth/Signature/Common.php" role="php" />
@@ -68,14 +70,14 @@
    <file baseinstalldir="/" md5sum="74cf9e13628ef3aba06d823e9e5a855d" name="HTTP/OAuth/Signature/RSA/SHA1.php" role="php" />
    <file baseinstalldir="/" md5sum="057563e7b8729ebe6f7ebd8c7dcb611c" name="tests/AllTests.php" role="test" />
    <file baseinstalldir="/" md5sum="46d98f7acce55e74ee6610aece737739" name="tests/HTTP/OAuthTest.php" role="test" />
-   <file baseinstalldir="/" md5sum="67b4d46d24faa09e4b96c39f24340d61" name="tests/HTTP/OAuth/ConsumerTest.php" role="test" />
+   <file baseinstalldir="/" md5sum="a55f6efe9e15f9fadfcff15703753456" name="tests/HTTP/OAuth/ConsumerTest.php" role="test" />
    <file baseinstalldir="/" md5sum="9de1701fb32ad3b009e986ac9c189651" name="tests/HTTP/OAuth/MessageMock.php" role="test" />
    <file baseinstalldir="/" md5sum="08c9b0d6195565394f99d0d514d2a60b" name="tests/HTTP/OAuth/MessageTest.php" role="test" />
    <file baseinstalldir="/" md5sum="0a578b56b56b978007fe3d880fc24f2b" name="tests/HTTP/OAuth/SignatureTest.php" role="test" />
    <file baseinstalldir="/" md5sum="db92adb759512e64ab849d06375923ab" name="tests/HTTP/OAuth/Consumer/RequestTest.php" role="test" />
    <file baseinstalldir="/" md5sum="afa77081643fb2cd0a27f4143837def8" name="tests/HTTP/OAuth/Consumer/ResponseTest.php" role="test" />
    <file baseinstalldir="/" md5sum="6809ba90fce3cf7bd81fa378fcff0087" name="tests/HTTP/OAuth/Consumer/Exception/InvalidResponseTest.php" role="test" />
-   <file baseinstalldir="/" md5sum="5162b4eccb781f4db3680c610c99b237" name="tests/HTTP/OAuth/Provider/RequestTest.php" role="test" />
+   <file baseinstalldir="/" md5sum="4439adc635ca9216d73580f70ed6beff" name="tests/HTTP/OAuth/Provider/RequestTest.php" role="test" />
    <file baseinstalldir="/" md5sum="62575c35b5d7798ff8427abc321c4e89" name="tests/HTTP/OAuth/Provider/ResponseTest.php" role="test" />
    <file baseinstalldir="/" md5sum="fc458d321aff0523ae41082b9560dd6e" name="tests/HTTP/OAuth/Signature/CommonMock.php" role="test" />
    <file baseinstalldir="/" md5sum="bf4fe00d5f7625e6bdb048ce8e9f5b03" name="tests/HTTP/OAuth/Signature/CommonTest.php" role="test" />
@@ -191,6 +193,23 @@ Initial release.
    <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD Style</license>
    <notes>
 * Fixed support for accepting HTTP_Request2 objects directly into HTTP_OAuth_Consumer
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>0.1.5</release>
+    <api>0.1.0</api>
+   </version>
+   <stability>
+    <release>alpha</release>
+    <api>alpha</api>
+   </stability>
+   <date>2009-11-19</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD Style</license>
+   <notes>
+* Fixed #16800 Issue with HTTP_OAuth_Provider_Request::getRequestUri()
+* Fixed #16782 Issue with HTTP_OAuth_Consumer::sendRequest() not including GET parameters
+* Added unit tests for bugs.
    </notes>
   </release>
  </changelog>

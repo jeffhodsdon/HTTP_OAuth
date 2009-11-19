@@ -91,6 +91,38 @@ class HTTP_OAuth_ConsumerTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('token_secret', $con->getTokenSecret());
     }
 
+    /**
+     * @expectedException HTTP_OAuth_Exception
+     */
+    public function testGetAccessTokenWithNoTokens()
+    {
+        $con = new HTTP_OAuth_Consumer('key', 'secret');
+        $con->getAccessToken('http://example.com/access_token');
+    }
+
+    public function testSendRequestUsingGET()
+    {
+        $url        = 'http://example.com/protected_resource';
+        $method     = 'GET';
+        $additional = array(
+            'foo' => 'bar',
+            'food' => 'pizza'
+        );
+
+        $con = new HTTP_OAuth_Consumer('key', 'secret', 'token', 'tokenSecret');
+        $con->accept(new HTTP_Request2(null, null, array('adapter' => 'Mock')));
+        $con->sendRequest($url, $additional, $method);
+        $req = $con->getLastRequest();
+
+        $params = $req->getParameters();
+        $this->assertArrayHasKey('foo', $params);
+        $this->assertEquals($params['foo'], 'bar');
+        $this->assertArrayHasKey('food', $params);
+        $this->assertEquals($params['food'], 'pizza');
+        $this->assertTrue((bool) strstr($req->getUrl()->getQuery(),
+            'foo=bar&food=pizza'));
+    }
+
     public function testGetAuthorizeUrl()
     {
         $con = new HTTP_OAuth_Consumer('key', 'secret', 'token');

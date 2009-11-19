@@ -111,6 +111,13 @@ class HTTP_OAuth_Consumer extends HTTP_OAuth
     protected $consumerRequest = null;
 
     /**
+     * Instance of the last request made
+     *
+     * @var HTTP_OAuth_Consumer_Request $lastRequest The last request made
+     */
+    protected $lastRequest = null;
+
+    /**
      * Construct
      *
      * @param string $key         Consumer key
@@ -235,11 +242,16 @@ class HTTP_OAuth_Consumer extends HTTP_OAuth
         $params = array_merge($additional, $params);
 
         $req = clone $this->getOAuthConsumerRequest();
+
         $req->setUrl($url);
         $req->setMethod($method);
         $req->setSecrets($this->getSecrets());
         $req->setParameters($params);
-        return $req->send();
+        $res = $req->send();
+
+        $this->lastRequest = $req;
+
+        return $res;
     }
 
     /**
@@ -377,6 +389,17 @@ class HTTP_OAuth_Consumer extends HTTP_OAuth
             $this->consumerRequest = new HTTP_OAuth_Consumer_Request;
         } 
         return $this->consumerRequest;
+    }
+
+    /**
+     * Gets the last request
+     *
+     * @return null|HTTP_OAuth_Consumer_Request Instance of the last request
+     * @see self::sendRequest()
+     */
+    public function getLastRequest()
+    {
+        return $this->lastRequest;
     }
 }
 

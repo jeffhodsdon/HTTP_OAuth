@@ -254,7 +254,8 @@ class HTTP_OAuth_Consumer_Request extends HTTP_OAuth_Message
             break;
         }
 
-        if ($this->getMethod() == 'POST') {
+        switch ($this->getMethod()) {
+        case 'POST':
             $this->setHeader('Content-Type', 'application/x-www-form-urlencoded');
             foreach ($this->getParameters() as $name => $value) {
                 if (substr($name, 0, 6) == 'oauth_') {
@@ -263,6 +264,17 @@ class HTTP_OAuth_Consumer_Request extends HTTP_OAuth_Message
 
                 $this->addPostParameter($name, $value);
             }
+            break;
+        case 'GET':
+            $url = $this->getUrl();
+            foreach ($this->getParameters() as $name => $value) {
+                $url->setQueryVariable($name, $value);
+            }
+
+            $this->setUrl($url);
+            break;
+        default:
+            break;
         }
     }
 
