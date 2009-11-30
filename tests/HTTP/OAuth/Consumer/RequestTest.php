@@ -119,6 +119,19 @@ class HTTP_OAuth_Consumer_RequestTest extends PHPUnit_Framework_TestCase
             'application/x-www-form-urlencoded');
     }
 
+    public function testNoOAuthParametersInGET()
+    {
+        $mockReq = new HTTP_Request2('http://example.com');
+        $mockReq->setAdapter(new HTTP_Request2_Adapter_Mock);
+        $req = new HTTP_OAuth_Consumer_Request;
+        $req->accept($mockReq);
+        $req->foo = 'bar';
+        $req->oauth_consumer_key = 'key';
+        $req->send();
+        $this->assertEquals('http://example.com/?foo=bar',
+            $req->getUrl()->getUrl());
+    }
+
 }
 
 ?>

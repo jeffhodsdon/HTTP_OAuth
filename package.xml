@@ -16,10 +16,10 @@
   <email>shupp@php.net</email>
   <active>yes</active>
  </lead>
- <date>2009-11-19</date>
- <time>23:03:49</time>
+ <date>2009-11-30</date>
+ <time>21:40:50</time>
  <version>
-  <release>0.1.5</release>
+  <release>0.1.6</release>
   <api>0.1.0</api>
  </version>
  <stability>
@@ -28,9 +28,7 @@
  </stability>
  <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD Style</license>
  <notes>
-* Fixed #16800 Issue with HTTP_OAuth_Provider_Request::getRequestUri()
-* Fixed #16782 Issue with HTTP_OAuth_Consumer::sendRequest() not including GET parameters
-* Added unit tests for bugs.
+* Fixed issue where oauth parameters were in the url&apos;s query string
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
@@ -52,11 +50,11 @@
    <file baseinstalldir="/" md5sum="1d5167f08206d3371716b260e86ccb1b" name="examples/twitter.gif" role="doc" />
    <file baseinstalldir="/" md5sum="3c4b5735850df3948a83c9ac1354279a" name="examples/yahoo.gif" role="doc" />
    <file baseinstalldir="/" md5sum="92b7dedc5ac0630b8bc821084b142e7c" name="HTTP/OAuth.php" role="php" />
-   <file baseinstalldir="/" md5sum="af9479094f9d80bad4f8d6abbd66d840" name="HTTP/OAuth/Consumer.php" role="php" />
+   <file baseinstalldir="/" md5sum="ea1cc96a3b5f329f722049390cf4349b" name="HTTP/OAuth/Consumer.php" role="php" />
    <file baseinstalldir="/" md5sum="b0b747f0357f685088d4f7cd7982a66e" name="HTTP/OAuth/Exception.php" role="php" />
    <file baseinstalldir="/" md5sum="f68a548cbbff0a55b377698d13405057" name="HTTP/OAuth/Message.php" role="php" />
    <file baseinstalldir="/" md5sum="52275f9361890df5c1a20a50894543f0" name="HTTP/OAuth/Signature.php" role="php" />
-   <file baseinstalldir="/" md5sum="e5993bc4624c9fc104ae4f05ff246da3" name="HTTP/OAuth/Consumer/Request.php" role="php" />
+   <file baseinstalldir="/" md5sum="fdce8caf3e29c626f436b66910fdfa7c" name="HTTP/OAuth/Consumer/Request.php" role="php" />
    <file baseinstalldir="/" md5sum="7c428fc3e827f14f31d2e04e5c54f8e0" name="HTTP/OAuth/Consumer/Response.php" role="php" />
    <file baseinstalldir="/" md5sum="af4cd4dcf46a1c1ed77c418548012357" name="HTTP/OAuth/Consumer/Exception/InvalidResponse.php" role="php" />
    <file baseinstalldir="/" md5sum="3549952dae4f40b674854d6f8f4d0e73" name="HTTP/OAuth/Exception/NotImplemented.php" role="php" />
@@ -70,11 +68,11 @@
    <file baseinstalldir="/" md5sum="74cf9e13628ef3aba06d823e9e5a855d" name="HTTP/OAuth/Signature/RSA/SHA1.php" role="php" />
    <file baseinstalldir="/" md5sum="057563e7b8729ebe6f7ebd8c7dcb611c" name="tests/AllTests.php" role="test" />
    <file baseinstalldir="/" md5sum="46d98f7acce55e74ee6610aece737739" name="tests/HTTP/OAuthTest.php" role="test" />
-   <file baseinstalldir="/" md5sum="a55f6efe9e15f9fadfcff15703753456" name="tests/HTTP/OAuth/ConsumerTest.php" role="test" />
+   <file baseinstalldir="/" md5sum="8cdec0fe05a0d94ea9002fce9814468f" name="tests/HTTP/OAuth/ConsumerTest.php" role="test" />
    <file baseinstalldir="/" md5sum="9de1701fb32ad3b009e986ac9c189651" name="tests/HTTP/OAuth/MessageMock.php" role="test" />
    <file baseinstalldir="/" md5sum="08c9b0d6195565394f99d0d514d2a60b" name="tests/HTTP/OAuth/MessageTest.php" role="test" />
    <file baseinstalldir="/" md5sum="0a578b56b56b978007fe3d880fc24f2b" name="tests/HTTP/OAuth/SignatureTest.php" role="test" />
-   <file baseinstalldir="/" md5sum="db92adb759512e64ab849d06375923ab" name="tests/HTTP/OAuth/Consumer/RequestTest.php" role="test" />
+   <file baseinstalldir="/" md5sum="bbb547cb57adef6671e1ebc80094f1df" name="tests/HTTP/OAuth/Consumer/RequestTest.php" role="test" />
    <file baseinstalldir="/" md5sum="afa77081643fb2cd0a27f4143837def8" name="tests/HTTP/OAuth/Consumer/ResponseTest.php" role="test" />
    <file baseinstalldir="/" md5sum="6809ba90fce3cf7bd81fa378fcff0087" name="tests/HTTP/OAuth/Consumer/Exception/InvalidResponseTest.php" role="test" />
    <file baseinstalldir="/" md5sum="4439adc635ca9216d73580f70ed6beff" name="tests/HTTP/OAuth/Provider/RequestTest.php" role="test" />
@@ -210,6 +208,21 @@ Initial release.
 * Fixed #16800 Issue with HTTP_OAuth_Provider_Request::getRequestUri()
 * Fixed #16782 Issue with HTTP_OAuth_Consumer::sendRequest() not including GET parameters
 * Added unit tests for bugs.
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>0.1.6</release>
+    <api>0.1.0</api>
+   </version>
+   <stability>
+    <release>alpha</release>
+    <api>alpha</api>
+   </stability>
+   <date>2009-11-30</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD Style</license>
+   <notes>
+* Fixed issue where oauth parameters were in the url&apos;s query string
    </notes>
   </release>
  </changelog>
