@@ -149,6 +149,18 @@ class HTTP_OAuth_Provider_RequestTest extends PHPUnit_Framework_TestCase
         $request->setParametersFromRequest();
     }
 
+    /**
+     * @expectedException HTTP_OAuth_Provider_Exception_InvalidRequest
+     */
+    public function testIsValidSignatureNoMethodOnRequest()
+    {
+        $request = $this->getMock('HTTP_OAuth_Provider_Request',
+                                  array('setHeaders', 'setParametersFromRequest'),
+                                  array(), '', false);
+        $result = $request->isValidSignature($this->consumerSecret,
+            $this->tokenSecret);
+    }
+
     public function testIsValidSignature()
     {
         $request = $this->mockedRequest(array('getRequestMethod', 'getUrl'));

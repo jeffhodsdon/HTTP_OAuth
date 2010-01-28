@@ -192,6 +192,12 @@ class HTTP_OAuth_Provider_Request extends HTTP_OAuth_Message
      */
     public function isValidSignature($consumerSecret, $tokenSecret = '')
     {
+        if (!$this->oauth_signature_method) {
+            throw new HTTP_OAuth_Provider_Exception_InvalidRequest(
+                'Missing oauth_signature_method in request'
+            );
+        }
+
         $sign  = HTTP_OAuth_Signature::factory($this->oauth_signature_method);
         $check = $sign->build(
             $this->getRequestMethod(), $this->getUrl(),
