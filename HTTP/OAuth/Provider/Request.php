@@ -290,8 +290,10 @@ class HTTP_OAuth_Provider_Request extends HTTP_OAuth_Message
      */
     public function getHeader($header)
     {
-        if (array_key_exists($header, $this->headers)) {
-            return $this->headers[$header];
+        foreach ($this->headers as $name => $value) {
+            if (strtolower($header) == strtolower($name)) {
+                return $value;
+            }
         }
 
         return null;

@@ -347,7 +347,7 @@ class HTTP_OAuth_Consumer extends HTTP_OAuth
      *
      * @return array Array possible secrets
      */
-    protected function getSecrets()
+    public function getSecrets()
     {
         return array($this->secret, (string) $this->tokenSecret);
     }

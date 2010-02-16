@@ -84,6 +84,14 @@ class HTTP_OAuth_Provider_RequestTest extends PHPUnit_Framework_TestCase
         }
     }
 
+    public function testCaseSensitiveHeaders()
+    {
+        $request = $this->mockedRequest();
+        $request->setHeaders(array('content-type' => 'foo'));
+
+        $this->assertEquals('foo', $request->getHeader('Content-Type'));
+    }
+
     public function testCountable()
     {
         $request = $this->mockedRequest();
