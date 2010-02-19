@@ -39,7 +39,7 @@ require_once 'HTTP/OAuth/Consumer/Exception/InvalidResponse.php';
  * $_SESSION['token']        = $consumer->getToken();
  * $_SESSION['token_secret'] = $consumer->getTokenSecret();
  *
- * $url = $consumer->getAuthorizationUrl('http://example.com/oauth/authorize');
+ * $url = $consumer->getAuthorizeUrl('http://example.com/oauth/authorize');
  * http_redirect($url); // function from pecl_http
  *
  * // When they come back via the $callback url
@@ -213,10 +213,10 @@ class HTTP_OAuth_Consumer extends HTTP_OAuth
     /**
      * Get authorize url
      *
-     * @param string $url        Authorization url
+     * @param string $url        Authorize url
      * @param array  $additional Additional parameters for the auth url
      *
-     * @return string Authorization url
+     * @return string Authorize url
      */
     public function getAuthorizeUrl($url, array $additional = array())
     {

@@ -30,7 +30,8 @@ $packagexml->setReleaseStability('alpha');
 
 $packagexml->setAPIStability('alpha');
 
-$packagexml->setNotes('* Added HTTP_OAuth_Consumer::getLastResponse()');
+$packagexml->setNotes('* Added HTTP_OAuth_Consumer::getLastResponse()
+* Fixed #17018 - Incorrect method names in comment examples');
 $packagexml->setPackageType('php');
 $packagexml->addRelease();
 
