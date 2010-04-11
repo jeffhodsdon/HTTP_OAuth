@@ -33,7 +33,7 @@ require_once 'HTTP/OAuth/Consumer/Exception/InvalidResponse.php';
  *
  * <code>
  * $consumer = new HTTP_OAuth_Consumer('key', 'secret');
- * $consumer->getRequestToken('http://example.com/oauth/request_token, $callback);
+ * $consumer->getRequestToken('http://example.com/oauth/request_token', $callback);
  *
  * // Store tokens
  * $_SESSION['token']        = $consumer->getToken();
