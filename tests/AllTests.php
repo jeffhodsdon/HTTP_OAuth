@@ -37,6 +37,7 @@ require_once 'HTTP/OAuth/Signature/HMAC/SHA1Test.php';
 require_once 'HTTP/OAuth/Signature/PLAINTEXTTest.php';
 require_once 'HTTP/OAuth/Provider/RequestTest.php';
 require_once 'HTTP/OAuth/Provider/ResponseTest.php';
+require_once 'HTTP/OAuth/Store/Consumer/CacheLiteTest.php';
 require_once 'PHPUnit/Framework/TestSuite.php';
 
 /**
@@ -78,6 +79,7 @@ class AllTests
         $suite->addTestSuite('HTTP_OAuth_Signature_RSA_SHA1Test');
         $suite->addTestSuite('HTTP_OAuth_Provider_RequestTest');
         $suite->addTestSuite('HTTP_OAuth_Provider_ResponseTest');
+        $suite->addTestSuite('HTTP_OAuth_Store_Consumer_CacheLiteTest');
  
         return $suite;
     }
