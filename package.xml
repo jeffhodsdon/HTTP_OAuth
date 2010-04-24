@@ -16,10 +16,10 @@
   <email>shupp@php.net</email>
   <active>yes</active>
  </lead>
- <date>2010-02-16</date>
- <time>16:35:03</time>
+ <date>2010-04-24</date>
+ <time>00:32:39</time>
  <version>
-  <release>0.1.8</release>
+  <release>0.1.10</release>
   <api>0.1.1</api>
  </version>
  <stability>
@@ -28,8 +28,7 @@
  </stability>
  <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD Style</license>
  <notes>
-Getting headers in HTTP_OAuth_Provider_Request is now case insensitive.
-Made HTTP_OAuth_Consumer::getSecrets() public.
+Updated digg example
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
@@ -40,7 +39,7 @@ Made HTTP_OAuth_Consumer::getSecrets() public.
    <file baseinstalldir="/" md5sum="9220a7974a8d44db5826119da9261381" name="examples/digg.gif" role="doc" />
    <file baseinstalldir="/" md5sum="c3ea1f5035a32a6a488c8c1bbd0cbea6" name="examples/examples-config.php" role="doc" />
    <file baseinstalldir="/" md5sum="eb3ed26a15e8a446dd67b083841ad67b" name="examples/google.gif" role="doc" />
-   <file baseinstalldir="/" md5sum="63cb07faa8d99fd4f07c9af51e839d53" name="examples/index.php" role="doc" />
+   <file baseinstalldir="/" md5sum="24b7b1da5477292d0682b7db5d009b92" name="examples/index.php" role="doc" />
    <file baseinstalldir="/" md5sum="621cb6fcf57c3e29f9f06b8b00b0c030" name="examples/jquery.cookie.js" role="doc" />
    <file baseinstalldir="/" md5sum="168af7d26496bb5e75dcccfe8a8667d0" name="examples/jquery.fade.js" role="doc" />
    <file baseinstalldir="/" md5sum="bb381e2d19d8eace86b34d20759491a5" name="examples/jquery.js" role="doc" />
@@ -51,7 +50,7 @@ Made HTTP_OAuth_Consumer::getSecrets() public.
    <file baseinstalldir="/" md5sum="1d5167f08206d3371716b260e86ccb1b" name="examples/twitter.gif" role="doc" />
    <file baseinstalldir="/" md5sum="3c4b5735850df3948a83c9ac1354279a" name="examples/yahoo.gif" role="doc" />
    <file baseinstalldir="/" md5sum="92b7dedc5ac0630b8bc821084b142e7c" name="HTTP/OAuth.php" role="php" />
-   <file baseinstalldir="/" md5sum="529e7455c2bd0d67888d91b5578088a1" name="HTTP/OAuth/Consumer.php" role="php" />
+   <file baseinstalldir="/" md5sum="781c339f8780217a70d464b59431cf1a" name="HTTP/OAuth/Consumer.php" role="php" />
    <file baseinstalldir="/" md5sum="b0b747f0357f685088d4f7cd7982a66e" name="HTTP/OAuth/Exception.php" role="php" />
    <file baseinstalldir="/" md5sum="f68a548cbbff0a55b377698d13405057" name="HTTP/OAuth/Message.php" role="php" />
    <file baseinstalldir="/" md5sum="52275f9361890df5c1a20a50894543f0" name="HTTP/OAuth/Signature.php" role="php" />
@@ -69,7 +68,7 @@ Made HTTP_OAuth_Consumer::getSecrets() public.
    <file baseinstalldir="/" md5sum="74cf9e13628ef3aba06d823e9e5a855d" name="HTTP/OAuth/Signature/RSA/SHA1.php" role="php" />
    <file baseinstalldir="/" md5sum="057563e7b8729ebe6f7ebd8c7dcb611c" name="tests/AllTests.php" role="test" />
    <file baseinstalldir="/" md5sum="46d98f7acce55e74ee6610aece737739" name="tests/HTTP/OAuthTest.php" role="test" />
-   <file baseinstalldir="/" md5sum="8cdec0fe05a0d94ea9002fce9814468f" name="tests/HTTP/OAuth/ConsumerTest.php" role="test" />
+   <file baseinstalldir="/" md5sum="3652f2937d85d94f884cd20277a41ff0" name="tests/HTTP/OAuth/ConsumerTest.php" role="test" />
    <file baseinstalldir="/" md5sum="9de1701fb32ad3b009e986ac9c189651" name="tests/HTTP/OAuth/MessageMock.php" role="test" />
    <file baseinstalldir="/" md5sum="08c9b0d6195565394f99d0d514d2a60b" name="tests/HTTP/OAuth/MessageTest.php" role="test" />
    <file baseinstalldir="/" md5sum="0a578b56b56b978007fe3d880fc24f2b" name="tests/HTTP/OAuth/SignatureTest.php" role="test" />
@@ -85,7 +84,9 @@ Made HTTP_OAuth_Consumer::getSecrets() public.
    <file baseinstalldir="/" md5sum="c84af90f5a080ae833fdf6ebb29d5f52" name="tests/HTTP/OAuth/Signature/PLAINTEXTTest.php" role="test" />
    <file baseinstalldir="/" md5sum="1321ef2eb53b6da6ef0f5505844ff4c1" name="tests/HTTP/OAuth/Signature/HMAC/SHA1Test.php" role="test" />
    <file baseinstalldir="/" md5sum="b967a7e1d433333d442a87918e415e56" name="tests/HTTP/OAuth/Signature/RSA/SHA1Test.php" role="test" />
+   <file baseinstalldir="/" md5sum="9bb0233305d243d17e2d5fa1d4d4c9e0" name="generatePackage.php" role="php" />
    <file baseinstalldir="/" md5sum="d41d8cd98f00b204e9800998ecf8427e" name="README" role="data" />
+   <file baseinstalldir="/" md5sum="5d34bb9ecdf449dbfaccefb853d867b3" name="runTests.php" role="php" />
   </dir>
  </contents>
  <dependencies>
@@ -255,6 +256,37 @@ Initial release.
    <notes>
 Getting headers in HTTP_OAuth_Provider_Request is now case insensitive.
 Made HTTP_OAuth_Consumer::getSecrets() public.
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>0.1.9</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>alpha</release>
+    <api>alpha</api>
+   </stability>
+   <date>2010-04-24</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD Style</license>
+   <notes>
+* Added HTTP_OAuth_Consumer::getLastResponse()
+* Fixed #17018 - Incorrect method names in comment examples
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>0.1.10</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>alpha</release>
+    <api>alpha</api>
+   </stability>
+   <date>2010-04-24</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD Style</license>
+   <notes>
+Updated digg example
    </notes>
   </release>
  </changelog>
