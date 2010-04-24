@@ -198,9 +198,9 @@ $(document).ready(function() {
     $('.defaults > select').change(function() {
         switch ($(this).val()) {
         case 'digg':
-            var request_token_url = '';
-            var authorize_url     = '';
-            var access_token_url  = '';
+            var request_token_url = 'http://services.digg.com/1.0/endpoint?method=oauth.getRequestToken';
+            var authorize_url     = 'http://digg.com/oauth/authorize';
+            var access_token_url  = 'http://services.digg.com/1.0/endpoint?method=oauth.getAccessToken';
             break;
         case 'twitter':
             var request_token_url = 'http://twitter.com/oauth/request_token';
