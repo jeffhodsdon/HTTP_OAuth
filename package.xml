@@ -16,10 +16,10 @@
   <email>shupp@php.net</email>
   <active>yes</active>
  </lead>
- <date>2010-04-24</date>
- <time>00:29:12</time>
+ <date>2010-02-16</date>
+ <time>16:35:03</time>
  <version>
-  <release>0.1.9</release>
+  <release>0.1.8</release>
   <api>0.1.1</api>
  </version>
  <stability>
@@ -28,7 +28,8 @@
  </stability>
  <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD Style</license>
  <notes>
-* Updated digg examples
+Getting headers in HTTP_OAuth_Provider_Request is now case insensitive.
+Made HTTP_OAuth_Consumer::getSecrets() public.
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
@@ -39,7 +40,7 @@
    <file baseinstalldir="/" md5sum="9220a7974a8d44db5826119da9261381" name="examples/digg.gif" role="doc" />
    <file baseinstalldir="/" md5sum="c3ea1f5035a32a6a488c8c1bbd0cbea6" name="examples/examples-config.php" role="doc" />
    <file baseinstalldir="/" md5sum="eb3ed26a15e8a446dd67b083841ad67b" name="examples/google.gif" role="doc" />
-   <file baseinstalldir="/" md5sum="24b7b1da5477292d0682b7db5d009b92" name="examples/index.php" role="doc" />
+   <file baseinstalldir="/" md5sum="63cb07faa8d99fd4f07c9af51e839d53" name="examples/index.php" role="doc" />
    <file baseinstalldir="/" md5sum="621cb6fcf57c3e29f9f06b8b00b0c030" name="examples/jquery.cookie.js" role="doc" />
    <file baseinstalldir="/" md5sum="168af7d26496bb5e75dcccfe8a8667d0" name="examples/jquery.fade.js" role="doc" />
    <file baseinstalldir="/" md5sum="bb381e2d19d8eace86b34d20759491a5" name="examples/jquery.js" role="doc" />
@@ -254,21 +255,6 @@ Initial release.
    <notes>
 Getting headers in HTTP_OAuth_Provider_Request is now case insensitive.
 Made HTTP_OAuth_Consumer::getSecrets() public.
-   </notes>
-  </release>
-  <release>
-   <version>
-    <release>0.1.9</release>
-    <api>0.1.1</api>
-   </version>
-   <stability>
-    <release>alpha</release>
-    <api>alpha</api>
-   </stability>
-   <date>2010-04-24</date>
-   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD Style</license>
-   <notes>
-* Updated digg examples
    </notes>
   </release>
  </changelog>

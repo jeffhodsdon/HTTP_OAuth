@@ -121,6 +121,8 @@ class HTTP_OAuth_ConsumerTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($params['food'], 'pizza');
         $this->assertTrue((bool) strstr($req->getUrl()->getQuery(),
             'foo=bar&food=pizza'));
+
+        $this->assertType('HTTP_OAuth_Consumer_Response', $con->getLastResponse());
     }
 
     public function testGetAuthorizeUrl()

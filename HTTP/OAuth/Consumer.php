@@ -33,13 +33,13 @@ require_once 'HTTP/OAuth/Consumer/Exception/InvalidResponse.php';
  *
  * <code>
  * $consumer = new HTTP_OAuth_Consumer('key', 'secret');
- * $consumer->getRequestToken('http://example.com/oauth/request_token, $callback);
+ * $consumer->getRequestToken('http://example.com/oauth/request_token', $callback);
  *
  * // Store tokens
  * $_SESSION['token']        = $consumer->getToken();
  * $_SESSION['token_secret'] = $consumer->getTokenSecret();
  *
- * $url = $consumer->getAuthorizationUrl('http://example.com/oauth/authorize');
+ * $url = $consumer->getAuthorizeUrl('http://example.com/oauth/authorize');
  * http_redirect($url); // function from pecl_http
  *
  * // When they come back via the $callback url
@@ -116,6 +116,13 @@ class HTTP_OAuth_Consumer extends HTTP_OAuth
      * @var HTTP_OAuth_Consumer_Request $lastRequest The last request made
      */
     protected $lastRequest = null;
+
+    /**
+     * Instance of the last response received
+     * 
+     * @var HTTP_OAuth_Consumer_Response
+     */
+    protected $lastResponse =null;
 
     /**
      * Construct
@@ -206,10 +213,10 @@ class HTTP_OAuth_Consumer extends HTTP_OAuth
     /**
      * Get authorize url
      *
-     * @param string $url        Authorization url
+     * @param string $url        Authorize url
      * @param array  $additional Additional parameters for the auth url
      *
-     * @return string Authorization url
+     * @return string Authorize url
      */
     public function getAuthorizeUrl($url, array $additional = array())
     {
@@ -247,11 +254,10 @@ class HTTP_OAuth_Consumer extends HTTP_OAuth
         $req->setMethod($method);
         $req->setSecrets($this->getSecrets());
         $req->setParameters($params);
-        $res = $req->send();
+        $this->lastResponse = $req->send();
+        $this->lastRequest  = $req;
 
-        $this->lastRequest = $req;
-
-        return $res;
+        return $this->lastResponse;
     }
 
     /**
@@ -400,6 +406,16 @@ class HTTP_OAuth_Consumer extends HTTP_OAuth
     public function getLastRequest()
     {
         return $this->lastRequest;
+    }
+
+    /**
+     * Gets the most recent HTTP_OAuth_Consumer_Response object
+     * 
+     * @return HTTP_OAuth_Consumer_Response|null
+     */
+    public function getLastResponse()
+    {
+        return $this->lastResponse;
     }
 }
 
