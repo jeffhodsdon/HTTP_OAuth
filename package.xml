@@ -16,10 +16,10 @@
   <email>shupp@php.net</email>
   <active>yes</active>
  </lead>
- <date>2010-04-24</date>
- <time>00:32:39</time>
+ <date>2010-05-25</date>
+ <time>17:28:54</time>
  <version>
-  <release>0.1.10</release>
+  <release>0.1.11</release>
   <api>0.1.1</api>
  </version>
  <stability>
@@ -28,7 +28,7 @@
  </stability>
  <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD Style</license>
  <notes>
-Updated digg example
+* Fixed bug where the query string was getting into the url in the base signature string
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
@@ -62,7 +62,7 @@ Updated digg example
    <file baseinstalldir="/" md5sum="6de83aa1d9b914892ad5a4fed62f581a" name="HTTP/OAuth/Provider/Request.php" role="php" />
    <file baseinstalldir="/" md5sum="4ee4212917720f3d326a6bb664115e85" name="HTTP/OAuth/Provider/Response.php" role="php" />
    <file baseinstalldir="/" md5sum="8b4884d6b2125a5ac4d39766680eac0d" name="HTTP/OAuth/Provider/Exception/InvalidRequest.php" role="php" />
-   <file baseinstalldir="/" md5sum="b60fed97b5a96b967ba3b6729c4db02d" name="HTTP/OAuth/Signature/Common.php" role="php" />
+   <file baseinstalldir="/" md5sum="4823a3c00c09d4b950241cb9734e61c3" name="HTTP/OAuth/Signature/Common.php" role="php" />
    <file baseinstalldir="/" md5sum="17773749509ad6bf95fe247cf605addb" name="HTTP/OAuth/Signature/PLAINTEXT.php" role="php" />
    <file baseinstalldir="/" md5sum="c304f86c838aa909cd5be01595cf884e" name="HTTP/OAuth/Signature/HMAC/SHA1.php" role="php" />
    <file baseinstalldir="/" md5sum="74cf9e13628ef3aba06d823e9e5a855d" name="HTTP/OAuth/Signature/RSA/SHA1.php" role="php" />
@@ -75,7 +75,7 @@ Updated digg example
    <file baseinstalldir="/" md5sum="bbb547cb57adef6671e1ebc80094f1df" name="tests/HTTP/OAuth/Consumer/RequestTest.php" role="test" />
    <file baseinstalldir="/" md5sum="afa77081643fb2cd0a27f4143837def8" name="tests/HTTP/OAuth/Consumer/ResponseTest.php" role="test" />
    <file baseinstalldir="/" md5sum="6809ba90fce3cf7bd81fa378fcff0087" name="tests/HTTP/OAuth/Consumer/Exception/InvalidResponseTest.php" role="test" />
-   <file baseinstalldir="/" md5sum="360663c8d695e38dcff2ca24c7ff668a" name="tests/HTTP/OAuth/Provider/RequestTest.php" role="test" />
+   <file baseinstalldir="/" md5sum="2a6bd618d561369ffc44ee3d80c5792b" name="tests/HTTP/OAuth/Provider/RequestTest.php" role="test" />
    <file baseinstalldir="/" md5sum="62575c35b5d7798ff8427abc321c4e89" name="tests/HTTP/OAuth/Provider/ResponseTest.php" role="test" />
    <file baseinstalldir="/" md5sum="fc458d321aff0523ae41082b9560dd6e" name="tests/HTTP/OAuth/Signature/CommonMock.php" role="test" />
    <file baseinstalldir="/" md5sum="bf4fe00d5f7625e6bdb048ce8e9f5b03" name="tests/HTTP/OAuth/Signature/CommonTest.php" role="test" />
@@ -287,6 +287,21 @@ Made HTTP_OAuth_Consumer::getSecrets() public.
    <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD Style</license>
    <notes>
 Updated digg example
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>0.1.11</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>alpha</release>
+    <api>alpha</api>
+   </stability>
+   <date>2010-05-25</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD Style</license>
+   <notes>
+* Fixed bug where the query string was getting into the url in the base signature string
    </notes>
   </release>
  </changelog>
