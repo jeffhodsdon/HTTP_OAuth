@@ -168,11 +168,10 @@ class HTTP_OAuth_Provider_Request extends HTTP_OAuth_Message
 
             $params = array_merge($params,
                 $this->parseQueryString($this->getPostData()));
-        } else {
-            $this->debug('getting data from GET');
-            $params = array_merge($params,
-                $this->parseQueryString($this->getQueryString()));
         }
+
+        $params = array_merge($params,
+            $this->parseQueryString($this->getQueryString()));
 
         if (empty($params)) {
             throw new HTTP_OAuth_Provider_Exception_InvalidRequest('No oauth ' .
