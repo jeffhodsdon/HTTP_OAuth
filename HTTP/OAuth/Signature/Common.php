@@ -55,7 +55,8 @@ abstract class HTTP_OAuth_Signature_Common extends HTTP_OAuth
             unset($params['oauth_signature']);
         }
 
-        $parts = array($method, $url, HTTP_OAuth::buildHTTPQuery($params));
+        $parts = array($method, reset(explode('?', $url)),
+            HTTP_OAuth::buildHTTPQuery($params));
         $base  = implode('&', HTTP_OAuth::urlencode($parts));
         $this->debug('Signing with base string: ' . $base);
         return $base;

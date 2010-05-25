@@ -173,7 +173,7 @@ class HTTP_OAuth_Provider_RequestTest extends PHPUnit_Framework_TestCase
     {
         $request = $this->mockedRequest(array('getRequestMethod', 'getUrl'));
         $request->expects($this->any())->method('getUrl')
-            ->will($this->returnValue('http://jeffhodsdon.com/oauth/request_token.php'));
+            ->will($this->returnValue('http://jeffhodsdon.com/oauth/request_token.php?foo=1'));
         $request->expects($this->any())->method('getRequestMethod')
             ->will($this->returnValue('POST'));
         $result = $request->isValidSignature($this->consumerSecret,
