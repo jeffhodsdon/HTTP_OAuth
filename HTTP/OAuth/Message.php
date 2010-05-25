@@ -95,7 +95,10 @@ implements ArrayAccess, Countable, IteratorAggregate
      */
     public function getParameters()
     {
-        return $this->parameters;
+        $params = $this->parameters;
+        ksort($params);
+
+        return $params;
     }
 
     /**

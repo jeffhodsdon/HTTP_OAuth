@@ -60,6 +60,14 @@ class HTTP_OAuth_MessageTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($m->getSignatureMethod(), 'HMAC-SHA1');
     }
 
+    public function testGetParametersIsSorted()
+    {
+        $params = array('z' => 'foo', 'a' => 'bar');
+        $m = new HTTP_OAuth_MessageMock;
+        $m->setParameters($params);
+        $this->assertEquals('bar', reset($m->getParameters()));
+    }
+
     public function testMagicGetter()
     {
         $m = new HTTP_OAuth_MessageMock;
