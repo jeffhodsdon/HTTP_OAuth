@@ -233,9 +233,11 @@ class HTTP_OAuth_Consumer_Request extends HTTP_OAuth_Message
         $this->oauth_timestamp = time();
         $this->oauth_nonce     = md5(microtime(true) . rand(1, 999));
         $this->oauth_version   = '1.0';
+        $params                = array_merge($this->getParameters(),
+                                             $this->getUrl()->getQueryVariables());
         $this->oauth_signature = $sig->build($this->getMethod(),
                                              $this->getUrl()->getURL(),
-                                             $this->getParameters(),
+                                             $params,
                                              $this->secrets[0],
                                              $this->secrets[1]);
 
