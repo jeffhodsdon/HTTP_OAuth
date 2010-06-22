@@ -192,7 +192,10 @@ abstract class HTTP_OAuth
             return array_map(array('HTTP_OAuth', 'urldecode'), $item);
         }
 
-        return rawurldecode($item);
+        static $search  = array('+', '%7E');
+        static $replace = array(' ', '~');
+
+        return str_replace($search, $replace, rawurldecode($item));
     }
 
 }

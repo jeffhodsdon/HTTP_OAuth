@@ -54,9 +54,10 @@ class HTTP_OAuth_Provider_RequestTest extends PHPUnit_Framework_TestCase
      * @var array $params Parameters for an example OAuth request
      */
     protected $params = array(
+        'foo'                    => 'bar bar',
         'oauth_consumer_key'     => 'key',
         'oauth_signature_method' => 'HMAC-SHA1',
-        'oauth_signature'        => 'OOqI7ec6q81FIfOFqYUTswUHK8I=',
+        'oauth_signature'        => 'jMenbpx3MWa8qyxgQr4olVrXTBU=',
         'oauth_timestamp'        => '1251317781',
         'oauth_nonce'            => '2E0A8559-8660-45F9-832F-6AC466615C79',
         'oauth_version'          => '1.0'
@@ -110,14 +111,15 @@ class HTTP_OAuth_Provider_RequestTest extends PHPUnit_Framework_TestCase
     public function testSetParametersFromRequest()
     {
         $header = 'Authorization: OAuth realm="", oauth_consumer_key="key", oauth_signature_method="HMAC-SHA1", oauth_signature="ZUgC96UBRxYOl1Pml32hNDsNNUc%3D", oauth_timestamp="1251304744", oauth_nonce="18B2129F-4A4E-4502-8EB5-801DE2BB0247", oauth_version="1.0"';
-        $queryString = 'oauth_consumer_key=key&oauth_signature_method=HMAC-SHA1&oauth_signature=ZUgC96UBRxYOl1Pml32hNDsNNUc%3D&oauth_timestamp=1251304744&oauth_nonce=18B2129F-4A4E-4502-8EB5-801DE2BB0247&oauth_version=1.0';
+        $queryString = 'foo=bar+bar&oauth_consumer_key=key&oauth_signature_method=HMAC-SHA1&oauth_signature=ZUgC96UBRxYOl1Pml32hNDsNNUc%3D&oauth_timestamp=1251304744&oauth_nonce=18B2129F-4A4E-4502-8EB5-801DE2BB0247&oauth_version=1.0';
         $expected = array(
-            'oauth_signature_method' => 'HMAC-SHA1',
+            'foo'                    => 'bar bar',
             'oauth_consumer_key'     => 'key',
-            'oauth_signature'        => 'ZUgC96UBRxYOl1Pml32hNDsNNUc=',
-            'oauth_timestamp'        => '1251304744',
             'oauth_nonce'            => '18B2129F-4A4E-4502-8EB5-801DE2BB0247',
-            'oauth_version'          => '1.0'
+            'oauth_signature'        => 'ZUgC96UBRxYOl1Pml32hNDsNNUc=',
+            'oauth_signature_method' => 'HMAC-SHA1',
+            'oauth_timestamp'        => '1251304744',
+            'oauth_version'          => '1.0',
         );
 
         $request = $this->mockedRequest();

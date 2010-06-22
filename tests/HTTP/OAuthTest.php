@@ -56,8 +56,8 @@ class HTTP_OAuthTest extends PHPUnit_Framework_TestCase
 
     public function testURLDecode()
     {
-        $raw = 'http://www.joestump.net/~foobar';
-        $exp = 'http%3A%2F%2Fwww.joestump.net%2F~foobar';
+        $raw = 'http://www.joestump.net/~foobar foo';
+        $exp = 'http%3A%2F%2Fwww.joestump.net%2F~foobar+foo';
         $res = HTTP_OAuth::urldecode($exp);
         $this->assertEquals($res, $raw);
 

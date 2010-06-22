@@ -340,8 +340,8 @@ class HTTP_OAuth_Provider_Request extends HTTP_OAuth_Message
                 continue;
             }
 
-            list($key, $value)     = explode('=', $part);
-            $data[$key] = $value;
+            list($key, $value) = explode('=', $part);
+            $data[$key] = self::urldecode($value);
         }
 
         return $data;
