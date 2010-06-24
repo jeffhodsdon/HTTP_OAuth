@@ -166,7 +166,7 @@ abstract class HTTP_OAuth
     static public function urlencode($item)
     {
         static $search  = array('+', '%7E');
-        static $replace = array(' ', '~');
+        static $replace = array('%20', '~');
 
         if (is_array($item)) {
             return array_map(array('HTTP_OAuth', 'urlencode'), $item);
@@ -192,10 +192,7 @@ abstract class HTTP_OAuth
             return array_map(array('HTTP_OAuth', 'urldecode'), $item);
         }
 
-        static $search  = array('+', '%7E');
-        static $replace = array(' ', '~');
-
-        return str_replace($search, $replace, rawurldecode($item));
+        return rawurldecode($item);
     }
 
 }

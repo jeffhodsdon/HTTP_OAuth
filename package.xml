@@ -16,10 +16,10 @@
   <email>shupp@php.net</email>
   <active>yes</active>
  </lead>
- <date>2010-06-22</date>
- <time>20:16:46</time>
+ <date>2010-06-24</date>
+ <time>21:37:00</time>
  <version>
-  <release>0.1.15</release>
+  <release>0.1.16</release>
   <api>0.1.1</api>
  </version>
  <stability>
@@ -28,7 +28,7 @@
  </stability>
  <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD Style</license>
  <notes>
-* Fixed urldecoding issue in provider code
+* Fixed url encoding issue.  &quot;+&quot; should be &quot;%20&quot;
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
@@ -49,7 +49,7 @@
    <file baseinstalldir="/" md5sum="ede2a02fd5db55fdfcba15a4bf68af19" name="examples/styles.css" role="doc" />
    <file baseinstalldir="/" md5sum="1d5167f08206d3371716b260e86ccb1b" name="examples/twitter.gif" role="doc" />
    <file baseinstalldir="/" md5sum="3c4b5735850df3948a83c9ac1354279a" name="examples/yahoo.gif" role="doc" />
-   <file baseinstalldir="/" md5sum="6f29d2f8986a866159b24da4763be88b" name="HTTP/OAuth.php" role="php" />
+   <file baseinstalldir="/" md5sum="4ed20e15a1263c7b61415406974a344b" name="HTTP/OAuth.php" role="php" />
    <file baseinstalldir="/" md5sum="781c339f8780217a70d464b59431cf1a" name="HTTP/OAuth/Consumer.php" role="php" />
    <file baseinstalldir="/" md5sum="b0b747f0357f685088d4f7cd7982a66e" name="HTTP/OAuth/Exception.php" role="php" />
    <file baseinstalldir="/" md5sum="257d8394b64dad12bbc11e4e99f56005" name="HTTP/OAuth/Message.php" role="php" />
@@ -67,7 +67,7 @@
    <file baseinstalldir="/" md5sum="c304f86c838aa909cd5be01595cf884e" name="HTTP/OAuth/Signature/HMAC/SHA1.php" role="php" />
    <file baseinstalldir="/" md5sum="74cf9e13628ef3aba06d823e9e5a855d" name="HTTP/OAuth/Signature/RSA/SHA1.php" role="php" />
    <file baseinstalldir="/" md5sum="057563e7b8729ebe6f7ebd8c7dcb611c" name="tests/AllTests.php" role="test" />
-   <file baseinstalldir="/" md5sum="c54a4503c8f007d6346d6a77581fc802" name="tests/HTTP/OAuthTest.php" role="test" />
+   <file baseinstalldir="/" md5sum="46c0e0f03ce7cb452d15d322b95e9038" name="tests/HTTP/OAuthTest.php" role="test" />
    <file baseinstalldir="/" md5sum="3652f2937d85d94f884cd20277a41ff0" name="tests/HTTP/OAuth/ConsumerTest.php" role="test" />
    <file baseinstalldir="/" md5sum="9de1701fb32ad3b009e986ac9c189651" name="tests/HTTP/OAuth/MessageMock.php" role="test" />
    <file baseinstalldir="/" md5sum="a43bc98a09c01ace7b7fd867c87a2abd" name="tests/HTTP/OAuth/MessageTest.php" role="test" />
@@ -75,7 +75,7 @@
    <file baseinstalldir="/" md5sum="bbb547cb57adef6671e1ebc80094f1df" name="tests/HTTP/OAuth/Consumer/RequestTest.php" role="test" />
    <file baseinstalldir="/" md5sum="afa77081643fb2cd0a27f4143837def8" name="tests/HTTP/OAuth/Consumer/ResponseTest.php" role="test" />
    <file baseinstalldir="/" md5sum="6809ba90fce3cf7bd81fa378fcff0087" name="tests/HTTP/OAuth/Consumer/Exception/InvalidResponseTest.php" role="test" />
-   <file baseinstalldir="/" md5sum="937b5c9546ca76b021f8ce29d59b9cf8" name="tests/HTTP/OAuth/Provider/RequestTest.php" role="test" />
+   <file baseinstalldir="/" md5sum="ae8d35eb4f34e438262cb38a4c21a801" name="tests/HTTP/OAuth/Provider/RequestTest.php" role="test" />
    <file baseinstalldir="/" md5sum="62575c35b5d7798ff8427abc321c4e89" name="tests/HTTP/OAuth/Provider/ResponseTest.php" role="test" />
    <file baseinstalldir="/" md5sum="fc458d321aff0523ae41082b9560dd6e" name="tests/HTTP/OAuth/Signature/CommonMock.php" role="test" />
    <file baseinstalldir="/" md5sum="bf4fe00d5f7625e6bdb048ce8e9f5b03" name="tests/HTTP/OAuth/Signature/CommonTest.php" role="test" />
@@ -362,6 +362,21 @@ Updated digg example
    <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD Style</license>
    <notes>
 * Fixed urldecoding issue in provider code
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>0.1.16</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>alpha</release>
+    <api>alpha</api>
+   </stability>
+   <date>2010-06-24</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD Style</license>
+   <notes>
+* Fixed url encoding issue.  &quot;+&quot; should be &quot;%20&quot;
    </notes>
   </release>
  </changelog>
