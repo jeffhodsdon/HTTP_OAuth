@@ -268,7 +268,6 @@ class HTTP_OAuth_Consumer_Request extends HTTP_OAuth_Message
 
         switch ($this->getMethod()) {
         case 'POST':
-            $this->setHeader('Content-Type', 'application/x-www-form-urlencoded');
             foreach ($this->getParameters() as $name => $value) {
                 if (substr($name, 0, 6) == 'oauth_') {
                     continue;

@@ -16,10 +16,10 @@
   <email>shupp@php.net</email>
   <active>yes</active>
  </lead>
- <date>2010-06-30</date>
- <time>22:36:08</time>
+ <date>2010-07-20</date>
+ <time>10:05:14</time>
  <version>
-  <release>0.1.17</release>
+  <release>0.1.18</release>
   <api>0.1.1</api>
  </version>
  <stability>
@@ -28,7 +28,7 @@
  </stability>
  <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD Style</license>
  <notes>
-* Fixed another bug with &apos;+&apos; to &apos;%20&apos;. This time HTTP_Request2&apos;s usage of http_build_query() makes spaces into &apos;+&apos; not &apos;%20&apos;
+* Removed the automatic adding of a Content-Type header for consumer requests
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
@@ -54,7 +54,7 @@
    <file baseinstalldir="/" md5sum="b0b747f0357f685088d4f7cd7982a66e" name="HTTP/OAuth/Exception.php" role="php" />
    <file baseinstalldir="/" md5sum="257d8394b64dad12bbc11e4e99f56005" name="HTTP/OAuth/Message.php" role="php" />
    <file baseinstalldir="/" md5sum="52275f9361890df5c1a20a50894543f0" name="HTTP/OAuth/Signature.php" role="php" />
-   <file baseinstalldir="/" md5sum="fb44c0c98e0fba3a9a425208b8b56bb6" name="HTTP/OAuth/Consumer/Request.php" role="php" />
+   <file baseinstalldir="/" md5sum="9a0e164e6f319813fcd4c0cd271d5359" name="HTTP/OAuth/Consumer/Request.php" role="php" />
    <file baseinstalldir="/" md5sum="7c428fc3e827f14f31d2e04e5c54f8e0" name="HTTP/OAuth/Consumer/Response.php" role="php" />
    <file baseinstalldir="/" md5sum="af4cd4dcf46a1c1ed77c418548012357" name="HTTP/OAuth/Consumer/Exception/InvalidResponse.php" role="php" />
    <file baseinstalldir="/" md5sum="3549952dae4f40b674854d6f8f4d0e73" name="HTTP/OAuth/Exception/NotImplemented.php" role="php" />
@@ -72,7 +72,7 @@
    <file baseinstalldir="/" md5sum="9de1701fb32ad3b009e986ac9c189651" name="tests/HTTP/OAuth/MessageMock.php" role="test" />
    <file baseinstalldir="/" md5sum="a43bc98a09c01ace7b7fd867c87a2abd" name="tests/HTTP/OAuth/MessageTest.php" role="test" />
    <file baseinstalldir="/" md5sum="0a578b56b56b978007fe3d880fc24f2b" name="tests/HTTP/OAuth/SignatureTest.php" role="test" />
-   <file baseinstalldir="/" md5sum="bbb547cb57adef6671e1ebc80094f1df" name="tests/HTTP/OAuth/Consumer/RequestTest.php" role="test" />
+   <file baseinstalldir="/" md5sum="f9789b15a0945b868823959903403a10" name="tests/HTTP/OAuth/Consumer/RequestTest.php" role="test" />
    <file baseinstalldir="/" md5sum="afa77081643fb2cd0a27f4143837def8" name="tests/HTTP/OAuth/Consumer/ResponseTest.php" role="test" />
    <file baseinstalldir="/" md5sum="6809ba90fce3cf7bd81fa378fcff0087" name="tests/HTTP/OAuth/Consumer/Exception/InvalidResponseTest.php" role="test" />
    <file baseinstalldir="/" md5sum="ae8d35eb4f34e438262cb38a4c21a801" name="tests/HTTP/OAuth/Provider/RequestTest.php" role="test" />
@@ -392,6 +392,21 @@ Updated digg example
    <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD Style</license>
    <notes>
 * Fixed another bug with &apos;+&apos; to &apos;%20&apos;. This time HTTP_Request2&apos;s usage of http_build_query() makes spaces into &apos;+&apos; not &apos;%20&apos;
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>0.1.18</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>alpha</release>
+    <api>alpha</api>
+   </stability>
+   <date>2010-07-20</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD Style</license>
+   <notes>
+* Removed the automatic adding of a Content-Type header for consumer requests
    </notes>
   </release>
  </changelog>
