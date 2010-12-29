@@ -187,6 +187,7 @@ class HTTP_OAuth_Provider_Response extends HTTP_OAuth_Message
         }
     }
 
+    // @codeCoverageIgnoreStart
     /**
      * Headers sent
      *
@@ -208,6 +209,7 @@ class HTTP_OAuth_Provider_Response extends HTTP_OAuth_Message
     {
         return header($header);
     }
+    // @codeCoverageIgnoreEnd
 
     /**
      * Prepare body
@@ -261,7 +263,9 @@ class HTTP_OAuth_Provider_Response extends HTTP_OAuth_Message
         if (!$this->headersSent()) {
             $this->header('HTTP/1.1 200 OK');
             foreach ($this->getHeaders() as $name => $value) {
+                // @codeCoverageIgnoreStart
                 $this->header($name . ': ' . $value);
+                // @codeCoverageIgnoreEnd
             }
         } else {
             $this->err('Headers already sent, can not send headers');

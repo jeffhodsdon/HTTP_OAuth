@@ -105,12 +105,15 @@ class HTTP_OAuth_Provider_Request extends HTTP_OAuth_Message
     protected function apacheRequestHeaders()
     {
         if (function_exists('apache_request_headers')) {
+            // @codeCoverageIgnoreStart
             return apache_request_headers();
+            // @codeCoverageIgnoreEnd
         }
 
         return null;
     }
 
+    // @codeCoverageIgnoreStart
     /**
      * Pecl HTTP request headers
      *
@@ -129,6 +132,7 @@ class HTTP_OAuth_Provider_Request extends HTTP_OAuth_Message
 
         return null;
     }
+    // @codeCoverageIgnoreEnd
 
     /**
      * Set parameters from the incoming request 
@@ -313,6 +317,7 @@ class HTTP_OAuth_Provider_Request extends HTTP_OAuth_Message
         return $this->headers;
     }
 
+    // @codeCoverageIgnoreStart
     /**
      * Gets POST data
      *
@@ -322,6 +327,7 @@ class HTTP_OAuth_Provider_Request extends HTTP_OAuth_Message
     {
         return file_get_contents('php://input');
     }
+    // @codeCoverageIgnoreEnd
 
     /**
      * Parses a query string

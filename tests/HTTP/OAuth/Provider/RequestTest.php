@@ -111,7 +111,7 @@ class HTTP_OAuth_Provider_RequestTest extends PHPUnit_Framework_TestCase
     public function testSetParametersFromRequest()
     {
         $header = 'Authorization: OAuth realm="", oauth_consumer_key="key", oauth_signature_method="HMAC-SHA1", oauth_signature="ZUgC96UBRxYOl1Pml32hNDsNNUc%3D", oauth_timestamp="1251304744", oauth_nonce="18B2129F-4A4E-4502-8EB5-801DE2BB0247", oauth_version="1.0"';
-        $queryString = 'foo=bar%20bar&oauth_consumer_key=key&oauth_signature_method=HMAC-SHA1&oauth_signature=ZUgC96UBRxYOl1Pml32hNDsNNUc%3D&oauth_timestamp=1251304744&oauth_nonce=18B2129F-4A4E-4502-8EB5-801DE2BB0247&oauth_version=1.0';
+        $queryString = 'foo=bar%20bar&oauth_consumer_key=key&oauth_signature_method=HMAC-SHA1&oauth_signature=ZUgC96UBRxYOl1Pml32hNDsNNUc%3D&oauth_timestamp=1251304744&oauth_nonce=18B2129F-4A4E-4502-8EB5-801DE2BB0247&oauth_version=1.0&paramwithnovalue';
         $expected = array(
             'foo'                    => 'bar bar',
             'oauth_consumer_key'     => 'key',
