@@ -209,11 +209,17 @@ class HTTP_OAuth_Consumer_Request extends HTTP_OAuth_Message
     public function send()
     {
         $this->buildRequest();
+        $request = $this->getHTTPRequest2();
 
         // Hack for the OAuth's spec + => %20 and HTTP_Request2
         // HTTP_Request2 uses http_build_query() which does spaces
         // as '+' and not '%20'
-        if ($this->getMethod() == 'POST') {
+        $headers     = $request->getHeaders();
+        $contentType = isset($headers['content-type'])
+                       ? $headers['content-type'] : '';
+        if ($this->getMethod() == 'POST'
+            && $contentType == 'application/x-www-form-urlencoded') {
+
             $body = $this->getHTTPRequest2()->getBody();
             $body = str_replace('+', '%20', $body);
             $this->getHTTPRequest2()->setBody($body);
