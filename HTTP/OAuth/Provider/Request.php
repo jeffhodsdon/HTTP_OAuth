@@ -26,6 +26,10 @@ require_once 'HTTP/OAuth/Provider/Exception/InvalidRequest.php';
 /**
  * HTTP_OAuth_Provider_Request
  *
+ * NOTE:
+ * Currently, it's up to the developer to implement the provider side of
+ * timestamp and nonce checking.
+ *
  * @category  HTTP
  * @package   HTTP_OAuth
  * @author    Jeff Hodsdon <jeffhodsdon@gmail.com>
