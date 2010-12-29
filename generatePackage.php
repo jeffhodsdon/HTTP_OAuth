@@ -38,6 +38,7 @@ $packagexml->setAPIStability('alpha');
 $packagexml->setNotes('* Added storage interface for consumers, including Cache_Lite driver
 * Fixed #17701 (Strict Standards Notice)
 * Fixed #17653 (HTTP_OAuth_Consumer_Request converts + to %20)
+* Fixed #17567 (Changes to support OAuth Session 1.0 Draft 1)
 * Added additional error constants and maps in HTTP_OAuth_Provider_Response
 ');
 $packagexml->setPackageType('php');
