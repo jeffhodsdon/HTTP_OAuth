@@ -218,7 +218,8 @@ class HTTP_OAuth_Consumer_Request extends HTTP_OAuth_Message
         $contentType = isset($headers['content-type'])
                        ? $headers['content-type'] : '';
         if ($this->getMethod() == 'POST'
-            && $contentType == 'application/x-www-form-urlencoded') {
+            && $contentType == 'application/x-www-form-urlencoded'
+        ) {
 
             $body = $this->getHTTPRequest2()->getBody();
             $body = str_replace('+', '%20', $body);

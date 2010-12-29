@@ -28,7 +28,8 @@ require_once 'Cache/Lite.php';
  * @license   http://www.opensource.org/licenses/bsd-license.php FreeBSD
  * @link      http://pear.php.net/http_oauth
  */
-class HTTP_OAuth_Store_Consumer_CacheLite implements HTTP_OAuth_Store_Consumer_Interface
+class HTTP_OAuth_Store_Consumer_CacheLite
+implements HTTP_OAuth_Store_Consumer_Interface
 {
     const TYPE_REQUEST           = 'requestTokens';
     const TYPE_ACCESS            = 'accessTokens';
@@ -94,9 +95,10 @@ class HTTP_OAuth_Store_Consumer_CacheLite implements HTTP_OAuth_Store_Consumer_I
             'sessionID'    => $sessionID
         );
 
-        return $this->cache->save(serialize($data),
-                                  $this->getRequestTokenKey($providerName,
-                                                            $sessionID));
+        return $this->cache->save(
+            serialize($data),
+            $this->getRequestTokenKey($providerName, $sessionID)
+        );
     }
 
     /**
@@ -111,8 +113,9 @@ class HTTP_OAuth_Store_Consumer_CacheLite implements HTTP_OAuth_Store_Consumer_I
     public function getRequestToken($providerName, $sessionID)
     {
         $this->setOptions(self::TYPE_REQUEST, self::REQUEST_TOKEN_LIFETIME);
-        $result = $this->cache->get($this->getRequestTokenKey($providerName,
-                                                              $sessionID));
+        $result = $this->cache->get(
+            $this->getRequestTokenKey($providerName, $sessionID)
+        );
         return unserialize($result);
     }
 
@@ -141,8 +144,9 @@ class HTTP_OAuth_Store_Consumer_CacheLite implements HTTP_OAuth_Store_Consumer_I
     public function getAccessToken($consumerUserID, $providerName)
     {
         $this->setOptions(self::TYPE_ACCESS);
-        $result = $this->cache->get($this->getAccessTokenKey($consumerUserID,
-                                                             $providerName));
+        $result = $this->cache->get(
+            $this->getAccessTokenKey($consumerUserID, $providerName)
+        );
         return unserialize($result);
     }
 
