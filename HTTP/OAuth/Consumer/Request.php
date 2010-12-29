@@ -335,9 +335,11 @@ class HTTP_OAuth_Consumer_Request extends HTTP_OAuth_Message
      */
     public function __call($method, $args)
     {
-        if (method_exists($this->getHTTPRequest2(), $method)) {
+        $httpRequest2 = $this->getHTTPRequest2();
+
+        if (is_callable(array($httpRequest2, $method))) {
             return call_user_func_array(
-                array($this->getHTTPRequest2(), $method),
+                array($httpRequest2, $method),
                 $args
             );
         }
