@@ -15,7 +15,9 @@ $packagexml->setOptions(array(
         'runTests.php',
         'generatePackage.php',
         'phpunit-bootstrap.php',
-        'phpunit.xml'
+        'phpunit.xml',
+        'README',
+        'coverage*'
     ),
     'dir_roles' => array(
         'tests'     => 'test',
@@ -29,18 +31,13 @@ $packagexml->setDescription('Allows the use of the consumer and provider angles 
 
 $packagexml->setChannel('pear.php.net');
 $packagexml->setAPIVersion('0.2.0');
-$packagexml->setReleaseVersion('0.2.0');
+$packagexml->setReleaseVersion('0.2.1');
 
 $packagexml->setReleaseStability('alpha');
 
 $packagexml->setAPIStability('alpha');
 
-$packagexml->setNotes('* Added storage interface for consumers, including Cache_Lite driver
-* Fixed #17701 (Strict Standards Notice)
-* Fixed #17653 (HTTP_OAuth_Consumer_Request converts + to %20)
-* Fixed #17567 (Changes to support OAuth Session 1.0 Draft 1)
-* Added additional error constants and maps in HTTP_OAuth_Provider_Response
-');
+$packagexml->setNotes('* Fixed #18161.  Removed incorrect code coverage directory inclusion from package.xml ');
 $packagexml->setPackageType('php');
 $packagexml->addRelease();
 
