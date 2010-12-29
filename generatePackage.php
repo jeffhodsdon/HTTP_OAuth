@@ -14,7 +14,7 @@ $packagexml->setOptions(array(
     'ignore'            => array(
         'runTests.php',
         'generatePackage.php',
-        'phpunit-bootstrap',
+        'phpunit-bootstrap.php',
         'phpunit.xml'
     ),
     'dir_roles' => array(
@@ -25,18 +25,21 @@ $packagexml->setOptions(array(
 
 $packagexml->setPackage('HTTP_OAuth');
 $packagexml->setSummary('PEAR implementation of the OAuth 1.0a specification');
-$packagexml->setDescription('Allows the use of the consumer and provider angles of the OAuth 1.0z specification');
+$packagexml->setDescription('Allows the use of the consumer and provider angles of the OAuth 1.0a specification');
 
 $packagexml->setChannel('pear.php.net');
-$packagexml->setAPIVersion('0.1.2');
-$packagexml->setReleaseVersion('0.1.9');
+$packagexml->setAPIVersion('0.2.0');
+$packagexml->setReleaseVersion('0.2.0');
 
 $packagexml->setReleaseStability('alpha');
 
 $packagexml->setAPIStability('alpha');
 
-$packagexml->setNotes('* Added HTTP_OAuth_Consumer::getLastResponse()
-* Fixed #17018 - Incorrect method names in comment examples');
+$packagexml->setNotes('* Added storage interface for consumers, including Cache_Lite driver
+* Fixed #17701 (Strict Standards Notice)
+* Fixed #17653 (HTTP_OAuth_Consumer_Request converts + to %20)
+* Added additional error constants and maps in HTTP_OAuth_Provider_Response
+');
 $packagexml->setPackageType('php');
 $packagexml->addRelease();
 

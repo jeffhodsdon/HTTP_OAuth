@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<package packagerversion="1.9.1" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0     http://pear.php.net/dtd/tasks-1.0.xsd     http://pear.php.net/dtd/package-2.0     http://pear.php.net/dtd/package-2.0.xsd">
+<package packagerversion="1.9.1" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0
+    http://pear.php.net/dtd/tasks-1.0.xsd
+    http://pear.php.net/dtd/package-2.0
+    http://pear.php.net/dtd/package-2.0.xsd">
  <name>HTTP_OAuth</name>
  <channel>pear.php.net</channel>
- <summary>PEAR implementation of the OAuth spec.</summary>
- <description>Allows the use of the consumer and provider angles of the OAuth spec.</description>
+ <summary>PEAR implementation of the OAuth 1.0a specification</summary>
+ <description>Allows the use of the consumer and provider angles of the OAuth 1.0a specification</description>
  <lead>
   <name>Jeff Hodsdon</name>
   <user>jeffhodsdon</user>
@@ -16,104 +19,170 @@
   <email>shupp@php.net</email>
   <active>yes</active>
  </lead>
- <date>2010-07-20</date>
- <time>10:05:14</time>
+ <date>2010-12-28</date>
+ <time>21:31:53</time>
  <version>
-  <release>0.1.18</release>
-  <api>0.1.1</api>
+  <release>0.2.0</release>
+  <api>0.2.0</api>
  </version>
  <stability>
   <release>alpha</release>
   <api>alpha</api>
  </stability>
- <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD Style</license>
+ <license uri="http://www.opensource.org/licenses/bsd-license.php">New BSD License</license>
  <notes>
-* Removed the automatic adding of a Content-Type header for consumer requests
+* Added storage interface for consumers, including Cache_Lite driver
+* Fixed #17701 (Strict Standards Notice)
+* Fixed #17653 (HTTP_OAuth_Consumer_Request converts + to %20)
+* Added additional error constants and maps in HTTP_OAuth_Provider_Response
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
-   <file baseinstalldir="/" md5sum="7bf48e293762d40dab8651380ef7ce5d" name="examples/access_token.php" role="doc" />
-   <file baseinstalldir="/" md5sum="b06183b0d94b3ae7a85cc02f50cdfd84" name="examples/authorize_url.php" role="doc" />
-   <file baseinstalldir="/" md5sum="8ba0067cd5e5f514bcfa832556f3ddbf" name="examples/cli.php" role="doc" />
-   <file baseinstalldir="/" md5sum="bb2fa45237c3b2ebd33cb9a2bdaa26c6" name="examples/config.php" role="doc" />
-   <file baseinstalldir="/" md5sum="9220a7974a8d44db5826119da9261381" name="examples/digg.gif" role="doc" />
-   <file baseinstalldir="/" md5sum="c3ea1f5035a32a6a488c8c1bbd0cbea6" name="examples/examples-config.php" role="doc" />
-   <file baseinstalldir="/" md5sum="eb3ed26a15e8a446dd67b083841ad67b" name="examples/google.gif" role="doc" />
-   <file baseinstalldir="/" md5sum="24b7b1da5477292d0682b7db5d009b92" name="examples/index.php" role="doc" />
-   <file baseinstalldir="/" md5sum="621cb6fcf57c3e29f9f06b8b00b0c030" name="examples/jquery.cookie.js" role="doc" />
-   <file baseinstalldir="/" md5sum="168af7d26496bb5e75dcccfe8a8667d0" name="examples/jquery.fade.js" role="doc" />
-   <file baseinstalldir="/" md5sum="bb381e2d19d8eace86b34d20759491a5" name="examples/jquery.js" role="doc" />
-   <file baseinstalldir="/" md5sum="d0b1ddbf2230ef5609b3167b94e6458c" name="examples/myspace.jpg" role="doc" />
-   <file baseinstalldir="/" md5sum="cccb541fc32d08c50d3a4737627dbefa" name="examples/oauth_request.php" role="doc" />
-   <file baseinstalldir="/" md5sum="bcd0e45189328265b334821231ef1150" name="examples/request_token.php" role="doc" />
-   <file baseinstalldir="/" md5sum="ede2a02fd5db55fdfcba15a4bf68af19" name="examples/styles.css" role="doc" />
-   <file baseinstalldir="/" md5sum="1d5167f08206d3371716b260e86ccb1b" name="examples/twitter.gif" role="doc" />
-   <file baseinstalldir="/" md5sum="3c4b5735850df3948a83c9ac1354279a" name="examples/yahoo.gif" role="doc" />
-   <file baseinstalldir="/" md5sum="4ed20e15a1263c7b61415406974a344b" name="HTTP/OAuth.php" role="php" />
-   <file baseinstalldir="/" md5sum="781c339f8780217a70d464b59431cf1a" name="HTTP/OAuth/Consumer.php" role="php" />
-   <file baseinstalldir="/" md5sum="b0b747f0357f685088d4f7cd7982a66e" name="HTTP/OAuth/Exception.php" role="php" />
-   <file baseinstalldir="/" md5sum="257d8394b64dad12bbc11e4e99f56005" name="HTTP/OAuth/Message.php" role="php" />
-   <file baseinstalldir="/" md5sum="52275f9361890df5c1a20a50894543f0" name="HTTP/OAuth/Signature.php" role="php" />
-   <file baseinstalldir="/" md5sum="9a0e164e6f319813fcd4c0cd271d5359" name="HTTP/OAuth/Consumer/Request.php" role="php" />
-   <file baseinstalldir="/" md5sum="7c428fc3e827f14f31d2e04e5c54f8e0" name="HTTP/OAuth/Consumer/Response.php" role="php" />
-   <file baseinstalldir="/" md5sum="af4cd4dcf46a1c1ed77c418548012357" name="HTTP/OAuth/Consumer/Exception/InvalidResponse.php" role="php" />
-   <file baseinstalldir="/" md5sum="3549952dae4f40b674854d6f8f4d0e73" name="HTTP/OAuth/Exception/NotImplemented.php" role="php" />
-   <file baseinstalldir="/" md5sum="b94552592b48533a131e6177c9cf6210" name="HTTP/OAuth/Provider/Exception.php" role="php" />
-   <file baseinstalldir="/" md5sum="84179e2978a22b7aeb26b58f2f72465d" name="HTTP/OAuth/Provider/Request.php" role="php" />
-   <file baseinstalldir="/" md5sum="4ee4212917720f3d326a6bb664115e85" name="HTTP/OAuth/Provider/Response.php" role="php" />
-   <file baseinstalldir="/" md5sum="8b4884d6b2125a5ac4d39766680eac0d" name="HTTP/OAuth/Provider/Exception/InvalidRequest.php" role="php" />
-   <file baseinstalldir="/" md5sum="4823a3c00c09d4b950241cb9734e61c3" name="HTTP/OAuth/Signature/Common.php" role="php" />
-   <file baseinstalldir="/" md5sum="17773749509ad6bf95fe247cf605addb" name="HTTP/OAuth/Signature/PLAINTEXT.php" role="php" />
-   <file baseinstalldir="/" md5sum="c304f86c838aa909cd5be01595cf884e" name="HTTP/OAuth/Signature/HMAC/SHA1.php" role="php" />
-   <file baseinstalldir="/" md5sum="74cf9e13628ef3aba06d823e9e5a855d" name="HTTP/OAuth/Signature/RSA/SHA1.php" role="php" />
-   <file baseinstalldir="/" md5sum="057563e7b8729ebe6f7ebd8c7dcb611c" name="tests/AllTests.php" role="test" />
-   <file baseinstalldir="/" md5sum="46c0e0f03ce7cb452d15d322b95e9038" name="tests/HTTP/OAuthTest.php" role="test" />
-   <file baseinstalldir="/" md5sum="3652f2937d85d94f884cd20277a41ff0" name="tests/HTTP/OAuth/ConsumerTest.php" role="test" />
-   <file baseinstalldir="/" md5sum="9de1701fb32ad3b009e986ac9c189651" name="tests/HTTP/OAuth/MessageMock.php" role="test" />
-   <file baseinstalldir="/" md5sum="a43bc98a09c01ace7b7fd867c87a2abd" name="tests/HTTP/OAuth/MessageTest.php" role="test" />
-   <file baseinstalldir="/" md5sum="0a578b56b56b978007fe3d880fc24f2b" name="tests/HTTP/OAuth/SignatureTest.php" role="test" />
-   <file baseinstalldir="/" md5sum="f9789b15a0945b868823959903403a10" name="tests/HTTP/OAuth/Consumer/RequestTest.php" role="test" />
-   <file baseinstalldir="/" md5sum="afa77081643fb2cd0a27f4143837def8" name="tests/HTTP/OAuth/Consumer/ResponseTest.php" role="test" />
-   <file baseinstalldir="/" md5sum="6809ba90fce3cf7bd81fa378fcff0087" name="tests/HTTP/OAuth/Consumer/Exception/InvalidResponseTest.php" role="test" />
-   <file baseinstalldir="/" md5sum="ae8d35eb4f34e438262cb38a4c21a801" name="tests/HTTP/OAuth/Provider/RequestTest.php" role="test" />
-   <file baseinstalldir="/" md5sum="62575c35b5d7798ff8427abc321c4e89" name="tests/HTTP/OAuth/Provider/ResponseTest.php" role="test" />
-   <file baseinstalldir="/" md5sum="fc458d321aff0523ae41082b9560dd6e" name="tests/HTTP/OAuth/Signature/CommonMock.php" role="test" />
-   <file baseinstalldir="/" md5sum="bf4fe00d5f7625e6bdb048ce8e9f5b03" name="tests/HTTP/OAuth/Signature/CommonTest.php" role="test" />
-   <file baseinstalldir="/" md5sum="91d625d3fdfe58120af9b18109804eec" name="tests/HTTP/OAuth/Signature/NoClass.php" role="test" />
-   <file baseinstalldir="/" md5sum="a1490415c18e989976f341aaac18281b" name="tests/HTTP/OAuth/Signature/NoParent.php" role="test" />
-   <file baseinstalldir="/" md5sum="c84af90f5a080ae833fdf6ebb29d5f52" name="tests/HTTP/OAuth/Signature/PLAINTEXTTest.php" role="test" />
-   <file baseinstalldir="/" md5sum="1321ef2eb53b6da6ef0f5505844ff4c1" name="tests/HTTP/OAuth/Signature/HMAC/SHA1Test.php" role="test" />
-   <file baseinstalldir="/" md5sum="b967a7e1d433333d442a87918e415e56" name="tests/HTTP/OAuth/Signature/RSA/SHA1Test.php" role="test" />
-   <file baseinstalldir="/" md5sum="9bb0233305d243d17e2d5fa1d4d4c9e0" name="generatePackage.php" role="php" />
-   <file baseinstalldir="/" md5sum="d41d8cd98f00b204e9800998ecf8427e" name="README" role="data" />
-   <file baseinstalldir="/" md5sum="5d34bb9ecdf449dbfaccefb853d867b3" name="runTests.php" role="php" />
-  </dir>
+   <dir name="examples">
+    <file name="access_token.php" role="doc" />
+    <file name="authorize_url.php" role="doc" />
+    <file name="cli.php" role="doc" />
+    <file name="config.php" role="doc" />
+    <file name="digg.gif" role="doc" />
+    <file name="examples-config.php" role="doc" />
+    <file name="google.gif" role="doc" />
+    <file name="index.php" role="doc" />
+    <file name="jquery.cookie.js" role="doc" />
+    <file name="jquery.fade.js" role="doc" />
+    <file name="jquery.js" role="doc" />
+    <file name="myspace.jpg" role="doc" />
+    <file name="oauth_request.php" role="doc" />
+    <file name="request_token.php" role="doc" />
+    <file name="store.php" role="doc" />
+    <file name="styles.css" role="doc" />
+    <file name="twitter.gif" role="doc" />
+    <file name="yahoo.gif" role="doc" />
+   </dir> <!-- /examples -->
+   <dir name="HTTP">
+    <dir name="OAuth">
+     <dir name="Consumer">
+      <dir name="Exception">
+       <file name="InvalidResponse.php" role="php" />
+      </dir> <!-- /HTTP/OAuth/Consumer/Exception -->
+      <file name="Request.php" role="php" />
+      <file name="Response.php" role="php" />
+     </dir> <!-- /HTTP/OAuth/Consumer -->
+     <dir name="Exception">
+      <file name="NotImplemented.php" role="php" />
+     </dir> <!-- /HTTP/OAuth/Exception -->
+     <dir name="Provider">
+      <dir name="Exception">
+       <file name="InvalidRequest.php" role="php" />
+      </dir> <!-- /HTTP/OAuth/Provider/Exception -->
+      <file name="Exception.php" role="php" />
+      <file name="Request.php" role="php" />
+      <file name="Response.php" role="php" />
+     </dir> <!-- /HTTP/OAuth/Provider -->
+     <dir name="Signature">
+      <dir name="HMAC">
+       <file name="SHA1.php" role="php" />
+      </dir> <!-- /HTTP/OAuth/Signature/HMAC -->
+      <dir name="RSA">
+       <file name="SHA1.php" role="php" />
+      </dir> <!-- /HTTP/OAuth/Signature/RSA -->
+      <file name="Common.php" role="php" />
+      <file name="PLAINTEXT.php" role="php" />
+     </dir> <!-- /HTTP/OAuth/Signature -->
+     <dir name="Store">
+      <dir name="Consumer">
+       <file name="CacheLite.php" role="php" />
+       <file name="Interface.php" role="php" />
+      </dir> <!-- /HTTP/OAuth/Store/Consumer -->
+      <file name="Data.php" role="php" />
+     </dir> <!-- /HTTP/OAuth/Store -->
+     <file name="Consumer.php" role="php" />
+     <file name="Exception.php" role="php" />
+     <file name="Message.php" role="php" />
+     <file name="Signature.php" role="php" />
+    </dir> <!-- /HTTP/OAuth -->
+    <file name="OAuth.php" role="php" />
+   </dir> <!-- /HTTP -->
+   <dir name="tests">
+    <dir name="HTTP">
+     <dir name="OAuth">
+      <dir name="Consumer">
+       <dir name="Exception">
+        <file name="InvalidResponseTest.php" role="test" />
+       </dir> <!-- /tests/HTTP/OAuth/Consumer/Exception -->
+       <file name="RequestTest.php" role="test" />
+       <file name="ResponseTest.php" role="test" />
+      </dir> <!-- /tests/HTTP/OAuth/Consumer -->
+      <dir name="Provider">
+       <file name="RequestTest.php" role="test" />
+       <file name="ResponseTest.php" role="test" />
+      </dir> <!-- /tests/HTTP/OAuth/Provider -->
+      <dir name="Signature">
+       <dir name="HMAC">
+        <file name="SHA1Test.php" role="test" />
+       </dir> <!-- /tests/HTTP/OAuth/Signature/HMAC -->
+       <dir name="RSA">
+        <file name="SHA1Test.php" role="test" />
+       </dir> <!-- /tests/HTTP/OAuth/Signature/RSA -->
+       <file name="CommonMock.php" role="test" />
+       <file name="CommonTest.php" role="test" />
+       <file name="NoClass.php" role="test" />
+       <file name="NoParent.php" role="test" />
+       <file name="PLAINTEXTTest.php" role="test" />
+      </dir> <!-- /tests/HTTP/OAuth/Signature -->
+      <dir name="Store">
+       <dir name="Consumer">
+        <file name="CacheLiteTest.php" role="test" />
+       </dir> <!-- /tests/HTTP/OAuth/Store/Consumer -->
+      </dir> <!-- /tests/HTTP/OAuth/Store -->
+      <file name="ConsumerTest.php" role="test" />
+      <file name="MessageMock.php" role="test" />
+      <file name="MessageTest.php" role="test" />
+      <file name="SignatureTest.php" role="test" />
+     </dir> <!-- /tests/HTTP/OAuth -->
+     <file name="OAuthTest.php" role="test" />
+    </dir> <!-- /tests/HTTP -->
+    <file name="AllTests.php" role="test" />
+   </dir> <!-- /tests -->
+   <file name="README" role="data" />
+  </dir> <!-- / -->
  </contents>
  <dependencies>
   <required>
    <php>
-    <min>5</min>
+    <min>5.1.2</min>
    </php>
    <pearinstaller>
     <min>1.4.0</min>
    </pearinstaller>
    <package>
+    <name>PEAR</name>
+    <channel>pear.php.net</channel>
+    <min>1.4.0</min>
+   </package>
+   <package>
     <name>HTTP_Request2</name>
     <channel>pear.php.net</channel>
-    <min>0.4.0</min>
+    <min>0.5.1</min>
    </package>
+   <extension>
+    <name>date</name>
+   </extension>
+   <extension>
+    <name>SPL</name>
+   </extension>
+   <extension>
+    <name>hash</name>
+   </extension>
   </required>
   <optional>
    <package>
     <name>Log</name>
     <channel>pear.php.net</channel>
-    <min>1.11.0</min>
    </package>
-   <package>
+   <extension>
     <name>pecl_http</name>
-    <channel>pecl.php.net</channel>
     <min>1.6.0</min>
-   </package>
+   </extension>
   </optional>
  </dependencies>
  <phprelease />
@@ -407,6 +476,24 @@ Updated digg example
    <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD Style</license>
    <notes>
 * Removed the automatic adding of a Content-Type header for consumer requests
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>0.2.0</release>
+    <api>0.2.0</api>
+   </version>
+   <stability>
+    <release>alpha</release>
+    <api>alpha</api>
+   </stability>
+   <date>2010-12-28</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">New BSD License</license>
+   <notes>
+* Added storage interface for consumers, including Cache_Lite driver
+* Fixed #17701 (Strict Standards Notice)
+* Fixed #17653 (HTTP_OAuth_Consumer_Request converts + to %20)
+* Added additional error constants and maps in HTTP_OAuth_Provider_Response
    </notes>
   </release>
  </changelog>
