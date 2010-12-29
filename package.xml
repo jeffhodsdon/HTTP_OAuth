@@ -20,9 +20,9 @@
   <active>yes</active>
  </lead>
  <date>2010-12-29</date>
- <time>11:20:51</time>
+ <time>12:13:21</time>
  <version>
-  <release>0.2.1</release>
+  <release>0.2.2</release>
   <api>0.2.0</api>
  </version>
  <stability>
@@ -31,7 +31,7 @@
  </stability>
  <license uri="http://www.opensource.org/licenses/bsd-license.php">New BSD License</license>
  <notes>
-* Fixed #18161.  Removed incorrect code coverage directory inclusion from package.xml
+* Fixed #18162.  Added optional Cache_Lite dependency for new storage support
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
@@ -173,6 +173,10 @@
   <optional>
    <package>
     <name>Log</name>
+    <channel>pear.php.net</channel>
+   </package>
+   <package>
+    <name>Cache_Lite</name>
     <channel>pear.php.net</channel>
    </package>
    <extension>
@@ -506,6 +510,21 @@ Updated digg example
    <license uri="http://www.opensource.org/licenses/bsd-license.php">New BSD License</license>
    <notes>
 * Fixed #18161.  Removed incorrect code coverage directory inclusion from package.xml
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>0.2.2</release>
+    <api>0.2.0</api>
+   </version>
+   <stability>
+    <release>alpha</release>
+    <api>alpha</api>
+   </stability>
+   <date>2010-12-29</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">New BSD License</license>
+   <notes>
+* Fixed #18162.  Added optional Cache_Lite dependency for new storage support
    </notes>
   </release>
  </changelog>

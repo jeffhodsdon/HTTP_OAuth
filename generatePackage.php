@@ -31,13 +31,13 @@ $packagexml->setDescription('Allows the use of the consumer and provider angles 
 
 $packagexml->setChannel('pear.php.net');
 $packagexml->setAPIVersion('0.2.0');
-$packagexml->setReleaseVersion('0.2.1');
+$packagexml->setReleaseVersion('0.2.2');
 
 $packagexml->setReleaseStability('alpha');
 
 $packagexml->setAPIStability('alpha');
 
-$packagexml->setNotes('* Fixed #18161.  Removed incorrect code coverage directory inclusion from package.xml ');
+$packagexml->setNotes('* Fixed #18162.  Added optional Cache_Lite dependency for new storage support');
 $packagexml->setPackageType('php');
 $packagexml->addRelease();
 
@@ -60,6 +60,7 @@ $packagexml->setPearinstallerDep('1.4.0');
 $packagexml->addPackageDepWithChannel('required', 'PEAR', 'pear.php.net', '1.4.0');
 $packagexml->addPackageDepWithChannel('required', 'HTTP_Request2', 'pear.php.net', '0.5.1');
 $packagexml->addPackageDepWithChannel('optional', 'Log', 'pear.php.net');
+$packagexml->addPackageDepWithChannel('optional', 'Cache_Lite', 'pear.php.net');
 $packagexml->addExtensionDep('required', 'date'); 
 $packagexml->addExtensionDep('required', 'SPL'); 
 $packagexml->addExtensionDep('required', 'hash'); 
