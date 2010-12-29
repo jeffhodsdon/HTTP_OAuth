@@ -193,7 +193,9 @@ class HTTP_OAuth_Consumer extends HTTP_OAuth
         }
 
         $this->debug('Getting access token from ' . $url);
-        $additional['oauth_verifier'] = $verifier;
+        if($verifier !== null) {
+            $additional['oauth_verifier'] = $verifier;
+        }
 
         $this->debug('verifier: ' . $verifier);
         $response = $this->sendRequest($url, $additional, $method);

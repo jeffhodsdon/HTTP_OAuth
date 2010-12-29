@@ -59,7 +59,8 @@ implements ArrayAccess, Countable, IteratorAggregate
         'nonce',
         'verifier',
         'version',
-        'callback'
+        'callback',
+        'session_handle'
     );
 
     /**
