@@ -33,7 +33,7 @@ class HTTP_OAuth_Consumer_RequestTest extends PHPUnit_Framework_TestCase
     {
         $req = new HTTP_OAuth_Consumer_Request('http://example.com/',
             array('consumer', 'token'));
-        $this->assertType('HTTP_OAuth_Consumer_Request', $req);
+        $this->assertInstanceOf('HTTP_OAuth_Consumer_Request', $req);
         $this->assertEquals(array('consumer', 'token'), $req->getSecrets());
     }
 
@@ -76,8 +76,8 @@ class HTTP_OAuth_Consumer_RequestTest extends PHPUnit_Framework_TestCase
         $req = new HTTP_OAuth_Consumer_Request;
         $req->accept($mockReq);
         $res = $req->send();
-        $this->assertType('HTTP_OAuth_Consumer_Request', $req);
-        $this->assertType('HTTP_OAuth_Consumer_Response', $res);
+        $this->assertInstanceOf('HTTP_OAuth_Consumer_Request', $req);
+        $this->assertInstanceOf('HTTP_OAuth_Consumer_Response', $res);
         $this->assertEquals('foo', $res->getBody());
     }
 

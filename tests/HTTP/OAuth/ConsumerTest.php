@@ -31,12 +31,12 @@ class HTTP_OAuth_ConsumerTest extends PHPUnit_Framework_TestCase
     public function testConstruct()
     {
         $instance = new HTTP_OAuth_Consumer('key', 'secret');
-        $this->assertType('HTTP_OAuth_Consumer', $instance);
+        $this->assertInstanceOf('HTTP_OAuth_Consumer', $instance);
         $this->assertEquals('key', $instance->getKey());
         $this->assertEquals('secret', $instance->getSecret());
 
         $instance = new HTTP_OAuth_Consumer('key', 'secret', 'token', 'tokenSecret');
-        $this->assertType('HTTP_OAuth_Consumer', $instance);
+        $this->assertInstanceOf('HTTP_OAuth_Consumer', $instance);
         $this->assertEquals('key', $instance->getKey());
         $this->assertEquals('secret', $instance->getSecret());
         $this->assertEquals('token', $instance->getToken());
@@ -122,7 +122,7 @@ class HTTP_OAuth_ConsumerTest extends PHPUnit_Framework_TestCase
         $this->assertTrue((bool) strstr($req->getUrl()->getQuery(),
             'foo=bar&food=pizza'));
 
-        $this->assertType('HTTP_OAuth_Consumer_Response', $con->getLastResponse());
+        $this->assertInstanceOf('HTTP_OAuth_Consumer_Response', $con->getLastResponse());
     }
 
     public function testGetAuthorizeUrl()
@@ -142,7 +142,7 @@ class HTTP_OAuth_ConsumerTest extends PHPUnit_Framework_TestCase
     public function testGetOAuthConsumerRequest()
     {
         $con = new HTTP_OAuth_Consumer('key', 'secret', 'token');
-        $this->assertType('HTTP_OAuth_Consumer_Request',
+        $this->assertInstanceOf('HTTP_OAuth_Consumer_Request',
             $con->getOAuthConsumerRequest('http://foo.com/'));
     }
 

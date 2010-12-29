@@ -81,7 +81,7 @@ class HTTP_OAuth_MessageTest extends PHPUnit_Framework_TestCase
         $m = new HTTP_OAuth_MessageMock;
         $m['foo'] = 'www';
 
-        $this->assertType('ArrayAccess', $m);
+        $this->assertInstanceOf('ArrayAccess', $m);
         $this->assertTrue(isset($m['foo']));
         $this->assertFalse(isset($m['bar']));
     }
@@ -91,7 +91,7 @@ class HTTP_OAuth_MessageTest extends PHPUnit_Framework_TestCase
         $m = new HTTP_OAuth_MessageMock;
         $m['foo'] = 'www';
 
-        $this->assertType('ArrayAccess', $m);
+        $this->assertInstanceOf('ArrayAccess', $m);
         $this->assertEquals($m['foo'], 'www');
     }
 
@@ -100,7 +100,7 @@ class HTTP_OAuth_MessageTest extends PHPUnit_Framework_TestCase
         $m = new HTTP_OAuth_MessageMock;
         $m['foo'] = 'www';
 
-        $this->assertType('ArrayAccess', $m);
+        $this->assertInstanceOf('ArrayAccess', $m);
         $this->assertEquals($m['foo'], 'www');
 
         unset($m['foo']);
@@ -114,10 +114,10 @@ class HTTP_OAuth_MessageTest extends PHPUnit_Framework_TestCase
         $m['foo'] = 'www';
         $m['bar'] = 'http';
 
-        $this->assertType('IteratorAggregate', $m);
+        $this->assertInstanceOf('IteratorAggregate', $m);
 
         $i = $m->getIterator();
-        $this->assertType('ArrayIterator', $i);
+        $this->assertInstanceOf('ArrayIterator', $i);
 
         $i = 0;
         foreach ($m as $key => $value) {
@@ -133,7 +133,7 @@ class HTTP_OAuth_MessageTest extends PHPUnit_Framework_TestCase
         $m['foo'] = 'www';
         $m['bar'] = 'http';
 
-        $this->assertType('Countable', $m);
+        $this->assertInstanceOf('Countable', $m);
         $this->assertEquals(count($m), 2);
     }
 

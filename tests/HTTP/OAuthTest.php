@@ -68,7 +68,7 @@ class HTTP_OAuthTest extends PHPUnit_Framework_TestCase
     public function testScalarCheck()
     {
         $o = HTTP_OAuth::urlencode(new stdClass);
-        $this->assertType('stdClass', $o);
+        $this->assertInstanceOf('stdClass', $o);
     }
 
     public function testEmptyArrayBuildQuery()

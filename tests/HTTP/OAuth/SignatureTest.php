@@ -30,7 +30,7 @@ class HTTP_OAuth_SignatureTest extends PHPUnit_Framework_TestCase
     public function testFactory()
     {
         $s = HTTP_OAuth_Signature::factory('HMAC-SHA1');
-        $this->assertType('HTTP_OAuth_Signature_HMAC_SHA1', $s);
+        $this->assertInstanceOf('HTTP_OAuth_Signature_HMAC_SHA1', $s);
     }
 
     /**

@@ -1,0 +1,15 @@
+<phpunit bootstrap="phpunit-bootstrap.php"  colors="true">
+        <testsuite name="HTTP_OAuth AllTests">
+                <file>tests/AllTests.php</file>
+        </testsuite>
+    <filter>
+        <whitelist>
+            <directory suffix=".php">HTTP</directory>
+        </whitelist>
+    </filter>
+
+    <logging>
+        <log type="coverage-html" target="coverage" charset="UTF-8"
+            yui="true" highlight="true" lowUpperBound="90" highLowerBound="100"/>
+    </logging>
+</phpunit>
