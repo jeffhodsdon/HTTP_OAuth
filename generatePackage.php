@@ -1,5 +1,7 @@
 <?php
 
+error_reporting(E_ALL & ~E_DEPRECATED);
+
 require_once('PEAR/PackageFileManager2.php');
 
 PEAR::setErrorHandling(PEAR_ERROR_DIE);
@@ -31,13 +33,15 @@ $packagexml->setDescription('Allows the use of the consumer and provider angles 
 
 $packagexml->setChannel('pear.php.net');
 $packagexml->setAPIVersion('0.2.0');
-$packagexml->setReleaseVersion('0.2.2');
+$packagexml->setReleaseVersion('0.2.3');
 
 $packagexml->setReleaseStability('alpha');
 
 $packagexml->setAPIStability('alpha');
 
-$packagexml->setNotes('* Fixed #18162.  Added optional Cache_Lite dependency for new storage support');
+$packagexml->setNotes('* Fixed GH issue #10.  don\'t use reset() to get the first array value
+* Disabled E_DEPRECTED error logging when creating packages
+');
 $packagexml->setPackageType('php');
 $packagexml->addRelease();
 
@@ -61,10 +65,10 @@ $packagexml->addPackageDepWithChannel('required', 'PEAR', 'pear.php.net', '1.4.0
 $packagexml->addPackageDepWithChannel('required', 'HTTP_Request2', 'pear.php.net', '0.5.1');
 $packagexml->addPackageDepWithChannel('optional', 'Log', 'pear.php.net');
 $packagexml->addPackageDepWithChannel('optional', 'Cache_Lite', 'pear.php.net');
-$packagexml->addExtensionDep('required', 'date'); 
-$packagexml->addExtensionDep('required', 'SPL'); 
-$packagexml->addExtensionDep('required', 'hash'); 
-$packagexml->addExtensionDep('optional', 'pecl_http', '1.6.0'); 
+$packagexml->addExtensionDep('required', 'date');
+$packagexml->addExtensionDep('required', 'SPL');
+$packagexml->addExtensionDep('required', 'hash');
+$packagexml->addExtensionDep('optional', 'pecl_http', '1.6.0');
 
 
 $packagexml->generateContents();
