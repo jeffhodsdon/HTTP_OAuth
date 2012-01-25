@@ -60,10 +60,11 @@ class HTTP_OAuth_Provider_Request extends HTTP_OAuth_Message
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($rawBodyData = '')
     {
         $this->setHeaders();
         $this->setParametersFromRequest();
+        $this->rawBodyData = $rawBodyData;
     }
 
     /**
@@ -166,7 +167,7 @@ class HTTP_OAuth_Provider_Request extends HTTP_OAuth_Message
             }
         }
 
-        if ($this->getRequestMethod() == 'POST') {
+        if ($this->getRequestMethod() == 'POST' || $this->getRequestMethod() == 'PUT') {
             $this->debug('getting data from POST');
             $contentType = substr($this->getHeader('Content-Type'), 0, 33);
             if ($contentType !== 'application/x-www-form-urlencoded') {
@@ -329,7 +330,7 @@ class HTTP_OAuth_Provider_Request extends HTTP_OAuth_Message
      */
     protected function getPostData()
     {
-        return file_get_contents('php://input');
+        return !empty($this->rawBodyData) ? $this->rawBodyData : file_get_contents('php://input');
     }
     // @codeCoverageIgnoreEnd
 
