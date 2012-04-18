@@ -151,11 +151,10 @@ class HTTP_OAuth_Provider_Request extends HTTP_OAuth_Message
             $this->debug('Using OAuth data from header');
             $parts = explode(',', $auth);
             foreach ($parts as $part) {
+                if (strstr(strtolower($part), 'oauth ') )
+                    $part = substr($part, 6);
                 list($key, $value) = explode('=', trim($part));
-                if (strstr(strtolower($key), 'oauth ')
-                    || strstr(strtolower($key), 'uth re')
-                    || substr(strtolower($key), 0, 6) != 'oauth_'
-                ) {
+                if (substr(strtolower($key), 0, 6) != 'oauth_') {
                     continue;
                 }
 
