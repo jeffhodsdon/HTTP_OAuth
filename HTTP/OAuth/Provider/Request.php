@@ -163,16 +163,20 @@ class HTTP_OAuth_Provider_Request extends HTTP_OAuth_Message
                 $value = trim($value);
                 $value = str_replace('"', '', $value);
 
-                $params[$key] = $value;
+                $params[HTTP_OAuth::urldecode($key)] = HTTP_OAuth::urldecode($value);
             }
         }
 
         if ($this->getRequestMethod() == 'POST' || $this->getRequestMethod() == 'PUT') {
-            $this->debug('getting data from POST');
+            if ($this->getRequestMethod() == 'POST') {
+                $this->debug('getting data from POST');
+            } else {
+                $this->debug('getting data from PUT');
+            }
             $contentType = substr($this->getHeader('Content-Type'), 0, 33);
             if ($contentType !== 'application/x-www-form-urlencoded') {
                 throw new HTTP_OAuth_Provider_Exception_InvalidRequest('Invalid ' .
-                    'content type for POST request');
+                    'content type for POST or PUT request');
             }
 
             $params = array_merge(
@@ -191,7 +195,7 @@ class HTTP_OAuth_Provider_Request extends HTTP_OAuth_Message
                 'data found from request');
         }
 
-        $this->setParameters(HTTP_OAuth::urldecode($params));
+        $this->setParameters($params);
     }
 
     /**
@@ -337,7 +341,9 @@ class HTTP_OAuth_Provider_Request extends HTTP_OAuth_Message
     /**
      * Parses a query string
      *
-     * Does not urldecode the name or values like $_GET and $_POST
+     * Does not use built-in urldecoding of name or values like $_GET and
+     * $_POST. Instead, names and values are decoded using RFC 3986 as required
+     * by OAuth.
      *
      * @param string $string Query string
      *
@@ -356,7 +362,7 @@ class HTTP_OAuth_Provider_Request extends HTTP_OAuth_Message
             }
 
             list($key, $value) = explode('=', $part);
-            $data[$key] = self::urldecode($value);
+            $data[HTTP_Oauth::urldecode($key)] = HTTP_OAuth::urldecode($value);
         }
 
         return $data;
