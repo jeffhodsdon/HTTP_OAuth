@@ -196,7 +196,7 @@ class HTTP_OAuth_Provider_Request extends HTTP_OAuth_Message
                 $value = trim($value);
                 $value = str_replace('"', '', $value);
 
-                $params[HTTP_OAuth::urldecode($key)] = HTTP_OAuth::urldecode($value);
+                $params[HTTP_Oauth::urldecode($key)] = HTTP_OAuth::urldecode($value);
             }
         }
 
@@ -393,7 +393,22 @@ class HTTP_OAuth_Provider_Request extends HTTP_OAuth_Message
             }
 
             list($key, $value) = explode('=', $part);
-            $data[HTTP_Oauth::urldecode($key)] = HTTP_OAuth::urldecode($value);
+
+            $key   = HTTP_OAuth::urldecode($key);
+            $value = HTTP_OAuth::urldecode($value);
+
+            if (isset($data[$key])) {
+                if (is_array($data[$key])) {
+                    $data[$key][] = $value;
+                } else {
+                    $data[$key] = array(
+                        $data[$key],
+                        $value
+                    );
+                }
+            } else {
+                $data[$key] = $value;
+            }
         }
 
         return $data;
