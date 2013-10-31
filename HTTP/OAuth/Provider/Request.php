@@ -56,15 +56,48 @@ class HTTP_OAuth_Provider_Request extends HTTP_OAuth_Message
     protected $method = '';
 
     /**
+     * Body data from the incoming request (POST/PUT)
+     *
+     * @var string Raw body data from the incoming request (POST/PUT)
+     */
+    protected $body = '';
+
+    /**
      * Construct
+     *
+     * @param string $body optional. The HTTP request body. Use this if your
+     *                     framework automatically reads the php://input
+     *                     stream.
      *
      * @return void
      */
-    public function __construct($rawBodyData = '')
+    public function __construct($body = '')
     {
         $this->setHeaders();
+        $this->setBody($body);
         $this->setParametersFromRequest();
-        $this->rawBodyData = $rawBodyData;
+    }
+
+    /**
+     * Sets the body data for this request
+     *
+     * This is useful if your framework automatically reads the php://input
+     * stream and your API uses PUT or POST data.
+     *
+     * @param string $body the HTTP request body.
+     *
+     * @return HTTP_OAuth_Provider_Request the current object, for fluent
+     *                                     interface.
+     */
+    public function setBody($body = '')
+    {
+        if (empty($body)) {
+            $this->body = file_get_contents('php://input');
+        } else {
+            $this->body = (string)$body;
+        }
+
+        return $this;
     }
 
     /**
@@ -84,7 +117,7 @@ class HTTP_OAuth_Provider_Request extends HTTP_OAuth_Message
         } else if (is_array($this->peclHttpHeaders())) {
             $this->debug('Using pecl_http to get request headers');
             $this->headers = $this->peclHttpHeaders();
-        } else { 
+        } else {
             $this->debug('Using $_SERVER to get request headers');
             foreach ($_SERVER as $name => $value) {
                 if (substr($name, 0, 5) == 'HTTP_') {
@@ -167,21 +200,19 @@ class HTTP_OAuth_Provider_Request extends HTTP_OAuth_Message
             }
         }
 
-        if ($this->getRequestMethod() == 'POST' || $this->getRequestMethod() == 'PUT') {
-            if ($this->getRequestMethod() == 'POST') {
-                $this->debug('getting data from POST');
-            } else {
-                $this->debug('getting data from PUT');
-            }
+        if ($this->getRequestMethod() === 'POST' || $this->getRequestMethod() === 'PUT') {
+            $this->debug('getting x-www-form-urlencoded data from request body');
+
             $contentType = substr($this->getHeader('Content-Type'), 0, 33);
             if ($contentType !== 'application/x-www-form-urlencoded') {
-                throw new HTTP_OAuth_Provider_Exception_InvalidRequest('Invalid ' .
-                    'content type for POST or PUT request');
+                throw new HTTP_OAuth_Provider_Exception_InvalidRequest(
+                    'Invalid content type for POST or PUT request'
+                );
             }
 
             $params = array_merge(
                 $params,
-                $this->parseQueryString($this->getPostData())
+                $this->parseQueryString($this->getBody())
             );
         }
 
@@ -328,13 +359,13 @@ class HTTP_OAuth_Provider_Request extends HTTP_OAuth_Message
 
     // @codeCoverageIgnoreStart
     /**
-     * Gets POST data
+     * Gets request body
      *
-     * @return string Post data
+     * @return string request data
      */
-    protected function getPostData()
+    protected function getBody()
     {
-        return !empty($this->rawBodyData) ? $this->rawBodyData : file_get_contents('php://input');
+        return $this->body;
     }
     // @codeCoverageIgnoreEnd
 
