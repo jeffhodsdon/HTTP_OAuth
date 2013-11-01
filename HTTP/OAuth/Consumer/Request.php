@@ -229,7 +229,12 @@ class HTTP_OAuth_Consumer_Request extends HTTP_OAuth_Message
         try {
             $response = $this->getHTTPRequest2()->send();
         } catch (Exception $e) {
-            throw new HTTP_OAuth_Exception($e->getMessage(), $e->getCode());
+            if (version_compare(PHP_VERSION, '5.3.0', 'ge')) {
+                // Use exception chaining if available. See PEAR Bug #18574.
+                throw new HTTP_OAuth_Exception($e->getMessage(), $e->getCode(), $e);
+            } else {
+                throw new HTTP_OAuth_Exception($e->getMessage(), $e->getCode());
+            }
         }
 
         return new HTTP_OAuth_Consumer_Response($response);
