@@ -196,7 +196,7 @@ class HTTP_OAuth_Provider_Request extends HTTP_OAuth_Message
                 $value = trim($value);
                 $value = str_replace('"', '', $value);
 
-                $params[HTTP_Oauth::urldecode($key)] = HTTP_OAuth::urldecode($value);
+                $params[HTTP_OAuth::urldecode($key)] = HTTP_OAuth::urldecode($value);
             }
         }
 
