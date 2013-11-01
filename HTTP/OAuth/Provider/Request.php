@@ -92,7 +92,9 @@ class HTTP_OAuth_Provider_Request extends HTTP_OAuth_Message
     public function setBody($body = '')
     {
         if (empty($body)) {
+            // @codeCoverageIgnoreStart
             $this->body = file_get_contents('php://input');
+            // @codeCoverageIgnoreEnd
         } else {
             $this->body = (string)$body;
         }
@@ -357,17 +359,15 @@ class HTTP_OAuth_Provider_Request extends HTTP_OAuth_Message
         return $this->headers;
     }
 
-    // @codeCoverageIgnoreStart
     /**
      * Gets request body
      *
      * @return string request data
      */
-    protected function getBody()
+    public function getBody()
     {
         return $this->body;
     }
-    // @codeCoverageIgnoreEnd
 
     /**
      * Parses a query string
@@ -393,7 +393,22 @@ class HTTP_OAuth_Provider_Request extends HTTP_OAuth_Message
             }
 
             list($key, $value) = explode('=', $part);
-            $data[HTTP_Oauth::urldecode($key)] = HTTP_OAuth::urldecode($value);
+
+            $key   = HTTP_OAuth::urldecode($key);
+            $value = HTTP_OAuth::urldecode($value);
+
+            if (isset($data[$key])) {
+                if (is_array($data[$key])) {
+                    $data[$key][] = $value;
+                } else {
+                    $data[$key] = array(
+                        $data[$key],
+                        $value
+                    );
+                }
+            } else {
+                $data[$key] = $value;
+            }
         }
 
         return $data;
