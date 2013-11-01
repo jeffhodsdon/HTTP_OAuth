@@ -217,10 +217,11 @@ class HTTP_OAuth_Consumer_Request extends HTTP_OAuth_Message
         $headers     = $request->getHeaders();
         $contentType = isset($headers['content-type'])
                        ? $headers['content-type'] : '';
-        if ($this->getMethod() == 'POST'
-            && $contentType == 'application/x-www-form-urlencoded'
-        ) {
 
+        // RFC 5849 3.4.1.3.1 allows any HTTP method with the correct
+        // content-type and body content. Don't check method type here.
+        // See PEAR Bug 17806.
+        if ($contentType == 'application/x-www-form-urlencoded') {
             $body = $this->getHTTPRequest2()->getBody();
             $body = str_replace('+', '%20', $body);
             $this->getHTTPRequest2()->setBody($body);
@@ -285,6 +286,8 @@ class HTTP_OAuth_Consumer_Request extends HTTP_OAuth_Message
 
         switch ($this->getMethod()) {
         case 'POST':
+        case 'PUT':
+        case 'DELETE':
             foreach ($this->getParameters() as $name => $value) {
                 if (substr($name, 0, 6) == 'oauth_') {
                     continue;
@@ -294,6 +297,7 @@ class HTTP_OAuth_Consumer_Request extends HTTP_OAuth_Message
             }
             break;
         case 'GET':
+        case 'HEAD':
             $url = $this->getUrl();
             foreach ($this->getParameters() as $name => $value) {
                 if (substr($name, 0, 6) == 'oauth_') {

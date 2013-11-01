@@ -56,9 +56,9 @@ class HTTP_OAuth_Provider_Request extends HTTP_OAuth_Message
     protected $method = '';
 
     /**
-     * Body data from the incoming request (POST/PUT)
+     * Body data from the incoming request
      *
-     * @var string Raw body data from the incoming request (POST/PUT)
+     * @var string raw body data from the incoming request
      */
     protected $body = '';
 
@@ -82,7 +82,7 @@ class HTTP_OAuth_Provider_Request extends HTTP_OAuth_Message
      * Sets the body data for this request
      *
      * This is useful if your framework automatically reads the php://input
-     * stream and your API uses PUT or POST data.
+     * stream and your API puts parameters in the request body.
      *
      * @param string $body the HTTP request body.
      *
@@ -202,16 +202,12 @@ class HTTP_OAuth_Provider_Request extends HTTP_OAuth_Message
             }
         }
 
-        if ($this->getRequestMethod() === 'POST' || $this->getRequestMethod() === 'PUT') {
-            $this->debug('getting x-www-form-urlencoded data from request body');
-
-            $contentType = substr($this->getHeader('Content-Type'), 0, 33);
-            if ($contentType !== 'application/x-www-form-urlencoded') {
-                throw new HTTP_OAuth_Provider_Exception_InvalidRequest(
-                    'Invalid content type for POST or PUT request'
-                );
-            }
-
+        // RFC 5849 3.4.1.3.1 allows any HTTP method with the correct
+        // content-type and body content. Don't check method type here.
+        // See PEAR Bug 17806.
+        $contentType = $this->getHeader('Content-Type');
+        if (strncmp($contentType, 'application/x-www-form-urlencoded', 33) === 0) {
+            $this->debug('getting application/x-www-form-urlencoded data from request body');
             $params = array_merge(
                 $params,
                 $this->parseQueryString($this->getBody())
