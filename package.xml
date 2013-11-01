@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<package packagerversion="1.9.3" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0
+<package packagerversion="1.9.4" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0
     http://pear.php.net/dtd/tasks-1.0.xsd
     http://pear.php.net/dtd/package-2.0
     http://pear.php.net/dtd/package-2.0.xsd">
@@ -19,11 +19,17 @@
   <email>shupp@php.net</email>
   <active>yes</active>
  </lead>
- <date>2011-07-16</date>
- <time>10:40:20</time>
+ <developer>
+  <name>Michael Gauthier</name>
+  <user>gauthierm</user>
+  <email>mike@silverorange.com</email>
+  <active>yes</active>
+ </developer>
+ <date>2013-11-01</date>
+ <time>11:59:06</time>
  <version>
-  <release>0.2.3</release>
-  <api>0.2.0</api>
+  <release>0.3.0</release>
+  <api>0.3.0</api>
  </version>
  <stability>
   <release>alpha</release>
@@ -31,8 +37,20 @@
  </stability>
  <license uri="http://www.opensource.org/licenses/bsd-license.php">New BSD License</license>
  <notes>
-* Fixed GH issue #10.  don&apos;t use reset() to get the first array value
-* Disabled E_DEPRECTED error logging when creating packages
+API changes:
+ * added $body parameter to HTTP_OAuth_Provider::__construct()
+ * added HTTP_OAuth_Provider::setBody()
+ * renamed HTTP_OAuth_Provider::getPostData() to getBody()
+ * made HTTP_OAuth_Provider::getBody() public
+
+New features and bugs fixed:
+ * Fixed PEAR #17806. DELETE method is not supported.
+ * Fixed PEAR #18574. Avoid try-catch-rethrow.
+ * Fixed PEAR #18701. Only variables should be passed by reference.
+ * Fixed PEAR #18425. Array keys not decoded in HTTP_OAuth_Provider.
+ * Fixed PEAR #18431. Handle PUT requests better in HTTP_OAuth_Provider.
+ * Fixed PEAR #20106. rawBodyData always included in provider request.
+ * Fixed PEAR #20107. Handle multiple query params with same name as array.
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
@@ -141,6 +159,7 @@
     </dir> <!-- /tests/HTTP -->
     <file name="AllTests.php" role="test" />
    </dir> <!-- /tests -->
+   <file name="HTTP_OAuth-0.3.0.tgz" role="data" />
   </dir> <!-- / -->
  </contents>
  <dependencies>
@@ -542,6 +561,34 @@ Updated digg example
    <notes>
 * Fixed GH issue #10.  don&apos;t use reset() to get the first array value
 * Disabled E_DEPRECTED error logging when creating packages
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>0.3.0</release>
+    <api>0.3.0</api>
+   </version>
+   <stability>
+    <release>alpha</release>
+    <api>alpha</api>
+   </stability>
+   <date>2013-11-01</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">New BSD License</license>
+   <notes>
+API changes:
+ * added $body parameter to HTTP_OAuth_Provider::__construct()
+ * added HTTP_OAuth_Provider::setBody()
+ * renamed HTTP_OAuth_Provider::getPostData() to getBody()
+ * made HTTP_OAuth_Provider::getBody() public
+
+New features and bugs fixed:
+ * Fixed PEAR #17806. DELETE method is not supported.
+ * Fixed PEAR #18574. Avoid try-catch-rethrow.
+ * Fixed PEAR #18701. Only variables should be passed by reference.
+ * Fixed PEAR #18425. Array keys not decoded in HTTP_OAuth_Provider.
+ * Fixed PEAR #18431. Handle PUT requests better in HTTP_OAuth_Provider.
+ * Fixed PEAR #20106. rawBodyData always included in provider request.
+ * Fixed PEAR #20107. Handle multiple query params with same name as array.
    </notes>
   </release>
  </changelog>
