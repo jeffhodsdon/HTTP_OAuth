@@ -37,7 +37,7 @@ $packagexml->setDescription('Allows the use of the consumer and provider angles 
 
 $packagexml->setChannel('pear.php.net');
 $packagexml->setAPIVersion('0.3.0');
-$packagexml->setReleaseVersion('0.3.0');
+$packagexml->setReleaseVersion('0.3.1');
 
 $packagexml->setReleaseStability('alpha');
 
@@ -59,6 +59,7 @@ New features and bugs fixed:
  * Fixed PEAR #20107. Handle multiple query params with same name as array.
  * Added LICENSE file.
  * Include README in package file.
+ * Fixed reset() call in MessageTest in unit tests.
 ');
 $packagexml->setPackageType('php');
 $packagexml->addRelease();
