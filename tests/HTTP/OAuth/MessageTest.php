@@ -65,7 +65,8 @@ class HTTP_OAuth_MessageTest extends PHPUnit_Framework_TestCase
         $params = array('z' => 'foo', 'a' => 'bar');
         $m = new HTTP_OAuth_MessageMock;
         $m->setParameters($params);
-        $this->assertEquals('bar', reset($m->getParameters()));
+        $params = $m->getParameters();
+        $this->assertEquals('bar', reset($params));
     }
 
     public function testMagicGetter()
