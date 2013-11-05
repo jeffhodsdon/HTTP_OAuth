@@ -13,13 +13,17 @@ $packagexml->setOptions(array(
     'simpleoutput'      => true,
     'packagedirectory'  => './',
     'filelistgenerator' => 'file',
+    'exceptions'        => array(
+        'LICENSE'       => 'doc',
+        'README'        => 'doc',
+    ),
     'ignore'            => array(
         'runTests.php',
         'generatePackage.php',
         'phpunit-bootstrap.php',
         'phpunit.xml',
-        'README',
-        'coverage*'
+        'coverage*',
+        '*.tgz',
     ),
     'dir_roles' => array(
         'tests'     => 'test',
@@ -53,6 +57,8 @@ New features and bugs fixed:
  * Fixed PEAR #18431. Handle PUT requests better in HTTP_OAuth_Provider.
  * Fixed PEAR #20106. rawBodyData always included in provider request.
  * Fixed PEAR #20107. Handle multiple query params with same name as array.
+ * Added LICENSE file.
+ * Include README in package file.
 ');
 $packagexml->setPackageType('php');
 $packagexml->addRelease();
