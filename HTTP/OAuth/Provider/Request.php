@@ -185,17 +185,24 @@ class HTTP_OAuth_Provider_Request extends HTTP_OAuth_Message
         $auth   = $this->getHeader('Authorization');
         if ($auth !== null) {
             $this->debug('Using OAuth data from header');
+
+            // strip leading OAuth authentication scheme
+            $auth = preg_replace('/^oauth /i', '', $auth);
+
+            // split auth parameters
             $parts = explode(',', $auth);
             foreach ($parts as $part) {
-                list($key, $value) = explode('=', trim($part));
-                if (strstr(strtolower($key), 'oauth ')
-                    || strstr(strtolower($key), 'uth re')
-                    || substr(strtolower($key), 0, 6) != 'oauth_'
-                ) {
+                list($key, $value) = explode('=', $part, 2);
+
+                // strip spaces from around comma and equals delimiters
+                $key = trim($key);
+                $value = trim($value);
+
+                // ignore auth parameters that are not prefixed with oauth_
+                if (substr(strtolower($key), 0, 6) != 'oauth_') {
                     continue;
                 }
 
-                $value = trim($value);
                 $value = str_replace('"', '', $value);
 
                 $params[HTTP_OAuth::urldecode($key)] = HTTP_OAuth::urldecode($value);
