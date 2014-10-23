@@ -21,7 +21,6 @@
  * @link      http://github.com/jeffhodsdon/HTTP_OAuth_Provider
  */
 
-require_once 'PHPUnit/Framework/TestCase.php';
 require_once 'HTTP/OAuth/Signature/RSA/SHA1.php';
 
 class HTTP_OAuth_Signature_RSA_SHA1Test extends PHPUnit_Framework_TestCase

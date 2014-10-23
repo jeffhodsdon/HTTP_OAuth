@@ -19,7 +19,6 @@
  * @link      http://github.com/jeffhodsdon/HTTP_OAuth_Provider
  */
 
-require_once 'PHPUnit/Framework/TestCase.php';
 require_once 'HTTP/OAuth.php';
 require_once 'HTTP/OAuth/Provider/Request.php';
 

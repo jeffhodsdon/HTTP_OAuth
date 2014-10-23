@@ -21,7 +21,6 @@
  * @link      http://github.com/jeffhodsdon/HTTP_OAuth_Provider
  */
 
-require_once 'PHPUnit/Framework/TestCase.php';
 require_once 'tests/HTTP/OAuth/MessageMock.php';
 
 class HTTP_OAuth_MessageTest extends PHPUnit_Framework_TestCase

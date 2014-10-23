@@ -21,7 +21,6 @@
  * @link      http://github.com/jeffhodsdon/HTTP_OAuth_Provider
  */
 
-require_once 'PHPUnit/Framework/TestCase.php';
 require_once 'HTTP/OAuth/Consumer/Response.php';
 
 class HTTP_OAuth_Consumer_ResponseTest extends PHPUnit_Framework_TestCase

@@ -1,6 +1,5 @@
 <?php
 
-require_once 'PHPUnit/Framework/TestCase.php';
 require_once 'HTTP/OAuth/Store/Consumer/CacheLite.php';
 require_once 'HTTP/OAuth/Store/Data.php';
 
