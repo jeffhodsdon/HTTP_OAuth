@@ -1,0 +1,42 @@
+{
+	"name": "pear/http_oauth",
+	"description": "Implementation of the OAuth 1.0a specification.",
+	"type": "library",
+	"keywords": [ "http", "oauth" ],
+	"homepage": "https://github.com/pear/HTTP_OAuth",
+	"license": "BSD-2-Clause",
+	"authors": [
+		{
+			"name": "Michael Gauthier",
+			"email": "mike@silverorange.com"
+		},
+		{
+			"name": "Jeff Hodsdon",
+			"email": "jeffhodsdon@gmail.com"
+		},
+		{
+			"name": "Bill Shupp",
+			"email": "shupp@php.net"
+		}
+	],
+	"require": {
+		"php": ">=5.1.2",
+		"ext-date": "*",
+		"ext-hash": "*",
+		"ext-spl": "*",
+		"pear/pear-core-minimal": "^1.9.0",
+		"pear/http_request2": "^2.0.0"
+	},
+	"suggest": {
+		"pear/log": "Allows logging requests for debugging",
+		"pear/cache_lite": "Caching of requests."
+	},
+	"autoload": {
+		"psr-0": {
+			"HTTP_OAuth": ""
+		}
+	},
+	"include-path": [
+		"./"
+	]
+}
