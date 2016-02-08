@@ -142,15 +142,18 @@ abstract class HTTP_OAuth
             return '';
         }
 
-        $keys   = self::urlencode(array_keys($params));
-        $values = self::urlencode(array_values($params));
-        $params = array_combine($keys, $values);
-
-        uksort($params, 'strcmp');
+        ksort($params, SORT_STRING);
 
         $pairs = array();
         foreach ($params as $key => $value) {
-            $pairs[] =  $key . '=' . $value;
+            if (is_array($value)) {
+                sort($value, SORT_STRING);
+                foreach ($value as $multiValue) {
+                    $pairs[] = self::urlencode($key) . '=' . self::urlencode($multiValue);
+                }
+            } else {
+                $pairs[] = self::urlencode($key) . '=' . self::urlencode($value);
+            }
         }
 
         return implode('&', $pairs);

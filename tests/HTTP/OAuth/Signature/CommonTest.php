@@ -21,7 +21,6 @@
  * @link      http://github.com/jeffhodsdon/HTTP_OAuth_Provider
  */
 
-require_once 'PHPUnit/Framework/TestCase.php';
 require_once 'HTTP/OAuth/Signature/CommonMock.php';
 
 class HTTP_OAuth_Signature_CommonTest extends PHPUnit_Framework_TestCase

@@ -19,7 +19,6 @@
  * @link      http://github.com/jeffhodsdon/HTTP_OAuth_Provider
  */
 
-require_once 'PHPUnit/Framework/TestCase.php';
 require_once 'HTTP/OAuth.php';
 require_once 'HTTP/OAuth/Provider/Request.php';
 
@@ -57,10 +56,11 @@ class HTTP_OAuth_Provider_RequestTest extends PHPUnit_Framework_TestCase
         'foo'                    => 'bar bar',
         'oauth_consumer_key'     => 'key',
         'oauth_signature_method' => 'HMAC-SHA1',
-        'oauth_signature'        => 'jMenbpx3MWa8qyxgQr4olVrXTBU=',
+        'oauth_signature'        => 'UOXlPAfN0jLuph8vZaseA5hi59Y=',
         'oauth_timestamp'        => '1251317781',
         'oauth_nonce'            => '2E0A8559-8660-45F9-832F-6AC466615C79',
-        'oauth_version'          => '1.0'
+        'oauth_version'          => '1.0',
+        'arrayparam[]'           => array('1', '2'),
     );
 
     /**
@@ -108,10 +108,18 @@ class HTTP_OAuth_Provider_RequestTest extends PHPUnit_Framework_TestCase
         $this->assertArrayHasKey('foo', $request->getHeaders());
     }
 
+    public function testSetBody()
+    {
+        $body = 'test1=foo&test2=bar';
+        $request = $this->mockedRequest();
+        $request->setBody($body);
+        $this->assertEquals($body, $request->getBody());
+    }
+
     public function testSetParametersFromRequest()
     {
         $header = 'Authorization: OAuth realm="", oauth_consumer_key="key", oauth_signature_method="HMAC-SHA1", oauth_signature="ZUgC96UBRxYOl1Pml32hNDsNNUc%3D", oauth_timestamp="1251304744", oauth_nonce="18B2129F-4A4E-4502-8EB5-801DE2BB0247", oauth_version="1.0"';
-        $queryString = 'foo=bar%20bar&oauth_consumer_key=key&oauth_signature_method=HMAC-SHA1&oauth_signature=ZUgC96UBRxYOl1Pml32hNDsNNUc%3D&oauth_timestamp=1251304744&oauth_nonce=18B2129F-4A4E-4502-8EB5-801DE2BB0247&oauth_version=1.0&paramwithnovalue';
+        $queryString = 'foo=bar%20bar&oauth_consumer_key=key&oauth_signature_method=HMAC-SHA1&oauth_signature=ZUgC96UBRxYOl1Pml32hNDsNNUc%3D&oauth_timestamp=1251304744&oauth_nonce=18B2129F-4A4E-4502-8EB5-801DE2BB0247&oauth_version=1.0&paramwithnovalue&arrayparam%5B%5D=1&arrayparam%5B%5D=2';
         $expected = array(
             'foo'                    => 'bar bar',
             'oauth_consumer_key'     => 'key',
@@ -120,6 +128,7 @@ class HTTP_OAuth_Provider_RequestTest extends PHPUnit_Framework_TestCase
             'oauth_signature_method' => 'HMAC-SHA1',
             'oauth_timestamp'        => '1251304744',
             'oauth_version'          => '1.0',
+            'arrayparam[]'           => array('1', '2'),
         );
 
         $request = $this->mockedRequest();
@@ -128,13 +137,18 @@ class HTTP_OAuth_Provider_RequestTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $request->getParameters());
         $this->assertEquals(array('Authorization' => $header), $request->getHeaders());
 
-        $request = $this->mockedRequest(array('getRequestMethod'));
+        $request = $this->mockedRequest(array('getRequestMethod', 'getBody'));
+
         $request->expects($this->any())->method('getRequestMethod')
             ->will($this->returnValue('POST'));
-        $request->expects($this->any())->method('getPostData')
+
+        $request->expects($this->any())->method('getBody')
             ->will($this->returnValue($queryString));
+
         $request->setHeaders(
-            array('Content-Type' => 'application/x-www-form-urlencoded'));
+            array('Content-Type' => 'application/x-www-form-urlencoded')
+        );
+
         $request->setParametersFromRequest();
         $this->assertEquals($expected, $request->getParameters());
 
@@ -245,8 +259,12 @@ class HTTP_OAuth_Provider_RequestTest extends PHPUnit_Framework_TestCase
 
     protected function mockedRequest(array $methods = array())
     {
-        $methods = array_unique(array_merge($methods,
-            array('getPostData', 'apacheRequestHeaders', 'peclHttpHeaders')));
+        $methods = array_unique(
+            array_merge(
+                $methods,
+                array('apacheRequestHeaders', 'peclHttpHeaders')
+            )
+        );
 
         $_SERVER['HTTP_AUTHORIZATION'] = 'OAuth realm="", oauth_consumer_key="key", oauth_signature_method="HMAC-SHA1", oauth_signature="ZUgC96UBRxYOl1Pml32hNDsNNUc%3D", oauth_timestamp="1251304744", oauth_nonce="18B2129F-4A4E-4502-8EB5-801DE2BB0247", oauth_version="1.0"';
         $request = $this->getMock('HTTP_OAuth_Provider_Request', $methods);

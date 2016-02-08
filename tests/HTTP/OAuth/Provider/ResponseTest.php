@@ -1,6 +1,5 @@
 <?php
 
-require_once 'PHPUnit/Framework/TestCase.php';
 require_once 'HTTP/OAuth/Provider/Response.php';
 
 class HTTP_OAuth_Provider_ResponseTest extends PHPUnit_Framework_TestCase

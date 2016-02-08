@@ -56,14 +56,50 @@ class HTTP_OAuth_Provider_Request extends HTTP_OAuth_Message
     protected $method = '';
 
     /**
+     * Body data from the incoming request
+     *
+     * @var string raw body data from the incoming request
+     */
+    protected $body = '';
+
+    /**
      * Construct
+     *
+     * @param string $body optional. The HTTP request body. Use this if your
+     *                     framework automatically reads the php://input
+     *                     stream.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($body = '')
     {
         $this->setHeaders();
+        $this->setBody($body);
         $this->setParametersFromRequest();
+    }
+
+    /**
+     * Sets the body data for this request
+     *
+     * This is useful if your framework automatically reads the php://input
+     * stream and your API puts parameters in the request body.
+     *
+     * @param string $body the HTTP request body.
+     *
+     * @return HTTP_OAuth_Provider_Request the current object, for fluent
+     *                                     interface.
+     */
+    public function setBody($body = '')
+    {
+        if (empty($body)) {
+            // @codeCoverageIgnoreStart
+            $this->body = file_get_contents('php://input');
+            // @codeCoverageIgnoreEnd
+        } else {
+            $this->body = (string)$body;
+        }
+
+        return $this;
     }
 
     /**
@@ -83,7 +119,7 @@ class HTTP_OAuth_Provider_Request extends HTTP_OAuth_Message
         } else if (is_array($this->peclHttpHeaders())) {
             $this->debug('Using pecl_http to get request headers');
             $this->headers = $this->peclHttpHeaders();
-        } else { 
+        } else {
             $this->debug('Using $_SERVER to get request headers');
             foreach ($_SERVER as $name => $value) {
                 if (substr($name, 0, 5) == 'HTTP_') {
@@ -149,34 +185,39 @@ class HTTP_OAuth_Provider_Request extends HTTP_OAuth_Message
         $auth   = $this->getHeader('Authorization');
         if ($auth !== null) {
             $this->debug('Using OAuth data from header');
+
+            // strip leading OAuth authentication scheme
+            $auth = preg_replace('/^oauth /i', '', $auth);
+
+            // split auth parameters
             $parts = explode(',', $auth);
             foreach ($parts as $part) {
-                list($key, $value) = explode('=', trim($part));
-                if (strstr(strtolower($key), 'oauth ')
-                    || strstr(strtolower($key), 'uth re')
-                    || substr(strtolower($key), 0, 6) != 'oauth_'
-                ) {
+                list($key, $value) = explode('=', $part, 2);
+
+                // strip spaces from around comma and equals delimiters
+                $key = trim($key);
+                $value = trim($value);
+
+                // ignore auth parameters that are not prefixed with oauth_
+                if (substr(strtolower($key), 0, 6) != 'oauth_') {
                     continue;
                 }
 
-                $value = trim($value);
                 $value = str_replace('"', '', $value);
 
-                $params[$key] = $value;
+                $params[HTTP_OAuth::urldecode($key)] = HTTP_OAuth::urldecode($value);
             }
         }
 
-        if ($this->getRequestMethod() == 'POST') {
-            $this->debug('getting data from POST');
-            $contentType = substr($this->getHeader('Content-Type'), 0, 33);
-            if ($contentType !== 'application/x-www-form-urlencoded') {
-                throw new HTTP_OAuth_Provider_Exception_InvalidRequest('Invalid ' .
-                    'content type for POST request');
-            }
-
+        // RFC 5849 3.4.1.3.1 allows any HTTP method with the correct
+        // content-type and body content. Don't check method type here.
+        // See PEAR Bug 17806.
+        $contentType = $this->getHeader('Content-Type');
+        if (strncmp($contentType, 'application/x-www-form-urlencoded', 33) === 0) {
+            $this->debug('getting application/x-www-form-urlencoded data from request body');
             $params = array_merge(
                 $params,
-                $this->parseQueryString($this->getPostData())
+                $this->parseQueryString($this->getBody())
             );
         }
 
@@ -190,7 +231,7 @@ class HTTP_OAuth_Provider_Request extends HTTP_OAuth_Message
                 'data found from request');
         }
 
-        $this->setParameters(HTTP_OAuth::urldecode($params));
+        $this->setParameters($params);
     }
 
     /**
@@ -321,22 +362,22 @@ class HTTP_OAuth_Provider_Request extends HTTP_OAuth_Message
         return $this->headers;
     }
 
-    // @codeCoverageIgnoreStart
     /**
-     * Gets POST data
+     * Gets request body
      *
-     * @return string Post data
+     * @return string request data
      */
-    protected function getPostData()
+    public function getBody()
     {
-        return file_get_contents('php://input');
+        return $this->body;
     }
-    // @codeCoverageIgnoreEnd
 
     /**
      * Parses a query string
      *
-     * Does not urldecode the name or values like $_GET and $_POST
+     * Does not use built-in urldecoding of name or values like $_GET and
+     * $_POST. Instead, names and values are decoded using RFC 3986 as required
+     * by OAuth.
      *
      * @param string $string Query string
      *
@@ -355,7 +396,22 @@ class HTTP_OAuth_Provider_Request extends HTTP_OAuth_Message
             }
 
             list($key, $value) = explode('=', $part);
-            $data[$key] = self::urldecode($value);
+
+            $key   = HTTP_OAuth::urldecode($key);
+            $value = HTTP_OAuth::urldecode($value);
+
+            if (isset($data[$key])) {
+                if (is_array($data[$key])) {
+                    $data[$key][] = $value;
+                } else {
+                    $data[$key] = array(
+                        $data[$key],
+                        $value
+                    );
+                }
+            } else {
+                $data[$key] = $value;
+            }
         }
 
         return $data;
