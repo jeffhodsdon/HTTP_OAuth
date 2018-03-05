@@ -12,6 +12,7 @@ creditials and making OAuth requests.
 
 ### Example:
 
+```php
 $consumer = new HTTP_OAuth_Consumer('key', 'secret');
 $consumer->getRequestToken('http://example.com/oauth/request_token', $callback);
 
@@ -33,3 +34,4 @@ $_SESSION['token_secret'] = $consumer->getTokenSecret();
 
 // $response is an instance of HTTP_OAuth_Consumer_Response
 $response = $consumer->sendRequest('http://example.com/oauth/protected_resource');
+```
