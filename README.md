@@ -1,15 +1,18 @@
+# HTTP_OAuth - Implementation of the OAuth specification
+
 HTTP_OAuth is a PEAR package implementing the OAuth 1.0a protocol.
 Consumer, Provier (request and response) classes are provided.
 See the Consumer examples below:
 
 
-HTTP_OAuth_Consumer
+## HTTP_OAuth_Consumer
 
 Main consumer class that assists consumers in establishing OAuth
 creditials and making OAuth requests.
 
-Example:
+### Example:
 
+```php
 $consumer = new HTTP_OAuth_Consumer('key', 'secret');
 $consumer->getRequestToken('http://example.com/oauth/request_token', $callback);
 
@@ -31,3 +34,4 @@ $_SESSION['token_secret'] = $consumer->getTokenSecret();
 
 // $response is an instance of HTTP_OAuth_Consumer_Response
 $response = $consumer->sendRequest('http://example.com/oauth/protected_resource');
+```
